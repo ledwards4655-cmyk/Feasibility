@@ -187,12 +187,13 @@ textarea{resize:vertical;min-height:84px;line-height:1.55}
 .rsurf{background:var(--white);border:1.5px solid var(--rule);border-radius:var(--r);margin-bottom:16px;overflow:hidden}
 .rsurf-head{display:flex;align-items:center;gap:10px;padding:13px 20px;border-bottom:1px solid var(--rule);background:var(--surface)}
 .rsurf-head span{font-size:13px;font-weight:600;color:var(--ink)}
-.rbody{padding:16px 20px}
-.rrow{display:grid;grid-template-columns:170px 1fr;gap:4px 16px;margin-bottom:10px;font-size:13px}
-.rrow:last-child{margin-bottom:0}
-.rk{color:var(--ink3);font-weight:500}
-.rv{color:var(--ink);line-height:1.5}
+.rbody{padding:8px 20px 16px}
+.rrow{display:block;padding:10px 0;border-bottom:1px solid var(--surface2);font-size:13px}
+.rrow:last-child{border-bottom:none}
+.rk{display:block;font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--ink4);margin-bottom:5px}
+.rv{display:block;color:var(--ink);line-height:1.6;overflow-wrap:break-word;word-break:break-word}
 .rv.pre{white-space:pre-wrap}
+.rv-table-wrap{overflow-x:auto;margin-top:2px}
 .chip{display:inline-block;font-size:11.5px;font-weight:600;padding:2px 8px;border-radius:4px;margin:2px 3px 2px 0;background:var(--teal-bg);color:var(--teal)}
 .ccard{background:linear-gradient(135deg,#1B3D72 0%,#0B1C35 100%);border-radius:var(--r);padding:24px 28px;display:flex;align-items:flex-start;gap:18px;margin-bottom:22px}
 .ccard-icon{font-size:32px;flex-shrink:0}
@@ -260,6 +261,7 @@ textarea{resize:vertical;min-height:84px;line-height:1.55}
 .fo-toggle-thumb{position:absolute;width:16px;height:16px;border-radius:50%;background:#fff;top:3px;left:3px;transition:transform .2s;box-shadow:0 1px 4px rgba(0,0,0,.15)}
 .fo-toggle-label input:checked~.fo-toggle-track .fo-toggle-thumb{transform:translateX(18px)}
 #fo-same-text{font-size:13.5px;font-weight:500;color:var(--ink)}
+
 /* ── LANDING PAGE ── */
 #screen-landing{display:none;min-height:calc(100vh - 61px);background:var(--bg)}
 .landing-inner{max-width:860px;margin:0 auto;padding:48px 40px 80px}
@@ -999,10 +1001,14 @@ textarea{resize:vertical;min-height:84px;line-height:1.55}
   <!-- SUMMARY MODAL -->
   <div id="summary-modal" style="display:none;position:fixed;inset:0;background:rgba(11,28,53,.6);z-index:300;overflow-y:auto;padding:40px 20px">
     <div style="max-width:720px;margin:0 auto;background:var(--white);border-radius:var(--r);overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,.2)">
-      <div style="background:var(--navy,#0B1C35);padding:20px 28px;display:flex;justify-content:space-between;align-items:center">
+      <div style="background:var(--navy,#0B1C35);padding:16px 28px;display:flex;justify-content:space-between;align-items:center;gap:12px">
         <span style="color:white;font-size:17px;font-weight:600">Submission Summary</span>
-        <button onclick="document.getElementById('summary-modal').style.display='none'" style="background:none;border:none;color:rgba(255,255,255,.5);font-size:22px;cursor:pointer;line-height:1">&times;</button>
+        <div style="display:flex;align-items:center;gap:10px">
+          <button id="btn-summary-edit" style="background:var(--orange);border:none;color:white;font-size:12px;font-weight:600;padding:6px 14px;border-radius:5px;cursor:pointer;font-family:inherit">&#9998; Edit / Update</button>
+          <button onclick="document.getElementById('summary-modal').style.display='none'" style="background:none;border:none;color:rgba(255,255,255,.5);font-size:22px;cursor:pointer;line-height:1">&times;</button>
+        </div>
       </div>
+      <div id="summary-modal-req-id" style="display:none"></div>
       <div id="summary-modal-content" style="padding:28px"></div>
     </div>
   </div>
@@ -1810,7 +1816,7 @@ function doReview(){
     h+='<div class="rsurf"><div class="rsurf-head"><span>A</span><span>Part A &mdash; Site Identification</span></div><div class="rbody">';
     var acr=getActiveCountryRows();
     if(acr.length){
-      h+='<div class="rrow"><div class="rk">Target Countries</div><div class="rv"><div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:12.5px;min-width:520px"><tr style="color:var(--ink3);font-size:11px;font-weight:600"><td style="padding:3px 8px 3px 0">Country</td><td style="padding:3px 8px">Class.</td><td style="padding:3px 8px">Needed</td><td style="padding:3px 8px">Budgeted</td><td style="padding:3px 8px">EC Date</td><td style="padding:3px 8px">FPI Date</td><td style="padding:3px 0">Enrol (mo)</td></tr>';
+      h+='<div class="rrow"><div class="rk">Target Countries</div><div class="rv"><div class="rv-table-wrap"><table style="width:100%;border-collapse:collapse;font-size:12.5px;min-width:480px"><tr style="color:var(--ink3);font-size:11px;font-weight:600"><td style="padding:3px 8px 3px 0">Country</td><td style="padding:3px 8px">Class.</td><td style="padding:3px 8px">Needed</td><td style="padding:3px 8px">Budgeted</td><td style="padding:3px 8px">EC Date</td><td style="padding:3px 8px">FPI Date</td><td style="padding:3px 0">Enrol (mo)</td></tr>';
       acr.forEach(function(r){h+='<tr><td style="padding:4px 8px 4px 0;color:var(--ink)">'+escHtml(r.country)+'</td><td style="padding:4px 8px"><span class="chip">'+escHtml(r.classification)+'</span></td><td style="padding:4px 8px;color:var(--ink)">'+escHtml(r.needed||'\u2014')+'</td><td style="padding:4px 8px;color:var(--ink)">'+escHtml(r.budgeted||'\u2014')+'</td><td style="padding:4px 8px;color:var(--ink)">'+escHtml(r.ecDate||'\u2014')+'</td><td style="padding:4px 8px;color:var(--ink)">'+escHtml(r.fpiDate||'\u2014')+'</td><td style="padding:4px 0;color:var(--ink)">'+escHtml(r.enrolMonths?r.enrolMonths+' mo':'\u2014')+'</td></tr>';});
       h+='</table></div></div>';
     }
@@ -1819,7 +1825,7 @@ function doReview(){
     h+=row('Site Involvement',fd.siteInvolvement||'')+(fd['f-site-involvement']?row('Involvement Detail',fd['f-site-involvement']):'');
     var activeRows=getActiveSiteRows();
     if(activeRows.length){
-      h+='<div class="rrow"><div class="rk">Shortlisted Sites</div><div class="rv">';
+      h+='<div class="rrow"><div class="rk">Shortlisted Sites</div><div class="rv rv-table-wrap">';
       h+='<table style="width:100%;border-collapse:collapse;font-size:12.5px">';
       h+='<tr style="color:var(--ink3);font-size:11px;font-weight:600"><td style="padding:3px 8px 3px 0">Site</td><td style="padding:3px 8px">Country</td><td style="padding:3px 0">PI Name</td></tr>';
       activeRows.forEach(function(r){h+='<tr><td style="padding:3px 8px 3px 0;color:var(--ink)">'+escHtml(r.siteName||'\u2014')+'</td><td style="padding:3px 8px;color:var(--ink)">'+escHtml(r.country||'\u2014')+'</td><td style="padding:3px 0;color:var(--ink3)">'+escHtml(r.pi||'\u2014')+'</td></tr>';});
@@ -2163,6 +2169,125 @@ function resetForm(){
   $('btn-submit').disabled=false;
 }
 
+/* ── VIEW SUMMARY FROM LANDING ── */
+function viewRequestSummary(req){
+  // Temporarily load the request data into fd/partA etc, run doReview, then restore
+  // Save current state
+  var savedFd=Object.assign({},fd);
+  var savedA=partA,savedB=partB,savedC=partC;
+  var savedCR=countryRows.slice(),savedSR=siteRows.slice();
+  var savedDraftId=currentDraftId;
+
+  // Load the request data
+  Object.keys(fd).forEach(function(k){delete fd[k];});
+  Object.assign(fd,req.fd||{});
+  partA=req.partA||false;partB=req.partB||false;partC=req.partC||false;
+  countryRows=(req.countryRows||[]).slice();
+  siteRows=(req.siteRows||[]).slice();
+  currentDraftId=req.id;
+
+  // Build summary HTML using the review builder
+  collectFields();
+  var esc=escHtml;
+  var chip=function(v){return'<span class="chip">'+esc(v)+'</span>';};
+  var row=function(k,v){return v?'<div class="rrow"><div class="rk">'+k+'</div><div class="rv">'+esc(v)+'</div></div>':'';};
+  var rowP=function(k,v){return v?'<div class="rrow"><div class="rk">'+k+'</div><div class="rv pre">'+esc(v)+'</div></div>':'';};
+  var rowC=function(k,a){return(a&&a.length)?'<div class="rrow"><div class="rk">'+k+'</div><div class="rv">'+a.map(chip).join('')+'</div></div>':'';};
+  var parts=[partA?'Part A':'',partB?'Part B':'',partC?'Part C':''].filter(Boolean).join(', ')||'General Support / Country Strategy';
+
+  var h='';
+
+  // Study info
+  h+='<div class="rsurf"><div class="rsurf-head"><span>📌</span><span>Study Information</span></div><div class="rbody">';
+  h+=row('Protocol / Study',fd['f-protocol'])+row('NHH Code',fd['f-nhh'])+row('Sponsor',fd['f-sponsor']);
+  h+=(fd['f-ta']?row('Therapeutic Area',fd['f-ta']):'');
+  h+=((fd['f-indications']&&fd['f-indications'].length)?row('Indication',(fd['f-indications']||[]).join(', ')):'');
+  var rfo=getFeasibilityOwner();
+  h+=row('Feasibility Owner',rfo.name+(rfo.email?' ('+rfo.email+')':''));
+  h+=rowC('Regions',fd.region)+(fd['f-other-region']?row('Other region',fd['f-other-region']):'');
+  h+=rowC('Support',fd.support)+(fd['f-other-support']?row('Other support',fd['f-other-support']):'');
+  h+=(fd['f-kom-date']?row('KOM / Meeting Date',fd['f-kom-date']):'');
+  h+=(fd['f-comments']?row('Comments',fd['f-comments']):'');
+  h+='</div></div>';
+
+  // Protocol
+  h+='<div class="rsurf"><div class="rsurf-head"><span>📅</span><span>Protocol &amp; Timelines</span></div><div class="rbody">';
+  h+=row('Protocol Status',fd.protocolStatus)+(fd['f-amendment']?rowP('Amendment details',fd['f-amendment']):'');
+  h+=(fd['f-timelines']?rowP('Timelines',fd['f-timelines']):'');
+  h+=row('Parts selected',parts);
+  h+='</div></div>';
+
+  // Documents
+  if(req.attachmentNames&&req.attachmentNames.length){
+    h+='<div class="rsurf"><div class="rsurf-head"><span>📎</span><span>Attached Documents</span></div><div class="rbody">';
+    req.attachmentNames.forEach(function(n){h+='<div class="rrow"><div class="rk"></div><div class="rv">'+esc(n)+'</div></div>';});
+    h+='</div></div>';
+  }
+
+  // Part A
+  if(partA){
+    h+='<div class="rsurf"><div class="rsurf-head"><span>A</span><span>Part A — Site Identification</span></div><div class="rbody">';
+    var acr=getActiveCountryRows();
+    if(acr.length){
+      h+='<div class="rrow"><div class="rk">Target Countries</div><div class="rv"><div class="rv-table-wrap"><table style="width:100%;border-collapse:collapse;font-size:12.5px;min-width:480px">';
+      h+='<tr style="color:var(--ink3);font-size:11px;font-weight:600"><td style="padding:3px 8px 3px 0">Country</td><td style="padding:3px 8px">Class.</td><td style="padding:3px 8px">Needed</td><td style="padding:3px 8px">Budgeted</td><td style="padding:3px 8px">EC Date</td><td style="padding:3px 8px">FPI Date</td><td style="padding:3px 0">Enrol (mo)</td></tr>';
+      acr.forEach(function(r){h+='<tr><td style="padding:4px 8px 4px 0">'+esc(r.country)+'</td><td style="padding:4px 8px"><span class="chip">'+esc(r.classification)+'</span></td><td style="padding:4px 8px">'+esc(r.needed||'—')+'</td><td style="padding:4px 8px">'+esc(r.budgeted||'—')+'</td><td style="padding:4px 8px">'+esc(r.ecDate||'—')+'</td><td style="padding:4px 8px">'+esc(r.fpiDate||'—')+'</td><td style="padding:4px 0">'+esc(r.enrolMonths?r.enrolMonths+' mo':'—')+'</td></tr>';});
+      h+='</table></div></div></div>';
+    }
+    h+=row('Site List Approach',fd.siteList||'')+(fd.sponsorApproval?row('Sponsor Approval',fd.sponsorApproval):'');
+    var activeRows=getActiveSiteRows();
+    if(activeRows.length){
+      h+='<div class="rrow"><div class="rk">Sites to Approach</div><div class="rv"><table style="width:100%;border-collapse:collapse;font-size:12.5px">';
+      h+='<tr style="color:var(--ink3);font-size:11px;font-weight:600"><td style="padding:2px 8px 4px 0">Site</td><td style="padding:2px 8px">Country</td><td style="padding:2px 0">PI</td></tr>';
+      activeRows.forEach(function(r){h+='<tr><td style="padding:3px 8px 3px 0">'+esc(r.siteName||'—')+'</td><td style="padding:3px 8px">'+esc(r.country||'—')+'</td><td style="padding:3px 0;color:var(--ink3)">'+esc(r.pi||'—')+'</td></tr>';});
+      h+='</table></div></div>';
+    }
+    if(req.sitesPaste) h+=rowP('Sites (paste)',req.sitesPaste);
+    h+=row('Site Involvement',fd.siteInvolvement||'')+(fd['f-site-involvement']?rowP('Involvement Detail',fd['f-site-involvement']):'');
+    h+=(fd['f-siteprefs']?rowP('Site / PI Preferences',fd['f-siteprefs']):'');
+    h+=rowC('Facility Type',fd.facility)+(fd['f-other-facility']?row('Other facility',fd['f-other-facility']):'');
+    h+=rowC('Critical Site Criteria',fd.siteReqs)+(fd['f-other-siteReqs']?row('Other criteria',fd['f-other-siteReqs']):'');
+    if(req.timelinesPaste) h+=rowP('Timeline notes',req.timelinesPaste);
+    h+=row('Site List Target Date',fd['f-sitedate'])+(fd['f-sitereason']?row('Reason for Date',fd['f-sitereason']):'');
+    h+='</div></div>';
+  }
+
+  // Part B
+  if(partB){
+    h+='<div class="rsurf"><div class="rsurf-head"><span>B</span><span>Part B — FQ Template Development</span></div><div class="rbody">';
+    h+=row('First Time Feasibility',fd.firstTime)+(fd['f-fqchanges']?rowP('FQ Changes',fd['f-fqchanges']):'');
+    h+=row('FQ Type',fd.fqType)+(fd['f-blindedreason']?row('Blinded Reason',fd['f-blindedreason']):'');
+    h+=row('CDA Type',fd.cdaType);
+    h+=rowC('Critical Site Criteria',fd.siteReqs)+(fd['f-other-siteReqs']?row('Other criteria',fd['f-other-siteReqs']):'');
+    h+=row('FQ Approval By',fd.fqApproval);
+    h+='</div></div>';
+  }
+
+  // Part C
+  if(partC){
+    h+='<div class="rsurf"><div class="rsurf-head"><span>C</span><span>Part C — Site Outreach Request</span></div><div class="rbody">';
+    h+=row('Target Response Date',fd['f-fqdate']);
+    h+=rowC('Reason for Date',fd.dateReason)+(fd['f-other-dateReason']?row('Other reason',fd['f-other-dateReason']):'');
+    h+='</div></div>';
+  }
+
+  // Restore state
+  Object.keys(fd).forEach(function(k){delete fd[k];});
+  Object.assign(fd,savedFd);
+  partA=savedA;partB=savedB;partC=savedC;
+  countryRows=savedCR;siteRows=savedSR;
+  currentDraftId=savedDraftId;
+
+  // Show in modal
+  var modal=$('summary-modal');
+  var content=$('summary-modal-content');
+  if(modal&&content){
+    content.innerHTML=h;
+    var ridEl=$('summary-modal-req-id');if(ridEl)ridEl.textContent=req.id||'';
+    modal.style.display='block';
+  }
+}
+
 /* ── LANDING PAGE ── */
 function getUserId(){
   if(msalApp){var a=msalApp.getAllAccounts()[0];if(a)return a.username||a.homeAccountId;}
@@ -2180,9 +2305,27 @@ function saveRequests(reqs){
   try{localStorage.setItem('feas_requests',JSON.stringify(reqs));}catch(e){}
 }
 
+function _normFd(fdObj){
+  // Strip empty strings, empty arrays, null, undefined so comparisons are stable
+  var out={};
+  Object.keys(fdObj||{}).forEach(function(k){
+    var v=fdObj[k];
+    if(v===null||v===undefined||v==='') return;
+    if(Array.isArray(v)&&v.length===0) return;
+    out[k]=v;
+  });
+  return out;
+}
+function _normRows(rows){
+  return (rows||[]).filter(Boolean).map(function(r){
+    var o={};
+    Object.keys(r).forEach(function(k){if(r[k]!==null&&r[k]!==undefined&&r[k]!=='')o[k]=r[k];});
+    return o;
+  });
+}
 function _hasChangedFromSnapshot(){
   if(!_viewingSubmitted||!_submittedSnapshot) return true;
-  var now=JSON.stringify({fd:Object.assign({},fd),countryRows:countryRows.filter(Boolean),siteRows:siteRows.filter(Boolean),partA:partA,partB:partB,partC:partC});
+  var now=JSON.stringify({fd:_normFd(fd),countryRows:_normRows(countryRows),siteRows:_normRows(siteRows),partA:partA,partB:partB,partC:partC});
   return now!==_submittedSnapshot;
 }
 
@@ -2294,7 +2437,7 @@ function editSubmitted(id){
   if(wasSubmitted){
     // Take a snapshot — only mark dirty if something changes
     _viewingSubmitted=true;
-    _submittedSnapshot=JSON.stringify({fd:req.fd,countryRows:req.countryRows,siteRows:req.siteRows,partA:req.partA,partB:req.partB,partC:req.partC});
+    _submittedSnapshot=JSON.stringify({fd:_normFd(req.fd),countryRows:_normRows(req.countryRows),siteRows:_normRows(req.siteRows),partA:req.partA,partB:req.partB,partC:req.partC});
     toast('Viewing submitted request. Back out without changes to keep it as submitted.','ok');
   } else {
     _viewingSubmitted=false;
@@ -2345,7 +2488,7 @@ function renderLanding(){
       +'</div>'
       +'<div class="req-card-status">'
         +'<div class="req-status-pill '+(isDraft?'draft':'submitted')+'">'+(isDraft?'In Progress':'Submitted')+'</div>'
-        +'<div class="req-card-date">'+(isDraft?'Resume \u2192':'View summary')+'</div>'
+        +'<div class="req-card-date">'+(isDraft?'Resume \u2192':'View summary \u2192')+'</div>'
         +(isDraft
           ? '<div class="req-card-del-wrap" id="delwrap-'+escHtml(req.id)+'">'
               +'<button class="req-card-delete" type="button">🗑 Delete draft</button>'
@@ -2384,7 +2527,7 @@ function renderLanding(){
         return;
       }
       if(isDraft) resumeRequest(req.id);
-      else editSubmitted(req.id);
+      else viewRequestSummary(req);
     });
 
     grid.appendChild(card);
@@ -2392,6 +2535,16 @@ function renderLanding(){
 }
 
 if($('btn-new-request')) $('btn-new-request').addEventListener('click',startNewRequest);
+
+
+/* ── SUMMARY MODAL EDIT BUTTON ── */
+document.addEventListener('click',function(e){
+  if(e.target.id==='btn-summary-edit'){
+    var reqId=$('summary-modal-req-id')?$('summary-modal-req-id').textContent:'';
+    $('summary-modal').style.display='none';
+    if(reqId) editSubmitted(reqId);
+  }
+});
 
 /* ── UTILS ── */
 function setOverlay(on,text){var o=$('overlay');o.style.display=on?'flex':'none';if(text)$('overlay-text').textContent=text;}
