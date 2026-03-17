@@ -305,8 +305,8 @@ textarea{resize:vertical;min-height:84px;line-height:1.55}
 .fm-row-head{padding:14px;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);font-size:12.5px;font-weight:700;color:var(--ink);display:flex;align-items:center;gap:8px;line-height:1.4;background:var(--white)}
 .fm-row-icon{font-size:15px;flex-shrink:0}
 .fm-cell{display:flex;align-items:center;justify-content:center;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:14px;cursor:pointer;transition:background .12s;background:var(--white)}
-.fm-cell:nth-child(4n),.fm-cell:last-child{border-right:none}
-.fm-row-head:last-of-type,.fm-cell:nth-last-child(-n+3){border-bottom:none}
+.fm-cell:nth-child(5n),.fm-cell:last-child{border-right:none}
+.fm-row-head:last-of-type,.fm-cell:nth-last-child(-n+4){border-bottom:none}
 .fm-cell:hover{background:var(--teal-bg)}
 .fm-cell.on{background:var(--teal-bg)}
 .fm-check{width:22px;height:22px;border-radius:6px;border:2px solid var(--rule);background:var(--white);display:flex;align-items:center;justify-content:center;transition:all .12s;flex-shrink:0}
@@ -330,6 +330,17 @@ textarea{resize:vertical;min-height:84px;line-height:1.55}
 .sd-item:hover,.sd-item.active{background:var(--teal-bg);color:var(--teal)}
 .sd-empty{padding:10px 12px;font-size:13px;color:var(--ink4);font-style:italic}
 .country-builder{border:1.5px solid var(--rule);border-radius:var(--r);background:var(--white);overflow:visible}
+.cb-card-rows{padding:0}
+.cb-card{border-bottom:1px solid var(--rule);padding:12px 14px;background:var(--white)}
+.cb-card:last-child{border-bottom:none}
+.cb-card-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.cb-card-country{flex:1;min-width:160px}
+.cb-card-tl{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;padding-top:10px;border-top:1px dashed var(--surface2)}
+.cb-mini-field{display:flex;flex-direction:column;gap:3px;min-width:90px;flex:1}
+.cb-mini-label{font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--ink4)}
+.cr-num{padding:6px 9px;font-size:13px;border:1.5px solid var(--rule);border-radius:var(--rsm);font-family:Inter,sans-serif;color:var(--ink);width:100%;-moz-appearance:textfield}
+.cr-num::-webkit-outer-spin-button,.cr-num::-webkit-inner-spin-button{-webkit-appearance:none}
+.cr-date{padding:6px 9px;font-size:13px;border:1.5px solid var(--rule);border-radius:var(--rsm);font-family:Inter,sans-serif;color:var(--ink);width:100%}
 .cb-mode-bar{display:flex;gap:6px;margin-bottom:10px}
 .cb-mode-btn{padding:5px 14px;border-radius:20px;border:1.5px solid var(--rule);background:var(--white);font-family:'Inter',sans-serif;font-size:12px;font-weight:600;color:var(--ink3);cursor:pointer;transition:all .15s}
 .cb-mode-btn.on{border-color:var(--teal);background:var(--teal-bg);color:var(--teal)}
@@ -677,19 +688,7 @@ textarea{resize:vertical;min-height:84px;line-height:1.55}
           </div>
           <div id="cb-table-mode">
             <div class="country-builder">
-              <div style="overflow-x:auto">
-                <div class="cb-header cb-header-wide">
-                  <div class="cb-col-label">Country</div>
-                  <div class="cb-col-label">Class.</div>
-                  <div class="cb-col-label">Sites<br>Needed</div>
-                  <div class="cb-col-label">Sites<br>Budgeted</div>
-                  <div class="cb-col-label">EC Submission<br>Date</div>
-                  <div class="cb-col-label">FPI<br>Date</div>
-                  <div class="cb-col-label">Enrolment<br>(months)</div>
-                  <div></div>
-                </div>
-                <div id="country-rows" class="cb-rows"></div>
-              </div>
+              <div id="country-rows" class="cb-rows cb-card-rows"></div>
               <div class="cb-footer">
                 <button class="btn-add" id="btn-add-country" type="button">+ Add country</button>
               </div>
@@ -766,7 +765,6 @@ textarea{resize:vertical;min-height:84px;line-height:1.55}
           <div id="cond-other-siteReqs" style="display:none;margin-top:10px"><input type="text" id="f-other-siteReqs" placeholder="Please specify additional site requirement(s)&hellip;"></div>
         </div>
 
->
         <div class="field-row">
           <div>
             <label class="flabel" for="f-sitedate">Target date for PI / site list submission <span class="req">*</span></label>
@@ -881,13 +879,26 @@ textarea{resize:vertical;min-height:84px;line-height:1.55}
             <div class="tile" data-g="siteList" data-v="PM/Sponsor holds a shortlist of PIs/sites" data-t="r" data-show="cond-shortlist"><div class="tcircle"></div><div class="tile-text"><strong>PM / Sponsor holds a shortlist of PIs / sites</strong><span>You will be prompted to enter site details below. A document upload is also accepted.</span></div></div>
             <div class="tile" data-g="siteList" data-v="Feasibility team to generate site list in consultation with Country Clinical Operations" data-t="r" data-hide="cond-shortlist"><div class="tcircle"></div><div class="tile-text"><strong>Feasibility team to generate site list</strong><span>In consultation with Country Clinical Operations team</span></div></div>
           </div>
-          <div style="margin-top:10px">
-            <div class="tile" data-g="sponsorApproval" data-v="Sponsor approval required on site list before commencing outreach" data-t="c"><div class="tbox"><svg class="ck" viewBox="0 0 12 10" fill="none"><path d="M1 5l3.5 3.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="tile-text"><strong>Sponsor approval required before commencing outreach</strong><span>Site list must be reviewed and approved by PM / Sponsor before outreach begins. This can apply regardless of how the site list is generated.</span></div></div>
+        </div><!-- /field: site list approach -->
+
+        <div class="field">
+          <label class="flabel">Does the Sponsor / PM need to approve the site list before outreach commences?</label>
+          <div class="fhint">This applies regardless of how the site list is generated.</div>
+          <div class="rstack" style="gap:8px">
+            <div class="tile" data-g="sponsorApproval" data-v="Yes – Sponsor approval required" data-t="r"><div class="tcircle"></div><div class="tile-text"><strong>Yes</strong><span>Site list must be reviewed and approved before outreach begins</span></div></div>
+            <div class="tile" data-g="sponsorApproval" data-v="No – outreach can proceed without Sponsor approval" data-t="r"><div class="tcircle"></div><div class="tile-text"><strong>No</strong><span>Outreach can proceed once the site list is ready</span></div></div>
           </div>
-          <!-- CONDITIONAL SHORTLIST ENTRY -->
-          <div id="cond-shortlist" style="display:none;margin-top:16px">
-            <label class="flabel">Sites to be approached</label>
-            <div class="fhint">List each site the Sponsor / PM wishes to target. PI Name is optional &mdash; leave blank if not yet known. If you have already uploaded a site list document above, you can skip this field or use it to highlight priority sites only.</div>
+        </div>
+
+        <!-- CONDITIONAL SHORTLIST ENTRY -->
+        <div id="cond-shortlist" class="field" style="display:none">
+          <label class="flabel">Sites to be approached</label>
+          <div class="fhint">List each site the Sponsor / PM wishes to target. Use the table to add rows, or switch to paste mode to copy in existing data.</div>
+          <div class="cb-mode-bar" style="margin-bottom:10px">
+            <button class="cb-mode-btn on" id="btn-sites-mode-table" type="button">&#9776; Table entry</button>
+            <button class="cb-mode-btn" id="btn-sites-mode-paste" type="button">&#128203; Paste / free text</button>
+          </div>
+          <div id="sites-table-mode">
             <div class="site-builder">
               <div class="sb-header">
                 <div class="cb-col-label">Site Name</div>
@@ -901,7 +912,10 @@ textarea{resize:vertical;min-height:84px;line-height:1.55}
               </div>
             </div>
           </div>
-        </div><!-- /field: site list approach -->
+          <div id="sites-paste-mode" style="display:none">
+            <textarea id="f-sites-paste" rows="5" placeholder="Paste or type site details here, e.g.&#10;Royal Melbourne Hospital, Australia – Dr. Jane Smith&#10;Auckland City Hospital, New Zealand&#10;St Vincent's Hospital, Australia – Dr. Lee (Phase 2 oncology)"></textarea>
+          </div>
+        </div>
 
                 <!-- CDA + SITE RESPONSE TIMELINE REFERENCE -->
         <div class="tl-panel" style="margin-bottom:22px">
@@ -969,7 +983,10 @@ textarea{resize:vertical;min-height:84px;line-height:1.55}
   </div>
 
   <!-- SUCCESS -->
-  <div id="success-screen" style="display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 40px;min-height:calc(100vh - 61px)">
+
+</div>
+<!-- SUCCESS SCREEN (outside form-app so it isn't hidden with it) -->
+<div id="success-screen" style="display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 40px;min-height:calc(100vh - 61px)">
     <div style="font-size:64px;margin-bottom:24px">&#9989;</div>
     <div style="font-family:'Inter',sans-serif;font-size:34px;margin-bottom:10px;letter-spacing:-.02em">Request submitted</div>
     <p style="font-size:15px;color:var(--ink3);max-width:400px;margin-bottom:32px;line-height:1.6">Your request has been sent to the Feasibility team and logged to the submissions spreadsheet.</p>
@@ -989,7 +1006,6 @@ textarea{resize:vertical;min-height:84px;line-height:1.55}
       <div id="summary-modal-content" style="padding:28px"></div>
     </div>
   </div>
-</div>
 
   <!-- ── ADMIN SUBMISSIONS SCREEN ── -->
   <div id="screen-admin-subs" style="display:none;min-height:100vh;background:var(--bg)">
@@ -1349,14 +1365,13 @@ function addCountryRow(country,classification,needed,budgeted,ecDate,fpiDate,enr
   var row={country:country||'',classification:classification||'Primary',needed:needed||'',budgeted:budgeted||'',ecDate:ecDate||'',fpiDate:fpiDate||'',enrolMonths:enrolMonths||''};
   countryRows.push(row);
   var container=document.getElementById('country-rows');
-  var div=document.createElement('div');div.className='cb-row cb-row-wide';div.dataset.idx=idx;
-  div.style.minWidth='720px';
+  var div=document.createElement('div');div.className='cb-card';div.dataset.idx=idx;
 
-  // Country dropdown
+  var topRow=document.createElement('div');topRow.className='cb-card-top';
+
   var csWrap=makeCountrySelect(row.country,function(v){countryRows[idx].country=v;});
-  csWrap.style.cssText='position:relative';
+  csWrap.className=(csWrap.className||'')+' cb-card-country';
 
-  // Classification toggle
   var ctDiv=document.createElement('div');ctDiv.className='class-toggle';
   ['Primary','Backup'].forEach(function(v){
     var btn=document.createElement('button');btn.className='ct-btn'+(row.classification===v?' on':'');btn.dataset.v=v;btn.type='button';btn.textContent=v;
@@ -1367,28 +1382,37 @@ function addCountryRow(country,classification,needed,budgeted,ecDate,fpiDate,enr
     ctDiv.appendChild(btn);
   });
 
-  function numInp(cls,val,key){
-    var inp=document.createElement('input');inp.type='number';inp.className=cls;inp.placeholder='0';inp.min='0';inp.value=val;
+  function numField(label,val,key){
+    var wrap=document.createElement('div');wrap.className='cb-mini-field';
+    var lbl=document.createElement('span');lbl.className='cb-mini-label';lbl.textContent=label;
+    var inp=document.createElement('input');inp.type='number';inp.className='cr-num';inp.placeholder='0';inp.min='0';inp.value=val||'';
     inp.addEventListener('input',function(){countryRows[idx][key]=this.value.trim();});
-    return inp;
+    wrap.appendChild(lbl);wrap.appendChild(inp);return wrap;
   }
-  function dateInp(val,key){
-    var inp=document.createElement('input');inp.type='date';inp.style.cssText='padding:5px 7px;font-size:12px;width:100%;border:1.5px solid var(--rule);border-radius:var(--rsm);font-family:Inter,sans-serif;color:var(--ink);background:var(--white);outline:none';inp.value=val||'';
+  function dateField(label,val,key){
+    var wrap=document.createElement('div');wrap.className='cb-mini-field';
+    var lbl=document.createElement('span');lbl.className='cb-mini-label';lbl.textContent=label;
+    var inp=document.createElement('input');inp.type='date';inp.className='cr-date';inp.value=val||'';
     inp.addEventListener('change',function(){countryRows[idx][key]=this.value;});
-    return inp;
+    wrap.appendChild(lbl);wrap.appendChild(inp);return wrap;
   }
 
-  var rmBtn=document.createElement('button');rmBtn.className='cb-remove';rmBtn.type='button';rmBtn.title='Remove';rmBtn.textContent='\u00d7';
+  var rmBtn=document.createElement('button');rmBtn.className='cb-remove';rmBtn.type='button';rmBtn.title='Remove';rmBtn.innerHTML='&times;';
   rmBtn.addEventListener('click',function(){div.remove();countryRows[idx]=null;});
 
-  div.appendChild(csWrap);
-  div.appendChild(ctDiv);
-  div.appendChild(numInp('cr-needed',row.needed,'needed'));
-  div.appendChild(numInp('cr-budgeted',row.budgeted,'budgeted'));
-  div.appendChild(dateInp(row.ecDate,'ecDate'));
-  div.appendChild(dateInp(row.fpiDate,'fpiDate'));
-  div.appendChild(numInp('cr-enrol',row.enrolMonths,'enrolMonths'));
-  div.appendChild(rmBtn);
+  topRow.appendChild(csWrap);
+  topRow.appendChild(ctDiv);
+  topRow.appendChild(numField('Sites needed',row.needed,'needed'));
+  topRow.appendChild(numField('Budgeted',row.budgeted,'budgeted'));
+  topRow.appendChild(rmBtn);
+
+  var tlRow=document.createElement('div');tlRow.className='cb-card-tl';
+  tlRow.appendChild(dateField('EC Submission',row.ecDate,'ecDate'));
+  tlRow.appendChild(dateField('FPI Date',row.fpiDate,'fpiDate'));
+  tlRow.appendChild(numField('Enrolment (months)',row.enrolMonths,'enrolMonths'));
+
+  div.appendChild(topRow);
+  div.appendChild(tlRow);
   container.appendChild(div);
 }
 function getActiveCountryRows(){return countryRows.filter(function(r){return r&&r.country;});}
@@ -1505,6 +1529,27 @@ function syncPartsFromSupport(){
     });
   }
   window.renderFQFileList=renderFQFileList;
+})();
+
+
+/* ── SITES TABLE / PASTE MODE TOGGLE ── */
+(function(){
+  function initSitesModeToggle(){
+    var btnTable=document.getElementById('btn-sites-mode-table');
+    var btnPaste=document.getElementById('btn-sites-mode-paste');
+    var tableDiv=document.getElementById('sites-table-mode');
+    var pasteDiv=document.getElementById('sites-paste-mode');
+    if(!btnTable) return;
+    btnTable.addEventListener('click',function(){
+      btnTable.classList.add('on');btnPaste.classList.remove('on');
+      tableDiv.style.display='';pasteDiv.style.display='none';
+    });
+    btnPaste.addEventListener('click',function(){
+      btnPaste.classList.add('on');btnTable.classList.remove('on');
+      pasteDiv.style.display='';tableDiv.style.display='none';
+    });
+  }
+  setTimeout(initSitesModeToggle,0);
 })();
 
 /* ── TILE CLICKS ── */
@@ -1753,7 +1798,7 @@ function doReview(){
       acr.forEach(function(r){h+='<tr><td style="padding:4px 10px 4px 0;color:var(--ink)">'+escHtml(r.country)+'</td><td style="padding:4px 10px"><span class="chip">'+escHtml(r.classification)+'</span></td><td style="padding:4px 10px;color:var(--ink)">'+escHtml(r.needed||'\u2014')+'</td><td style="padding:4px 0;color:var(--ink)">'+escHtml(r.budgeted||'\u2014')+'</td></tr>';});
       h+='</table></div></div>';
     }
-    h+=row('Site List Approach',fd.siteList||'')+(fd.sponsorApproval&&(fd.sponsorApproval||[]).length?row('Sponsor Approval Required','Yes'):'') ;
+    h+=row('Site List Approach',fd.siteList||'')+(fd.sponsorApproval?row('Sponsor Approval Required',fd.sponsorApproval):'') ;
     var activeRows=getActiveSiteRows();
     if(activeRows.length){
       h+='<div class="rrow"><div class="rk">Shortlisted Sites</div><div class="rv">';
@@ -1841,7 +1886,7 @@ function buildHtmlEmail(){
     if(acr2.length){
       countriesHtml='<tr><td style="'+th+'">Target Countries</td><td style="'+td+'"><table style="width:100%;border-collapse:collapse;font-size:12px"><tr style="color:#78716C;font-size:11px"><td style="padding:2px 10px 4px 0;font-weight:600">Country</td><td style="padding:2px 10px 4px;font-weight:600">Classification</td><td style="padding:2px 10px 4px;font-weight:600">Sites Needed</td><td style="padding:2px 0 4px;font-weight:600">Sites Budgeted for Outreach</td></tr>'+acr2.map(function(r){return'<tr><td style="padding:3px 10px 3px 0">'+esc(r.country)+'</td><td style="padding:3px 10px">'+esc(r.classification)+'</td><td style="padding:3px 10px">'+esc(r.needed||'\u2014')+'</td><td style="padding:3px 10px">'+esc(r.budgeted||'\u2014')+'</td><td style="padding:3px 10px">'+esc(r.ecDate||'\u2014')+'</td><td style="padding:3px 10px">'+esc(r.fpiDate||'\u2014')+'</td><td style="padding:3px 0">'+esc(r.enrolMonths?r.enrolMonths+' mo':'\u2014')+'</td></tr>';}).join('')+'</table></td></tr>';
     }
-    b+=sec('A','Part A &mdash; Site Identification',countriesHtml+row('Site List Approach',fd.siteList||'')+(fd.sponsorApproval&&(fd.sponsorApproval||[]).length?row('Sponsor Approval Required','Yes'):'') +siteRowsHtml+row('Site Involvement',fd.siteInvolvement||'')+(fd['f-site-involvement']?rowP('Involvement Detail',fd['f-site-involvement']):'')+rowP('Site / PI Preferences',fd['f-siteprefs'])+rowC('Facility Type',fd.facility)+(fd['f-other-facility']?row('Other facility',fd['f-other-facility']):'')+(fd['f-timelines-paste']?rowP('Timeline Notes',fd['f-timelines-paste']):'')+row('Site List Target Date',fd['f-sitedate'])+row('Reason for Date',fd['f-sitereason']||''));
+    b+=sec('A','Part A &mdash; Site Identification',countriesHtml+row('Site List Approach',fd.siteList||'')+(fd.sponsorApproval?row('Sponsor Approval Required',fd.sponsorApproval):'') +siteRowsHtml+row('Site Involvement',fd.siteInvolvement||'')+(fd['f-site-involvement']?rowP('Involvement Detail',fd['f-site-involvement']):'')+rowP('Site / PI Preferences',fd['f-siteprefs'])+rowC('Facility Type',fd.facility)+(fd['f-other-facility']?row('Other facility',fd['f-other-facility']):'')+(fd['f-sites-paste']?rowP('Sites (paste)',fd['f-sites-paste']):'')+(fd['f-timelines-paste']?rowP('Timeline Notes',fd['f-timelines-paste']):'')+row('Site List Target Date',fd['f-sitedate'])+row('Reason for Date',fd['f-sitereason']||''));
   }
   if(partB) b+=sec('B','Part B &mdash; FQ Template Development',row('First Time Feasibility',fd.firstTime)+(fd['f-fqchanges']?rowP('FQ Changes',fd['f-fqchanges']):'')+row('FQ Type',fd.fqType)+(fd['f-blindedreason']?row('Blinded Reason',fd['f-blindedreason']):'')+row('CDA Type',fd.cdaType)+rowC('Critical Site Criteria',fd.siteReqs)+(fd['f-other-siteReqs']?row('Other criteria',fd['f-other-siteReqs']):'')+row('FQ Approval By',fd.fqApproval));
   if(partC) b+=sec('C','Part C &mdash; Site Outreach Request',row('Target Response Date',fd['f-fqdate'])+rowC('Reason for Date',fd.dateReason)+(fd['f-other-dateReason']?row('Other reason',fd['f-other-dateReason']):''));
@@ -1858,7 +1903,7 @@ function buildPlain(){
   if(attachments.length) lines.push('','ATTACHMENTS: '+attachments.map(function(f){return f.name;}).join(', '));
   if(partA){
     var crs=getActiveCountryRows().map(function(r){return r.country+' ('+r.classification+')'+(r.needed?' - '+r.needed+' sites needed':'')+(r.budgeted?' / '+r.budgeted+' budgeted':'');}).join('\n')||'\u2014';
-    lines.push('','PART A \u2014 SITE IDENTIFICATION','Countries:\n'+crs,'Site List Approach: '+(fd.siteList||'\u2014')+((fd.sponsorApproval||[]).length?' [Sponsor approval required]':''),'Site Prefs: '+(fd['f-siteprefs']||'\u2014'),'Facility: '+((fd.facility||[]).join(', ')||'\u2014'),'Site List Date: '+(fd['f-sitedate']||'\u2014'));
+    lines.push('','PART A \u2014 SITE IDENTIFICATION','Countries:\n'+crs,'Site List Approach: '+(fd.siteList||'\u2014')+(fd.sponsorApproval?' ['+fd.sponsorApproval+']':''),'Site Prefs: '+(fd['f-siteprefs']||'\u2014'),'Facility: '+((fd.facility||[]).join(', ')||'\u2014'),'Site List Date: '+(fd['f-sitedate']||'\u2014'));
   }
   if(partB) lines.push('','PART B \u2014 FQ TEMPLATE','First Time: '+(fd.firstTime||'\u2014'),'FQ Type: '+(fd.fqType||'\u2014'),'CDA: '+(fd.cdaType||'\u2014'),'Site Reqs: '+((fd.siteReqs||[]).join(', ')||'\u2014'),'Approval: '+(fd.fqApproval||'\u2014'));
   if(partC) lines.push('','PART C \u2014 SITE OUTREACH','Response Date: '+(fd['f-fqdate']||'\u2014'),'Reason: '+((fd.dateReason||[]).join(', ')||'\u2014'));
@@ -1871,7 +1916,7 @@ function handleSubmit(){
   $('btn-submit').disabled=true;
   if(!cfg.clientId||!cfg.tenantId||!cfg.sharedMailbox){
     setOverlay(true,'Demo mode \u2014 simulating\u2026');
-    setTimeout(function(){setOverlay(false);markSubmitted();showSuccess();},1600);
+    setTimeout(function(){setOverlay(false);collectFields();saveDraft();markSubmitted();showSuccess();},1600);
     return;
   }
   setOverlay(true,'Authenticating\u2026');
@@ -2126,7 +2171,7 @@ function saveDraft(){
     parts:[partA?'A':null,partB?'B':null,partC?'C':null].filter(Boolean),
     updatedAt:new Date().toISOString(),
     createdAt:(idx>-1?reqs[idx].createdAt:new Date().toISOString()),
-    fd:Object.assign({},fd),timelinesPaste:document.getElementById('f-timelines-paste')?document.getElementById('f-timelines-paste').value:'',
+    fd:Object.assign({},fd),timelinesPaste:document.getElementById('f-timelines-paste')?document.getElementById('f-timelines-paste').value:'',sitesPaste:document.getElementById('f-sites-paste')?document.getElementById('f-sites-paste').value:'',
     partA:partA,partB:partB,partC:partC,
     countryRows:countryRows.filter(Boolean),
     siteRows:siteRows.filter(Boolean),
@@ -2197,8 +2242,9 @@ function resumeRequest(id){
     if($(pid))$(pid).textContent=on?'Included \u2713':'Optional';
     if($(sid))$(sid).style.display=on?'block':'none';
   });
-  // restore paste mode timeline text
+  // restore paste mode texts
   var tpa=document.getElementById('f-timelines-paste');if(tpa&&req.timelinesPaste){tpa.value=req.timelinesPaste;}
+  var spa=document.getElementById('f-sites-paste');if(spa&&req.sitesPaste){spa.value=req.sitesPaste;}
   // restore TA and indication dropdowns
   if(typeof restoreTAInd==='function') restoreTAInd(fd['f-ta']||'',fd['f-indications']||[]);
   hide('screen-landing');
