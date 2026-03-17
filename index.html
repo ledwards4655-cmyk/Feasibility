@@ -1021,7 +1021,7 @@ textarea{resize:vertical;min-height:84px;line-height:1.55}
         </div>
         <div class="asec-body" style="padding:0">
           <div style="padding:14px 24px;border-bottom:1px solid var(--rule);display:flex;gap:10px;align-items:center">
-            <input type="text" id="admin-search" placeholder="Search by sponsor, protocol, or submitter…" style="max-width:340px;font-size:13px;padding:7px 12px">
+            <input type="text" id="admin-search" placeholder="Search by sponsor, protocol, or feasibility owner…" style="max-width:340px;font-size:13px;padding:7px 12px">
             <select id="admin-filter-status" style="padding:7px 12px;font-size:13px;border:1.5px solid var(--rule);border-radius:var(--rsm);font-family:Inter,sans-serif;color:var(--ink);background:var(--white)">
               <option value="">All statuses</option>
               <option value="submitted">Submitted</option>
@@ -1092,6 +1092,8 @@ var cfg={},msalApp=null,token=null;
 
 /* ── STATE ── */
 var fd={},partA=false,partB=false,partC=false;window._fdRef=fd;
+var _viewingSubmitted=false; // true when opened from a submitted record, no changes yet
+var _submittedSnapshot='';  // JSON snapshot at open time
 var attachments=[]; // [{name, size, contentType, data (base64)}]
 var fqAttachments=[]; // FQ template uploads from Part B
 var siteRows=[];
@@ -1563,7 +1565,7 @@ document.addEventListener('click',function(e){
     if(!fd[g]) fd[g]=[];
     var i=fd[g].indexOf(v);
     if(i>-1) fd[g].splice(i,1); else fd[g].push(v);
-    if(tile.dataset.x&&tile.dataset.x.indexOf('other-')===0){
+    if(tile.dataset.x){
       var isOn=(fd[g]||[]).indexOf(v)>-1;
       var condEl=document.getElementById('cond-'+tile.dataset.x);
       if(condEl) condEl.style.display=isOn?'block':'none';
@@ -1675,7 +1677,21 @@ backBtn.style.cssText='background:none;border:none;color:rgba(255,255,255,.45);f
 backBtn.id='btn-back-landing';
 backBtn.addEventListener('mouseenter',function(){this.style.color='rgba(255,255,255,.85)';});
 backBtn.addEventListener('mouseleave',function(){this.style.color='rgba(255,255,255,.45)';});
-backBtn.addEventListener('click',function(){collectFields();saveDraft();hide('form-app');showLanding();});
+backBtn.addEventListener('click',function(){
+  collectFields();
+  if(_viewingSubmitted&&!_hasChangedFromSnapshot()){
+    // No changes — restore submitted status and navigate back cleanly
+    if(currentDraftId){
+      var reqs=loadRequests();
+      var idx=reqs.findIndex(function(r){return r.id===currentDraftId;});
+      if(idx>-1&&reqs[idx].status!=='submitted'){reqs[idx].status='submitted';saveRequests(reqs);}
+    }
+  } else {
+    saveDraft();
+  }
+  hide('form-app');
+  showLanding();
+});
 document.querySelector('#topbar-right').insertBefore(backBtn,$('mode-badge'));
 
 /* ── ADMIN SHORTCUT BUTTON (demo mode only) ── */
@@ -1794,11 +1810,13 @@ function doReview(){
     h+='<div class="rsurf"><div class="rsurf-head"><span>A</span><span>Part A &mdash; Site Identification</span></div><div class="rbody">';
     var acr=getActiveCountryRows();
     if(acr.length){
-      h+='<div class="rrow"><div class="rk">Target Countries</div><div class="rv"><table style="width:100%;border-collapse:collapse;font-size:12.5px"><tr style="color:var(--ink3);font-size:11px;font-weight:600"><td style="padding:3px 10px 3px 0">Country</td><td style="padding:3px 10px">Classification</td><td style="padding:3px 10px">Sites Needed</td><td style="padding:3px 0">Sites Budgeted for Outreach</td></tr>';
-      acr.forEach(function(r){h+='<tr><td style="padding:4px 10px 4px 0;color:var(--ink)">'+escHtml(r.country)+'</td><td style="padding:4px 10px"><span class="chip">'+escHtml(r.classification)+'</span></td><td style="padding:4px 10px;color:var(--ink)">'+escHtml(r.needed||'\u2014')+'</td><td style="padding:4px 0;color:var(--ink)">'+escHtml(r.budgeted||'\u2014')+'</td></tr>';});
+      h+='<div class="rrow"><div class="rk">Target Countries</div><div class="rv"><div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:12.5px;min-width:520px"><tr style="color:var(--ink3);font-size:11px;font-weight:600"><td style="padding:3px 8px 3px 0">Country</td><td style="padding:3px 8px">Class.</td><td style="padding:3px 8px">Needed</td><td style="padding:3px 8px">Budgeted</td><td style="padding:3px 8px">EC Date</td><td style="padding:3px 8px">FPI Date</td><td style="padding:3px 0">Enrol (mo)</td></tr>';
+      acr.forEach(function(r){h+='<tr><td style="padding:4px 8px 4px 0;color:var(--ink)">'+escHtml(r.country)+'</td><td style="padding:4px 8px"><span class="chip">'+escHtml(r.classification)+'</span></td><td style="padding:4px 8px;color:var(--ink)">'+escHtml(r.needed||'\u2014')+'</td><td style="padding:4px 8px;color:var(--ink)">'+escHtml(r.budgeted||'\u2014')+'</td><td style="padding:4px 8px;color:var(--ink)">'+escHtml(r.ecDate||'\u2014')+'</td><td style="padding:4px 8px;color:var(--ink)">'+escHtml(r.fpiDate||'\u2014')+'</td><td style="padding:4px 0;color:var(--ink)">'+escHtml(r.enrolMonths?r.enrolMonths+' mo':'\u2014')+'</td></tr>';});
       h+='</table></div></div>';
     }
-    h+=row('Site List Approach',fd.siteList||'')+(fd.sponsorApproval?row('Sponsor Approval Required',fd.sponsorApproval):'') ;
+    h+=row('Site List Approach',fd.siteList||'')+(fd.sponsorApproval?row('Sponsor Approval Required',fd.sponsorApproval):'');
+    if(fd['f-sites-paste']) h+=row('Sites (paste notes)',fd['f-sites-paste']);
+    h+=row('Site Involvement',fd.siteInvolvement||'')+(fd['f-site-involvement']?row('Involvement Detail',fd['f-site-involvement']):'');
     var activeRows=getActiveSiteRows();
     if(activeRows.length){
       h+='<div class="rrow"><div class="rk">Shortlisted Sites</div><div class="rv">';
@@ -1807,6 +1825,7 @@ function doReview(){
       activeRows.forEach(function(r){h+='<tr><td style="padding:3px 8px 3px 0;color:var(--ink)">'+escHtml(r.siteName||'\u2014')+'</td><td style="padding:3px 8px;color:var(--ink)">'+escHtml(r.country||'\u2014')+'</td><td style="padding:3px 0;color:var(--ink3)">'+escHtml(r.pi||'\u2014')+'</td></tr>';});
       h+='</table></div></div>';
     }
+    if(fd['f-timelines-paste']) h+=row('Timeline notes',fd['f-timelines-paste']);
     h+=row('Site / PI Preferences',fd['f-siteprefs']);
     h+=rowC('Facility Type',fd.facility)+(fd['f-other-facility']?row('Other facility',fd['f-other-facility']):'');
     h+=row('Site List Target Date',fd['f-sitedate'])+row('Reason for Date',fd['f-sitereason']||'');
@@ -2128,7 +2147,8 @@ if($('btn-success-home')) $('btn-success-home').addEventListener('click',functio
 });
 
 function resetForm(){
-  Object.keys(fd).forEach(function(k){delete fd[k];});partA=false;partB=false;partC=false;attachments=[];fqAttachments=[];siteRows=[];countryRows=[];currentDraftId=null;
+  Object.keys(fd).forEach(function(k){delete fd[k];});partA=false;partB=false;partC=false;
+  _viewingSubmitted=false;_submittedSnapshot='';attachments=[];fqAttachments=[];siteRows=[];countryRows=[];currentDraftId=null;
   document.querySelectorAll('.tile').forEach(function(t){t.classList.remove('on');});
   document.querySelectorAll('.fm-cell,.fm-other-cell').forEach(function(c){c.classList.remove('on');});
   document.querySelectorAll('input[type=text],input[type=date],input[type=number],textarea').forEach(function(e){e.value='';});
@@ -2160,14 +2180,24 @@ function saveRequests(reqs){
   try{localStorage.setItem('feas_requests',JSON.stringify(reqs));}catch(e){}
 }
 
+function _hasChangedFromSnapshot(){
+  if(!_viewingSubmitted||!_submittedSnapshot) return true;
+  var now=JSON.stringify({fd:Object.assign({},fd),countryRows:countryRows.filter(Boolean),siteRows:siteRows.filter(Boolean),partA:partA,partB:partB,partC:partC});
+  return now!==_submittedSnapshot;
+}
+
 function saveDraft(){
   if(!currentDraftId) return;
   var uid=getUserId();
   var reqs=loadRequests();
   var idx=reqs.findIndex(function(r){return r.id===currentDraftId;});
+  // If viewing a submitted request and nothing has changed, keep status as submitted
+  var currentStatus=(idx>-1&&reqs[idx].status==='submitted'&&!_hasChangedFromSnapshot())?'submitted':'draft';
+  if(currentStatus==='draft'&&_viewingSubmitted){_viewingSubmitted=false;} // mark dirty
   var snap={
-    id:currentDraftId,userId:uid,status:'draft',
+    id:currentDraftId,userId:uid,status:currentStatus,
     sponsor:fd['f-sponsor']||'',protocol:fd['f-protocol']||'',nhh:fd['f-nhh']||'',
+    foName:(function(){var fo=getFeasibilityOwner();return fo.name||fo.email||'';})(),
     parts:[partA?'A':null,partB?'B':null,partC?'C':null].filter(Boolean),
     updatedAt:new Date().toISOString(),
     createdAt:(idx>-1?reqs[idx].createdAt:new Date().toISOString()),
@@ -2259,19 +2289,25 @@ function editSubmitted(id){
   var reqs=loadRequests();
   var req=reqs.find(function(r){return r.id===id;});
   if(!req) return;
-  // Reactivate as draft so user can edit and resubmit
-  req.status='draft';
-  req.updatedAt=new Date().toISOString();
-  var idx=reqs.findIndex(function(r){return r.id===id;});
-  if(idx>-1) reqs[idx]=req;
-  saveRequests(reqs);
+  var wasSubmitted=(req.status==='submitted');
   resumeRequest(id);
-  toast('Form loaded for editing. Resubmit when ready.','ok');
+  if(wasSubmitted){
+    // Take a snapshot — only mark dirty if something changes
+    _viewingSubmitted=true;
+    _submittedSnapshot=JSON.stringify({fd:req.fd,countryRows:req.countryRows,siteRows:req.siteRows,partA:req.partA,partB:req.partB,partC:req.partC});
+    toast('Viewing submitted request. Back out without changes to keep it as submitted.','ok');
+  } else {
+    _viewingSubmitted=false;
+    _submittedSnapshot='';
+    toast('Form loaded for editing. Resubmit when ready.','ok');
+  }
 }
 
 function showLanding(){
   hide('form-app');
   hide('admin-panel');
+  var adminSubs=document.getElementById('screen-admin-subs');
+  if(adminSubs) adminSubs.style.display='none';
   $('success-screen').style.display='none';
   $('screen-landing').style.display='block';
   renderLanding();
@@ -2398,10 +2434,11 @@ function renderAdminTable(){
   if(statusFilter) reqs=reqs.filter(function(r){return r.status===statusFilter;});
   if(q) reqs=reqs.filter(function(r){
     return (r.sponsor||'').toLowerCase().indexOf(q)>-1||(r.protocol||'').toLowerCase().indexOf(q)>-1||
+      (r.foName||'').toLowerCase().indexOf(q)>-1||
       ((r.fd&&r.fd['f-submitter-name'])||'').toLowerCase().indexOf(q)>-1;
   });
   if(!reqs.length){container.innerHTML='<div style="padding:32px;text-align:center;color:var(--ink4);font-size:13px">No submissions found.</div>';return;}
-  var html='<table class="rtable"><thead><tr><th>Date</th><th>Sponsor</th><th>Protocol</th><th>Parts</th><th>Status</th><th>Actions</th></tr></thead><tbody>';
+  var html='<table class="rtable"><thead><tr><th>Date</th><th>Feasibility Owner</th><th>Sponsor</th><th>Protocol</th><th>Parts</th><th>Status</th><th>Actions</th></tr></thead><tbody>';
   reqs.forEach(function(req){
     var date=req.submittedAt||req.updatedAt||req.createdAt||'';
     var dateStr=date?new Date(date).toLocaleDateString('en-AU',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}):'—';
@@ -2409,6 +2446,7 @@ function renderAdminTable(){
     var statusBadge=req.status==='submitted'?'<span style="background:var(--teal-bg);color:var(--teal);font-size:11px;font-weight:700;padding:2px 8px;border-radius:4px">Submitted</span>':'<span style="background:var(--amber-bg);color:var(--amber);font-size:11px;font-weight:700;padding:2px 8px;border-radius:4px">Draft</span>';
     html+='<tr style="cursor:pointer" data-reqid="'+escHtml(req.id)+'">';
     html+='<td>'+escHtml(dateStr)+'</td>';
+    html+='<td>'+escHtml(req.foName||'—')+'</td>';
     html+='<td style="font-weight:500">'+escHtml(req.sponsor||'—')+'</td>';
     html+='<td>'+escHtml(req.protocol||'—')+'</td>';
     html+='<td>'+escHtml(parts)+'</td>';
