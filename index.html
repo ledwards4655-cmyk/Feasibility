@@ -414,7 +414,7 @@ textarea{resize:vertical;min-height:84px;line-height:1.55}
         <div class="cfg-grid">
           <div class="cfg-field"><label>Client ID</label><input type="text" id="cfg-client-id" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"></div>
           <div class="cfg-field"><label>Tenant ID</label><input type="text" id="cfg-tenant-id" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"></div>
-          <div class="cfg-field" style="grid-column:1/-1"><label>Shared Mailbox (sender)</label><div class="fhint">The mailbox submissions are sent from</div><input type="email" id="cfg-mailbox" placeholder="&#x66;&#x65;&#x61;&#x73;&#x69;&#x62;&#x69;&#x6c;&#x69;&#x74;&#x79;&#x2d;&#x6e;&#x6f;&#x72;&#x65;&#x70;&#x6c;&#x79;&#x40;&#x6e;&#x6f;&#x76;&#x6f;&#x74;&#x65;&#x63;&#x68;&#x2d;&#x63;&#x72;&#x6f;&#x2e;&#x63;&#x6f;&#x6d;"></div>
+          <div class="cfg-field" style="grid-column:1/-1"><label>Shared Mailbox <span style="font-weight:400;color:var(--ink4)">(legacy &mdash; no longer used for sending)</span></label><div class="fhint">Email now sends from the submitter&rsquo;s own mailbox. Reply-To is configured under Excel Storage below.</div><input type="email" id="cfg-mailbox" placeholder="Not required"></div>
         </div>
         <div class="cfg-status cfg-warn" id="cfg-status">&#9888; Not configured &mdash; form runs in demo mode</div>
         <div style="margin-top:16px"><button class="btn btn-primary" id="btn-test-graph">Test connection</button></div>
@@ -434,10 +434,15 @@ textarea{resize:vertical;min-height:84px;line-height:1.55}
       </div>
     </div>
     <div class="asec">
-      <div class="asec-head"><h2>&#128202; Excel Storage</h2><p>Each submission appends a row via Microsoft Graph</p></div>
+      <div class="asec-head"><h2>&#128202; Excel Storage (SharePoint)</h2><p>Each submission appends a row via Microsoft Graph</p></div>
       <div class="asec-body">
-        <div class="field"><label class="flabel">OneDrive file path</label><div class="fhint">Path relative to drive root. File must have a Table with the name below.</div><input type="text" id="cfg-excel-path" placeholder="/Feasibility/FeasibilitySubmissions.xlsx"></div>
-        <div><label class="flabel">Table name</label><input type="text" id="cfg-excel-table" placeholder="Submissions" style="max-width:280px"></div>
+        <div class="cfg-grid">
+          <div class="cfg-field"><label>SharePoint hostname</label><div class="fhint">e.g. <code style="font-size:12px;background:var(--surface2);padding:1px 5px;border-radius:3px">novonet.sharepoint.com</code></div><input type="text" id="cfg-sp-hostname" placeholder="novonet.sharepoint.com"></div>
+          <div class="cfg-field"><label>Site path</label><div class="fhint">e.g. <code style="font-size:12px;background:var(--surface2);padding:1px 5px;border-radius:3px">/sites/CONewsandResources</code></div><input type="text" id="cfg-sp-site" placeholder="/sites/CONewsandResources"></div>
+          <div class="cfg-field" style="grid-column:1/-1"><label>File path within Documents library</label><div class="fhint">Path inside the default Documents library. e.g. <code style="font-size:12px;background:var(--surface2);padding:1px 5px;border-radius:3px">/Feasibility/FeasibilitySubmissions.xlsx</code></div><input type="text" id="cfg-sp-file" placeholder="/Feasibility/FeasibilitySubmissions.xlsx"></div>
+          <div class="cfg-field"><label>Table name</label><input type="text" id="cfg-excel-table" placeholder="Submissions"></div>
+          <div class="cfg-field"><label>Reply-To address</label><div class="fhint">Replies go here instead of the submitter</div><input type="email" id="cfg-reply-to" placeholder="Feasibility.Admin@novotech-cro.com"></div>
+        </div>
       </div>
     </div>
     <div class="asec">
@@ -1088,7 +1093,11 @@ var TA_KEYS = ["Blood Diseases", "Circulatory System", "Developmental Anomalies"
 
 var DC={
   clientId:'',tenantId:'',sharedMailbox:'',
-  excelPath:'/Feasibility/FeasibilitySubmissions.xlsx',excelTable:'Submissions',
+  spHostname:'novonet.sharepoint.com',
+  spSitePath:'/sites/CONewsandResources',
+  spFilePath:'/Feasibility/FeasibilitySubmissions.xlsx',
+  excelTable:'Submissions',
+  replyToEmail:'Feasibility.Admin\x40novotech-cro.com',
   emailSubject:'Post-Award Feasibility Request \u2014 {sponsor} \u00b7 {protocol}',
   emailFooter:'This is an automated notification from the Novotech Feasibility Request Tool. Reply to this email to add further information.',
   ccEmails:['Feasibility.Admin\x40novotech-cro.com'],
@@ -1786,8 +1795,9 @@ function doReview(){
   var rowC=function(k,a){return(a&&a.length)?'<div class="rrow"><div class="rk">'+k+'</div><div class="rv">'+a.map(chip).join('')+'</div></div>':'';};
   var parts=[partA?'Part A':'',partB?'Part B':'',partC?'Part C':''].filter(Boolean).join(', ')||'General Support / Country Strategy';
   var recips=buildRecipients().join(', ')||'No recipients configured (demo mode)';
+  var ccList=(cfg.ccEmails||[]).filter(Boolean).join(', ');
 
-  var h='<div class="ccard"><div class="ccard-icon">\uD83D\uDD0D</div><div><h3>Almost done</h3><p>Recipients: <strong style="color:rgba(255,255,255,.9)">'+esc(recips)+'</strong></p></div></div>';
+  var h='<div class="ccard"><div class="ccard-icon">\uD83D\uDD0D</div><div><h3>Almost done</h3><p>To: <strong style="color:rgba(255,255,255,.9)">'+esc(recips)+'</strong></p>'+(ccList?'<p style="margin-top:4px">CC: <strong style="color:rgba(255,255,255,.7)">'+esc(ccList)+'</strong></p>':'')+'</div></div>';
 
   // Prelim
   h+='<div class="rsurf"><div class="rsurf-head"><span>\uD83D\uDCCC</span><span>Study Information</span></div><div class="rbody">';
@@ -1864,12 +1874,13 @@ function doReview(){
 /* ── RECIPIENTS ── */
 function buildRecipients(){
   var set={};
-  (cfg.ccEmails||[]).forEach(function(e){if(e)set[e]=1;});
   (fd.region||[]).forEach(function(r){((cfg.regionalEmails||{})[r]||[]).forEach(function(e){if(e)set[e]=1;});});
   // Always include submitter and feasibility owner
   if(submitterEmail) set[submitterEmail]=1;
   var fo=getFeasibilityOwner();
   if(fo.email&&fo.email!==submitterEmail) set[fo.email]=1;
+  // Remove any CC addresses from TO to avoid duplication
+  (cfg.ccEmails||[]).forEach(function(e){if(e)delete set[e];});
   return Object.keys(set);
 }
 
@@ -1939,7 +1950,7 @@ function buildPlain(){
 function handleSubmit(){
   collectFields();
   $('btn-submit').disabled=true;
-  if(!cfg.clientId||!cfg.tenantId||!cfg.sharedMailbox){
+  if(!cfg.clientId||!cfg.tenantId){
     setOverlay(true,'Demo mode \u2014 simulating\u2026');
     setTimeout(function(){setOverlay(false);collectFields();saveDraft();markSubmitted();showSuccess();},1600);
     return;
@@ -1960,28 +1971,55 @@ function sendEmail(){
   var recs=buildRecipients();
   if(!recs.length) return Promise.resolve();
   var subj=(cfg.emailSubject||DC.emailSubject).replace('{sponsor}',fd['f-sponsor']||'').replace('{protocol}',fd['f-protocol']||'');
-  var msg={
-    message:{
-      subject:subj,
-      body:{contentType:'HTML',content:buildHtmlEmail()},
-      toRecipients:recs.map(function(a){return{emailAddress:{address:a}};}),
-      attachments:attachments.concat(fqAttachments).map(function(f){
-        return{'@odata.type':'#microsoft.graph.fileAttachment',name:f.name,contentType:f.contentType,contentBytes:f.data};
-      })
-    },
-    saveToSentItems:true
+
+  var allAttachments=attachments.concat(fqAttachments);
+  var totalRaw=allAttachments.reduce(function(s,f){return s+(f.size||0);},0);
+  var anyLarge=allAttachments.some(function(f){return f.size>3*1024*1024;});
+
+  var ccs=(cfg.ccEmails||[]).filter(Boolean);
+  var replyAddr=(cfg.replyToEmail||'Feasibility.Admin\x40novotech-cro.com').trim();
+
+  var baseMessage={
+    subject:subj,
+    body:{contentType:'HTML',content:buildHtmlEmail()},
+    toRecipients:recs.map(function(a){return{emailAddress:{address:a}};}),
+    ccRecipients:ccs.map(function(a){return{emailAddress:{address:a}};}),
+    replyTo:replyAddr?[{emailAddress:{address:replyAddr}}]:[]
   };
-  return fetch('https://graph.microsoft.com/v1.0/users/'+encodeURIComponent(cfg.sharedMailbox)+'/sendMail',{
-    method:'POST',
-    headers:{Authorization:'Bearer '+token,'Content-Type':'application/json'},
-    body:JSON.stringify(msg)
-  }).then(function(r){if(!r.ok) return r.json().then(function(e){throw new Error((e.error&&e.error.message)||'Email send failed');});});
+
+  // FAST PATH — total under ~2 MB raw and no individual file > 3 MB
+  if(!anyLarge&&totalRaw<2*1024*1024){
+    baseMessage.attachments=allAttachments.map(function(f){
+      return{'@odata.type':'#microsoft.graph.fileAttachment',name:f.name,contentType:f.contentType,contentBytes:f.data};
+    });
+    return graphFetch('/me/sendMail',{
+      method:'POST',
+      body:JSON.stringify({message:baseMessage,saveToSentItems:true})
+    });
+  }
+
+  // SLOW PATH — create draft, attach each file (chunked if large), then send
+  return graphFetch('/me/messages',{
+    method:'POST',body:JSON.stringify(baseMessage)
+  }).then(function(r){return r.json();}).then(function(draft){
+    var msgId=draft.id;
+    return allAttachments.reduce(function(p,f){
+      return p.then(function(){
+        setOverlay(true,'Uploading '+f.name+'\u2026');
+        return attachToDraft(msgId,f);
+      });
+    },Promise.resolve()).then(function(){
+      setOverlay(true,'Sending email\u2026');
+      return graphFetch('/me/messages/'+msgId+'/send',{method:'POST'});
+    });
+  });
 }
 
 function writeToExcel(){
-  if(!cfg.excelPath) return Promise.resolve();
+  if(!cfg.spHostname||!cfg.spSitePath||!cfg.spFilePath) return Promise.resolve();
   var crsStr=getActiveCountryRows().map(function(r){return r.country+'('+r.classification+')';}).join('; ');
   var fileNames=attachments.map(function(f){return f.name;}).join('; ');
+  var fo=getFeasibilityOwner();
   var vals=[[
     new Date().toISOString(),fd['f-protocol']||'',fd['f-nhh']||'',fd['f-sponsor']||'',
     (fd.region||[]).join('; '),(fd.support||[]).join('; '),fd.protocolStatus||'',fd['f-timelines']||'',
@@ -1989,11 +2027,78 @@ function writeToExcel(){
     crsStr,fd.siteList||'',fd['f-siteprefs']||'',(fd.facility||[]).join('; '),fd['f-sitedate']||'',
     fd.firstTime||'',fd.fqType||'',fd.cdaType||'',(fd.siteReqs||[]).join('; '),fd.fqApproval||'',
     fd['f-fqdate']||'',(fd.dateReason||[]).join('; '),
-    fileNames
+    fileNames,submitterName||'',submitterEmail||'',
+    fo.name||'',fo.email||''
   ]];
-  return fetch('https://graph.microsoft.com/v1.0/me/drive/root:'+cfg.excelPath+':/workbook/tables/'+(cfg.excelTable||'Submissions')+'/rows/add',{
-    method:'POST',headers:{Authorization:'Bearer '+token,'Content-Type':'application/json'},body:JSON.stringify({values:vals})
-  }).then(function(r){if(!r.ok) return r.json().then(function(e){throw new Error((e.error&&e.error.message)||'Excel write failed');});});
+  var path='/sites/'+cfg.spHostname+':'+cfg.spSitePath+':/drive/root:'+cfg.spFilePath+':/workbook/tables/'+(cfg.excelTable||'Submissions')+'/rows/add';
+  return graphFetch(path,{
+    method:'POST',
+    body:JSON.stringify({values:vals})
+  });
+}
+
+/* ── GRAPH HELPERS ── */
+function graphFetch(path,opts){
+  opts=opts||{};
+  opts.headers=Object.assign({'Authorization':'Bearer '+token,'Content-Type':'application/json'},opts.headers||{});
+  var url=path.indexOf('http')===0?path:'https://graph.microsoft.com/v1.0'+path;
+  return fetch(url,opts).then(function(r){
+    if(!r.ok){
+      return r.json().then(function(e){
+        throw new Error((e.error&&e.error.message)||('Graph error '+r.status));
+      });
+    }
+    return r;
+  });
+}
+
+function b64ToBytes(b64){
+  var bin=atob(b64);
+  var arr=new Uint8Array(bin.length);
+  for(var i=0;i<bin.length;i++) arr[i]=bin.charCodeAt(i);
+  return arr;
+}
+
+function attachToDraft(msgId,file){
+  if(file.size<=3*1024*1024){
+    return graphFetch('/me/messages/'+msgId+'/attachments',{
+      method:'POST',
+      body:JSON.stringify({
+        '@odata.type':'#microsoft.graph.fileAttachment',
+        name:file.name,contentType:file.contentType,contentBytes:file.data
+      })
+    });
+  }
+  return graphFetch('/me/messages/'+msgId+'/attachments/createUploadSession',{
+    method:'POST',
+    body:JSON.stringify({
+      AttachmentItem:{attachmentType:'file',name:file.name,size:file.size}
+    })
+  }).then(function(r){return r.json();}).then(function(session){
+    return uploadInChunks(session.uploadUrl,b64ToBytes(file.data));
+  });
+}
+
+function uploadInChunks(uploadUrl,bytes){
+  var CHUNK=5*320*1024; // 1.6 MiB — must be multiple of 320 KiB
+  var total=bytes.length;
+  var offset=0;
+  function next(){
+    if(offset>=total) return Promise.resolve();
+    var end=Math.min(offset+CHUNK,total);
+    var slice=bytes.subarray(offset,end);
+    var range='bytes '+offset+'-'+(end-1)+'/'+total;
+    return fetch(uploadUrl,{
+      method:'PUT',
+      headers:{'Content-Range':range},
+      body:slice
+    }).then(function(r){
+      if(!r.ok) throw new Error('Attachment chunk failed: HTTP '+r.status);
+      offset=end;
+      return next();
+    });
+  }
+  return next();
 }
 
 /* ── MSAL ── */
@@ -2072,7 +2177,8 @@ function saveConfig(){
 }
 function collectAdminFields(){
   cfg.clientId=$('cfg-client-id').value.trim();cfg.tenantId=$('cfg-tenant-id').value.trim();cfg.sharedMailbox=$('cfg-mailbox').value.trim();
-  cfg.excelPath=$('cfg-excel-path').value.trim();cfg.excelTable=$('cfg-excel-table').value.trim()||'Submissions';
+  cfg.spHostname=$('cfg-sp-hostname').value.trim();cfg.spSitePath=$('cfg-sp-site').value.trim();cfg.spFilePath=$('cfg-sp-file').value.trim();
+  cfg.excelTable=$('cfg-excel-table').value.trim()||'Submissions';cfg.replyToEmail=$('cfg-reply-to').value.trim();
   cfg.emailSubject=$('cfg-email-subject').value.trim();cfg.emailFooter=$('cfg-email-footer').value.trim();
   cfg.ccEmails=[].slice.call(document.querySelectorAll('#cc-list .cc-inp')).map(function(i){return i.value.trim();}).filter(Boolean);
   cfg.regionalEmails={};
@@ -2082,11 +2188,12 @@ function collectAdminFields(){
 }
 function applyToAdmin(){
   $('cfg-client-id').value=cfg.clientId||'';$('cfg-tenant-id').value=cfg.tenantId||'';$('cfg-mailbox').value=cfg.sharedMailbox||'';
-  $('cfg-excel-path').value=cfg.excelPath||'';$('cfg-excel-table').value=cfg.excelTable||'Submissions';
+  $('cfg-sp-hostname').value=cfg.spHostname||'';$('cfg-sp-site').value=cfg.spSitePath||'';$('cfg-sp-file').value=cfg.spFilePath||'';
+  $('cfg-excel-table').value=cfg.excelTable||'Submissions';$('cfg-reply-to').value=cfg.replyToEmail||'';
   $('cfg-email-subject').value=cfg.emailSubject||DC.emailSubject;$('cfg-email-footer').value=cfg.emailFooter||DC.emailFooter;
   renderCC();renderRouting();
   var st=$('cfg-status');
-  if(cfg.clientId&&cfg.tenantId&&cfg.sharedMailbox){st.className='cfg-status cfg-ok';st.textContent='\u2713 Azure AD configured';}
+  if(cfg.clientId&&cfg.tenantId){st.className='cfg-status cfg-ok';st.textContent='\u2713 Azure AD configured';}
   else{st.className='cfg-status cfg-warn';st.textContent='\u26a0 Not configured \u2014 demo mode';}
 }
 var REGIONS=['Asia','Australia / New Zealand','Europe / Africa','North America','China','Other'];
@@ -2132,7 +2239,7 @@ if($('btn-test-graph')) $('btn-test-graph').addEventListener('click',function(){
   toast('Testing\u2026');
   ensureToken().then(function(){return fetch('https://graph.microsoft.com/v1.0/me',{headers:{Authorization:'Bearer '+token}});}).then(function(r){return r.json();}).then(function(d){toast('Connected as '+(d.displayName||d.userPrincipalName),'ok');}).catch(function(e){toast('Error: '+e.message,'err');});
 });
-['cfg-client-id','cfg-tenant-id','cfg-mailbox','cfg-excel-path','cfg-excel-table','cfg-email-subject','cfg-email-footer'].forEach(function(id){var e=$(id);if(e)e.addEventListener('input',showSaveBar);});
+['cfg-client-id','cfg-tenant-id','cfg-mailbox','cfg-sp-hostname','cfg-sp-site','cfg-sp-file','cfg-excel-table','cfg-reply-to','cfg-email-subject','cfg-email-footer'].forEach(function(id){var e=$(id);if(e)e.addEventListener('input',showSaveBar);});
 
 /* ── SUCCESS / RESET ── */
 function showSuccess(){
