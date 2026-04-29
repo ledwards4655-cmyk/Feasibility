@@ -414,7 +414,6 @@ textarea{resize:vertical;min-height:84px;line-height:1.55}
         <div class="cfg-grid">
           <div class="cfg-field"><label>Client ID</label><input type="text" id="cfg-client-id" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"></div>
           <div class="cfg-field"><label>Tenant ID</label><input type="text" id="cfg-tenant-id" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"></div>
-          <div class="cfg-field" style="grid-column:1/-1"><label>Shared Mailbox <span style="font-weight:400;color:var(--ink4)">(legacy &mdash; no longer used for sending)</span></label><div class="fhint">Email now sends from the submitter&rsquo;s own mailbox. Reply-To is configured under Excel Storage below.</div><input type="email" id="cfg-mailbox" placeholder="Not required"></div>
         </div>
         <div class="cfg-status cfg-warn" id="cfg-status">&#9888; Not configured &mdash; form runs in demo mode</div>
         <div style="margin-top:16px"><button class="btn btn-primary" id="btn-test-graph">Test connection</button></div>
@@ -1092,7 +1091,7 @@ var TA_INDICATION_MAP = {
 var TA_KEYS = ["Blood Diseases", "Circulatory System", "Developmental Anomalies", "Digestive System", "Ear Diseases", "Endocrine Diseases", "Genitourinary System", "Health Status Factor", "Immune System", "Infectious Diseases", "Injury", "Mental Disorders", "Morbidity/Mortality", "Musculoskeletal System", "Nervous System", "Not Applicable", "Oncology", "Perinatal Conditions", "Pregnancy/Childbirth/Puerperium", "Respiratory System", "Sexual Health", "Skin Diseases", "Sleep-Wake Disorders", "Symptoms", "Unknown", "Visual System"];
 
 var DC={
-  clientId:'',tenantId:'',sharedMailbox:'',
+  clientId:'',tenantId:'',
   spHostname:'novonet.sharepoint.com',
   spSitePath:'/sites/CONewsandResources',
   spFilePath:'/Feasibility/FeasibilitySubmissions.xlsx',
@@ -1957,11 +1956,11 @@ function handleSubmit(){
   }
   setOverlay(true,'Authenticating\u2026');
   ensureToken().then(function(){
-    setOverlay(true,'Sending email\u2026');
-    return sendEmail();
-  }).then(function(){
     setOverlay(true,'Writing to Excel\u2026');
     return writeToExcel();
+  }).then(function(){
+    setOverlay(true,'Sending email\u2026');
+    return sendEmail();
   }).then(function(){setOverlay(false);markSubmitted();showSuccess();}).catch(function(e){
     setOverlay(false);$('btn-submit').disabled=false;toast('Error: '+e.message,'err');
   });
@@ -2176,7 +2175,7 @@ function saveConfig(){
   hideSaveBar();toast('Configuration saved','ok');initMSAL();updateBadge();
 }
 function collectAdminFields(){
-  cfg.clientId=$('cfg-client-id').value.trim();cfg.tenantId=$('cfg-tenant-id').value.trim();cfg.sharedMailbox=$('cfg-mailbox').value.trim();
+  cfg.clientId=$('cfg-client-id').value.trim();cfg.tenantId=$('cfg-tenant-id').value.trim();
   cfg.spHostname=$('cfg-sp-hostname').value.trim();cfg.spSitePath=$('cfg-sp-site').value.trim();cfg.spFilePath=$('cfg-sp-file').value.trim();
   cfg.excelTable=$('cfg-excel-table').value.trim()||'Submissions';cfg.replyToEmail=$('cfg-reply-to').value.trim();
   cfg.emailSubject=$('cfg-email-subject').value.trim();cfg.emailFooter=$('cfg-email-footer').value.trim();
@@ -2187,7 +2186,7 @@ function collectAdminFields(){
   });
 }
 function applyToAdmin(){
-  $('cfg-client-id').value=cfg.clientId||'';$('cfg-tenant-id').value=cfg.tenantId||'';$('cfg-mailbox').value=cfg.sharedMailbox||'';
+  $('cfg-client-id').value=cfg.clientId||'';$('cfg-tenant-id').value=cfg.tenantId||'';
   $('cfg-sp-hostname').value=cfg.spHostname||'';$('cfg-sp-site').value=cfg.spSitePath||'';$('cfg-sp-file').value=cfg.spFilePath||'';
   $('cfg-excel-table').value=cfg.excelTable||'Submissions';$('cfg-reply-to').value=cfg.replyToEmail||'';
   $('cfg-email-subject').value=cfg.emailSubject||DC.emailSubject;$('cfg-email-footer').value=cfg.emailFooter||DC.emailFooter;
@@ -2237,9 +2236,9 @@ if($('btn-add-cc')) $('btn-add-cc').addEventListener('click',function(){$('cc-li
 if($('btn-test-graph')) $('btn-test-graph').addEventListener('click',function(){
   if(!cfg.clientId||!cfg.tenantId){toast('Enter Client ID and Tenant ID first','err');return;}
   toast('Testing\u2026');
-  ensureToken().then(function(){return fetch('https://graph.microsoft.com/v1.0/me',{headers:{Authorization:'Bearer '+token}});}).then(function(r){return r.json();}).then(function(d){toast('Connected as '+(d.displayName||d.userPrincipalName),'ok');}).catch(function(e){toast('Error: '+e.message,'err');});
+  ensureToken().then(function(){return graphFetch('/me').then(function(r){return r.json();});}).then(function(d){toast('Connected as '+(d.displayName||d.userPrincipalName),'ok');}).catch(function(e){toast('Error: '+e.message,'err');});
 });
-['cfg-client-id','cfg-tenant-id','cfg-mailbox','cfg-sp-hostname','cfg-sp-site','cfg-sp-file','cfg-excel-table','cfg-reply-to','cfg-email-subject','cfg-email-footer'].forEach(function(id){var e=$(id);if(e)e.addEventListener('input',showSaveBar);});
+['cfg-client-id','cfg-tenant-id','cfg-sp-hostname','cfg-sp-site','cfg-sp-file','cfg-excel-table','cfg-reply-to','cfg-email-subject','cfg-email-footer'].forEach(function(id){var e=$(id);if(e)e.addEventListener('input',showSaveBar);});
 
 /* ── SUCCESS / RESET ── */
 function showSuccess(){
