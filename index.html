@@ -262,7 +262,12 @@ textarea{resize:vertical;min-height:84px;line-height:1.55}
 .fo-toggle-label input:checked~.fo-toggle-track .fo-toggle-thumb{transform:translateX(18px)}
 #fo-same-text{font-size:13.5px;font-weight:500;color:var(--ink)}
 
-/* ── LANDING PAGE ── */
+/* ============================================================================
+ * LANDING PAGE
+ * Shows saved drafts, submitted requests, and the "New Request" button.
+ * Draft/request data is stored in localStorage under 'feas_requests'.
+ * Each entry tracks: id, form data (fd), timestamp, status, submitted flag.
+ * ============================================================================ */
 #screen-landing{display:none;min-height:calc(100vh - 61px);background:var(--bg)}
 .landing-inner{max-width:860px;margin:0 auto;padding:48px 40px 80px}
 .landing-hero{margin-bottom:40px}
@@ -361,6 +366,58 @@ textarea{resize:vertical;min-height:84px;line-height:1.55}
 .cb-remove{background:none;border:none;cursor:pointer;color:var(--ink4);font-size:18px;line-height:1;padding:0;transition:color .15s;display:flex;align-items:center;justify-content:center;height:32px;width:32px}
 .cb-remove:hover{color:var(--red)}
 .cb-footer{padding:8px 12px;border-top:1px solid var(--surface2)}
+
+/* ── SUBMISSIONS INBOX ── */
+.inbox-bar{display:flex;gap:10px;align-items:center;padding:14px 24px;border-bottom:1px solid var(--rule);flex-wrap:wrap}
+.inbox-bar input,.inbox-bar select{padding:7px 12px;font-size:13px;border:1.5px solid var(--rule);border-radius:var(--rsm);font-family:Inter,sans-serif;color:var(--ink);background:var(--white)}
+.inbox-bar input{max-width:320px;flex:1}
+.inbox-bar select{min-width:140px}
+.inbox-count{font-size:12px;color:var(--ink4);margin-left:auto}
+.itable{width:100%;border-collapse:collapse;font-size:13px}
+.itable th{text-align:left;padding:10px 14px;font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--ink4);border-bottom:2px solid var(--rule);cursor:pointer;user-select:none;white-space:nowrap}
+.itable th:hover{color:var(--teal)}
+.itable th .sort-icon{margin-left:4px;font-size:10px;opacity:.4}
+.itable th.sorted .sort-icon{opacity:1;color:var(--teal)}
+.itable td{padding:10px 14px;border-bottom:1px solid var(--rule);color:var(--ink2);vertical-align:middle}
+.itable tr:hover td{background:var(--teal-bg)}
+.itable tr{cursor:pointer;transition:background .1s}
+.sbadge{display:inline-block;font-size:11px;font-weight:700;padding:2px 9px;border-radius:4px;white-space:nowrap}
+.sbadge-new{background:#DBEAFE;color:#2563EB}
+.sbadge-inreview{background:var(--teal-bg);color:var(--teal)}
+.sbadge-inprogress{background:var(--amber-bg,#FEF3C7);color:var(--amber,#D97706)}
+.sbadge-onhold{background:var(--surface);color:var(--ink4)}
+.sbadge-complete{background:#DCFCE7;color:#16A34A}
+.sbadge-cancelled{background:#FEE2E2;color:#DC2626}
+.sbadge-sent{background:#DCFCE7;color:#16A34A}
+.sbadge-failed{background:#FEE2E2;color:#DC2626}
+/* Detail panel */
+.detail-overlay{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:500;display:flex;justify-content:flex-end;opacity:0;transition:opacity .2s}
+.detail-overlay.open{opacity:1}
+.detail-panel{width:min(720px,92vw);height:100vh;background:var(--bg);overflow-y:auto;box-shadow:-8px 0 30px rgba(0,0,0,.12);transform:translateX(100%);transition:transform .25s ease}
+.detail-overlay.open .detail-panel{transform:translateX(0)}
+.dp-head{padding:24px 28px 16px;border-bottom:1px solid var(--rule);display:flex;align-items:flex-start;gap:16px;background:var(--white);position:sticky;top:0;z-index:1}
+.dp-head-info{flex:1;min-width:0}
+.dp-head-info h2{font-size:18px;font-weight:700;color:var(--navy);margin:0 0 4px}
+.dp-head-info .dp-meta{font-size:12px;color:var(--ink4)}
+.dp-close{background:none;border:none;font-size:20px;cursor:pointer;color:var(--ink4);padding:4px 8px;border-radius:6px}
+.dp-close:hover{background:var(--surface);color:var(--ink)}
+.dp-status-row{display:flex;align-items:center;gap:10px;padding:16px 28px;background:var(--white);border-bottom:1px solid var(--rule)}
+.dp-status-row select{padding:6px 10px;font-size:13px;border:1.5px solid var(--rule);border-radius:var(--rsm);font-family:Inter,sans-serif}
+.dp-status-row .btn{font-size:12px;padding:6px 14px}
+.dp-section{padding:20px 28px;border-bottom:1px solid var(--rule)}
+.dp-section h3{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--teal);margin:0 0 14px}
+.dp-field{display:flex;gap:12px;margin-bottom:10px;font-size:13.5px}
+.dp-field-label{width:160px;flex-shrink:0;font-weight:600;color:var(--ink4);padding-top:2px}
+.dp-field-value{flex:1;color:var(--ink);word-break:break-word;white-space:pre-wrap}
+.dp-field-value:empty::after{content:'—';color:var(--ink4)}
+.dp-field input,.dp-field textarea,.dp-field select{width:100%;padding:6px 10px;font-size:13px;border:1.5px solid var(--rule);border-radius:var(--rsm);font-family:Inter,sans-serif;color:var(--ink);background:var(--white)}
+.dp-field textarea{min-height:60px;resize:vertical}
+.dp-edit-bar{padding:16px 28px;border-bottom:1px solid var(--rule);display:flex;gap:10px;background:var(--surface)}
+.dp-actions{padding:20px 28px;display:flex;gap:10px}
+.dp-email-preview{border:1px solid var(--rule);border-radius:var(--rsm);background:var(--white);max-height:400px;overflow:auto;padding:0}
+.dp-email-preview iframe{width:100%;min-height:300px;border:none}
+.inbox-empty{padding:48px;text-align:center;color:var(--ink4);font-size:14px}
+.inbox-loading{padding:48px;text-align:center;color:var(--ink4);font-size:13px}
 </style>
 </head>
 <body>
@@ -420,35 +477,14 @@ textarea{resize:vertical;min-height:84px;line-height:1.55}
       </div>
     </div>
     <div class="asec">
-      <div class="asec-head"><h2>&#9993; Email Routing</h2><p>Always-CC gets every submission. Regional TO addresses are triggered by selected regions.</p></div>
-      <div class="asec-body">
-        <div style="margin-bottom:20px">
-          <label class="flabel">Always CC (every submission)</label>
-          <div id="cc-list"></div>
-          <button class="btn-add" id="btn-add-cc">+ Add CC address</button>
-        </div>
-        <div style="height:1px;background:var(--rule);margin-bottom:20px"></div>
-        <label class="flabel" style="margin-bottom:12px">Regional TO addresses</label>
-        <table class="rtable"><thead><tr><th style="width:160px">Region</th><th>TO Email Addresses</th></tr></thead><tbody id="routing-tbody"></tbody></table>
-      </div>
-    </div>
-    <div class="asec">
-      <div class="asec-head"><h2>&#128202; Excel Storage (SharePoint)</h2><p>Each submission appends a row via Microsoft Graph</p></div>
+      <div class="asec-head"><h2>&#128202; SharePoint List</h2><p>Each submission creates a list item and uploads attachments via Microsoft Graph</p></div>
       <div class="asec-body">
         <div class="cfg-grid">
-          <div class="cfg-field"><label>SharePoint hostname</label><div class="fhint">e.g. <code style="font-size:12px;background:var(--surface2);padding:1px 5px;border-radius:3px">novonet.sharepoint.com</code></div><input type="text" id="cfg-sp-hostname" placeholder="novonet.sharepoint.com"></div>
+          <div class="cfg-field"><label>SharePoint hostname</label><div class="fhint">e.g. <code style="font-size:12px;background:var(--surface2);padding:1px 5px;border-radius:3px">novotech.sharepoint.com</code></div><input type="text" id="cfg-sp-hostname" placeholder="novotech.sharepoint.com"></div>
           <div class="cfg-field"><label>Site path</label><div class="fhint">e.g. <code style="font-size:12px;background:var(--surface2);padding:1px 5px;border-radius:3px">/sites/CONewsandResources</code></div><input type="text" id="cfg-sp-site" placeholder="/sites/CONewsandResources"></div>
-          <div class="cfg-field" style="grid-column:1/-1"><label>File path within Documents library</label><div class="fhint">Path inside the default Documents library. e.g. <code style="font-size:12px;background:var(--surface2);padding:1px 5px;border-radius:3px">/Feasibility/FeasibilitySubmissions.xlsx</code></div><input type="text" id="cfg-sp-file" placeholder="/Feasibility/FeasibilitySubmissions.xlsx"></div>
-          <div class="cfg-field"><label>Table name</label><input type="text" id="cfg-excel-table" placeholder="Submissions"></div>
-          <div class="cfg-field"><label>Reply-To address</label><div class="fhint">Replies go here instead of the submitter</div><input type="email" id="cfg-reply-to" placeholder="Feasibility.Admin@novotech-cro.com"></div>
+          <div class="cfg-field"><label>List name</label><div class="fhint">Display name of the SharePoint List that stores submissions</div><input type="text" id="cfg-list-name" placeholder="Feasibility Requests"></div>
+          <div class="cfg-field"><label>Attachment folder</label><div class="fhint">Folder path within the default Documents library for uploaded files</div><input type="text" id="cfg-attach-path" placeholder="/Feasibility-Attachments"></div>
         </div>
-      </div>
-    </div>
-    <div class="asec">
-      <div class="asec-head"><h2>&#128140; Email Template</h2><p>Subject line and footer text for submission emails</p></div>
-      <div class="asec-body">
-        <div class="field"><label class="flabel">Subject line</label><div class="fhint">Use <code style="font-size:12px;background:var(--surface2);padding:1px 4px;border-radius:3px">{sponsor}</code> and <code style="font-size:12px;background:var(--surface2);padding:1px 4px;border-radius:3px">{protocol}</code> as placeholders.</div><input type="text" id="cfg-email-subject"></div>
-        <div><label class="flabel">Footer note</label><textarea id="cfg-email-footer" rows="2"></textarea></div>
       </div>
     </div>
     <div class="save-bar" id="save-bar">
@@ -462,7 +498,7 @@ textarea{resize:vertical;min-height:84px;line-height:1.55}
 </div>
 
 <!-- ═══ FORM APP ═══ -->
-<div id="form-app" style="display:block">
+<div id="form-app" style="display:none">
   <div class="shell">
     <aside class="sidebar">
       <div class="sidebar-head">Form Sections</div>
@@ -1017,46 +1053,80 @@ textarea{resize:vertical;min-height:84px;line-height:1.55}
     </div>
   </div>
 
-  <!-- ── ADMIN SUBMISSIONS SCREEN ── -->
+  <!-- ── SUBMISSIONS INBOX ── -->
   <div id="screen-admin-subs" style="display:none;min-height:100vh;background:var(--bg)">
     <div class="admin-topbar">
-      <span class="admin-label">&#128203; Feasibility Admin &mdash; All Submissions</span>
-      <button class="admin-exit-btn" id="btn-admin-subs-exit">&#8592; Exit admin view</button>
+      <span class="admin-label">&#128203; Feasibility Submissions Inbox</span>
+      <button class="admin-exit-btn" id="btn-admin-subs-exit">&#8592; Back</button>
     </div>
-    <div class="admin-main" style="max-width:1100px">
+    <div class="admin-main" style="max-width:1200px">
       <div class="asec">
         <div class="asec-head">
-          <h2>Submission Inbox</h2>
-          <p>All requests submitted via this tool. Click any row to expand and edit. In production, this reads from the shared Excel file via Graph API.</p>
+          <h2>All Submissions</h2>
+          <p>Live data from the SharePoint List. Click any row to view details, update status, or edit fields.</p>
         </div>
         <div class="asec-body" style="padding:0">
-          <div style="padding:14px 24px;border-bottom:1px solid var(--rule);display:flex;gap:10px;align-items:center">
-            <input type="text" id="admin-search" placeholder="Search by sponsor, protocol, or feasibility owner…" style="max-width:340px;font-size:13px;padding:7px 12px">
-            <select id="admin-filter-status" style="padding:7px 12px;font-size:13px;border:1.5px solid var(--rule);border-radius:var(--rsm);font-family:Inter,sans-serif;color:var(--ink);background:var(--white)">
+          <div class="inbox-bar">
+            <input type="text" id="inbox-search" placeholder="Search by sponsor, protocol, submitter&hellip;">
+            <select id="inbox-status-filter">
               <option value="">All statuses</option>
-              <option value="submitted">Submitted</option>
-              <option value="draft">Draft</option>
+              <option value="New">New</option>
+              <option value="In Review">In Review</option>
+              <option value="In Progress">In Progress</option>
+              <option value="On Hold">On Hold</option>
+              <option value="Complete">Complete</option>
+              <option value="Sent">Sent</option>
+              <option value="Failed">Failed</option>
+              <option value="Cancelled">Cancelled</option>
             </select>
-            <button class="btn btn-ghost" id="btn-admin-refresh" type="button" style="font-size:12px;padding:7px 14px">&#8635; Refresh</button>
+            <button class="btn btn-ghost" id="btn-inbox-refresh" type="button" style="font-size:12px;padding:7px 14px">&#8635; Refresh</button>
+            <span class="inbox-count" id="inbox-count"></span>
           </div>
-          <div id="admin-subs-table"></div>
-        </div>
-      </div>
-      <div class="asec" id="admin-email-config-sec">
-        <div class="asec-head"><h2>Admin Notification Email</h2><p>Email address(es) that receive a copy of every submission. Separate multiple with commas.</p></div>
-        <div class="asec-body">
-          <div class="cfg-field" style="max-width:480px"><label>Admin email address(es)</label><input type="text" id="cfg-admin-emails" placeholder="e.g. admin1@novotech-cro.com, admin2@novotech-cro.com"></div>
-          <button class="btn btn-primary" id="btn-save-admin-emails" type="button" style="margin-top:12px">Save</button>
+          <div id="inbox-table-wrap"><div class="inbox-loading">Authenticating&hellip;</div></div>
         </div>
       </div>
     </div>
   </div>
+  <!-- Detail panel (rendered dynamically, inserted into body) -->
 
 <div class="overlay" id="overlay"><div class="spinner"></div><div class="overlay-text" id="overlay-text">Submitting&hellip;</div></div>
 <div class="toast" id="toast"></div>
 
 <script>
 (function(){
+/**
+ * ============================================================================
+ * NOVOTECH POST-AWARD FEASIBILITY REQUEST TOOL
+ * ============================================================================
+ *
+ * Single-page web form that collects feasibility request data from Project
+ * Managers and Clinical Leads, writes it to a SharePoint List, and uploads
+ * supporting documents to a SharePoint document library.
+ *
+ * Architecture:
+ *   Frontend (this file)  →  Azure AD (MSAL.js)  →  Microsoft Graph API
+ *       ├── Creates list items in a SharePoint List
+ *       ├── Uploads file attachments to a Documents library folder
+ *       └── Pre-renders the HTML email body for Power Automate to send
+ *
+ *   Power Automate (separate flow, not in this file):
+ *       ├── Triggers on new list item creation
+ *       ├── Reads EmailSubject and EmailBodyHTML fields
+ *       ├── Picks up files from the AttachmentFolder path
+ *       ├── Routes email to regional leads based on Regions field
+ *       └── Updates the Status field on completion
+ *
+ * Key dependencies:
+ *   - MSAL.js 2.38.0 (loaded from alcdn.msauth.net CDN)
+ *   - Microsoft Graph API v1.0
+ *   - Azure AD app registration with Sites.ReadWrite.All + User.Read
+ *
+ * Configuration:
+ *   Admin panel (gear icon on landing page) stores config in localStorage.
+ *   For production, hardcode clientId and tenantId in the DC object below.
+ *
+ * ============================================================================
+ */
 'use strict';
 
 /* ── DEFAULT CONFIG ── */
@@ -1090,17 +1160,17 @@ var TA_INDICATION_MAP = {
 };
 var TA_KEYS = ["Blood Diseases", "Circulatory System", "Developmental Anomalies", "Digestive System", "Ear Diseases", "Endocrine Diseases", "Genitourinary System", "Health Status Factor", "Immune System", "Infectious Diseases", "Injury", "Mental Disorders", "Morbidity/Mortality", "Musculoskeletal System", "Nervous System", "Not Applicable", "Oncology", "Perinatal Conditions", "Pregnancy/Childbirth/Puerperium", "Respiratory System", "Sexual Health", "Skin Diseases", "Sleep-Wake Disorders", "Symptoms", "Unknown", "Visual System"];
 
+/**
+ * Default configuration. Overridden by values saved in localStorage via the
+ * Admin panel. clientId and tenantId are required for live mode; without them
+ * the form runs in demo mode (no API calls, simulated submission).
+ */
 var DC={
   clientId:'',tenantId:'',
   spHostname:'novonet.sharepoint.com',
   spSitePath:'/sites/CONewsandResources',
-  spFilePath:'/Feasibility/FeasibilitySubmissions.xlsx',
-  excelTable:'Submissions',
-  replyToEmail:'Feasibility.Admin\x40novotech-cro.com',
-  emailSubject:'Post-Award Feasibility Request \u2014 {sponsor} \u00b7 {protocol}',
-  emailFooter:'This is an automated notification from the Novotech Feasibility Request Tool. Reply to this email to add further information.',
-  ccEmails:['Feasibility.Admin\x40novotech-cro.com'],
-  regionalEmails:{'Asia':[],'Australia / New Zealand':[],'Europe / Africa':[],'North America':[],'China':[],'Other':[]}
+  listName:'Feasibility Requests',
+  attachmentPath:'/Feasibility-Attachments'
 };
 var cfg={},msalApp=null,token=null;
 
@@ -1316,7 +1386,11 @@ document.querySelectorAll('.nav-step[data-step]').forEach(function(el){
   });
 });
 
-/* ── COLLECT ── */
+/* ============================================================================
+ * FORM DATA COLLECTION
+ * Reads all form inputs into the flat `fd` object keyed by FMAP entries.
+ * Called before submission and before rendering the review step.
+ * ============================================================================ */
 var FMAP={
   prelim:['f-protocol','f-nhh','f-sponsor','f-other-region','f-fo-name','f-fo-email'],
   support:['f-comments','f-other-support','f-kom-date'],
@@ -1729,7 +1803,13 @@ function syncAdminBtn(){
 var _origUpdateBadge=updateBadge;
 updateBadge=function(){_origUpdateBadge();syncAdminBtn();};
 
-/* ── FILE UPLOAD ── */
+/* ============================================================================
+ * FILE ATTACHMENT HANDLERS
+ * Manages two attachment arrays: `attachments[]` (general docs, Q7) and
+ * `fqAttachments[]` (FQ-specific docs, Part B). Each file is read as base64
+ * via FileReader and stored with metadata. On submit, both arrays are combined
+ * and uploaded to the SharePoint Documents library.
+ * ============================================================================ */
 var fileDrop=$('file-drop');
 var fileInput=$('file-input');
 
@@ -1784,7 +1864,11 @@ function formatSize(bytes){
   return (bytes/(1024*1024)).toFixed(1)+'MB';
 }
 
-/* ── REVIEW ── */
+/* ============================================================================
+ * REVIEW STEP
+ * Renders a read-only summary of all form data for user verification
+ * before submitting. Shown as the final step before the Submit button.
+ * ============================================================================ */
 function doReview(){
   collectFields();
   var esc=escHtml;
@@ -1793,10 +1877,9 @@ function doReview(){
   var rowP=function(k,v){return v?'<div class="rrow"><div class="rk">'+k+'</div><div class="rv pre">'+esc(v)+'</div></div>':'';};
   var rowC=function(k,a){return(a&&a.length)?'<div class="rrow"><div class="rk">'+k+'</div><div class="rv">'+a.map(chip).join('')+'</div></div>':'';};
   var parts=[partA?'Part A':'',partB?'Part B':'',partC?'Part C':''].filter(Boolean).join(', ')||'General Support / Country Strategy';
-  var recips=buildRecipients().join(', ')||'No recipients configured (demo mode)';
-  var ccList=(cfg.ccEmails||[]).filter(Boolean).join(', ');
+  var selectedRegions=(fd.region||[]).join(', ')||'No regions selected';
 
-  var h='<div class="ccard"><div class="ccard-icon">\uD83D\uDD0D</div><div><h3>Almost done</h3><p>To: <strong style="color:rgba(255,255,255,.9)">'+esc(recips)+'</strong></p>'+(ccList?'<p style="margin-top:4px">CC: <strong style="color:rgba(255,255,255,.7)">'+esc(ccList)+'</strong></p>':'')+'</div></div>';
+  var h='<div class="ccard"><div class="ccard-icon">\uD83D\uDD0D</div><div><h3>Almost done</h3><p>Regional feasibility leads for <strong style="color:rgba(255,255,255,.9)">'+esc(selectedRegions)+'</strong> will be notified via email.</p></div></div>';
 
   // Prelim
   h+='<div class="rsurf"><div class="rsurf-head"><span>\uD83D\uDCCC</span><span>Study Information</span></div><div class="rbody">';
@@ -1870,20 +1953,16 @@ function doReview(){
   goTo('review');
 }
 
-/* ── RECIPIENTS ── */
-function buildRecipients(){
-  var set={};
-  (fd.region||[]).forEach(function(r){((cfg.regionalEmails||{})[r]||[]).forEach(function(e){if(e)set[e]=1;});});
-  // Always include submitter and feasibility owner
-  if(submitterEmail) set[submitterEmail]=1;
-  var fo=getFeasibilityOwner();
-  if(fo.email&&fo.email!==submitterEmail) set[fo.email]=1;
-  // Remove any CC addresses from TO to avoid duplication
-  (cfg.ccEmails||[]).forEach(function(e){if(e)delete set[e];});
-  return Object.keys(set);
-}
-
-/* ── EMAIL HTML ── */
+/* ============================================================================
+ * EMAIL HTML BUILDER
+ * Pre-renders the full HTML email body with Novotech branding. This HTML
+ * is written to the EmailBodyHTML field on the SharePoint List item.
+ * Power Automate reads this field and sends it as the email body as-is,
+ * so all formatting, tables, and styling are controlled here.
+ *
+ * The email includes: study information, selected support types, country
+ * timelines, part-specific details, and the list of uploaded files.
+ * ============================================================================ */
 function buildHtmlEmail(){
   var esc=escHtml;
   var pre=function(s){return esc(s||'\u2014').replace(/\n/g,'<br>');};
@@ -1925,7 +2004,7 @@ function buildHtmlEmail(){
   }
   if(partB) b+=sec('B','Part B &mdash; FQ Template Development',row('First Time Feasibility',fd.firstTime)+(fd['f-fqchanges']?rowP('FQ Changes',fd['f-fqchanges']):'')+row('FQ Type',fd.fqType)+(fd['f-blindedreason']?row('Blinded Reason',fd['f-blindedreason']):'')+row('CDA Type',fd.cdaType)+rowC('Critical Site Criteria',fd.siteReqs)+(fd['f-other-siteReqs']?row('Other criteria',fd['f-other-siteReqs']):'')+row('FQ Approval By',fd.fqApproval));
   if(partC) b+=sec('C','Part C &mdash; Site Outreach Request',row('Target Response Date',fd['f-fqdate'])+rowC('Reason for Date',fd.dateReason)+(fd['f-other-dateReason']?row('Other reason',fd['f-other-dateReason']):''));
-  b+='<div style="margin-top:24px;padding:14px 0 22px;border-top:1px solid #EEEAE2;font-size:12px;color:#A8A29E;line-height:1.6">'+esc(cfg.emailFooter||DC.emailFooter)+'</div></div></div>';
+  b+='<div style="margin-top:24px;padding:14px 0 22px;border-top:1px solid #EEEAE2;font-size:12px;color:#A8A29E;line-height:1.6">'+esc('This is an automated notification from the Novotech Feasibility Request Tool. Reply to this email to add further information.')+'</div></div></div>';
   return b;
 }
 
@@ -1945,7 +2024,30 @@ function buildPlain(){
   return lines.filter(function(l){return l!==null&&l!==undefined;}).join('\n');
 }
 
-/* ── SUBMIT ── */
+/* ============================================================================
+ * SUBMISSION PIPELINE
+ * handleSubmit() → createListItem() → uploadAttachments()
+ *
+ * Flow:
+ * 1. Collect form data
+ * 2. Authenticate via MSAL (or simulate in demo mode)
+ * 3. Create a SharePoint List item with all field data + pre-rendered email
+ * 4. Upload attachments to a Documents library folder
+ * 5. Show success screen
+ *
+ * Power Automate triggers on the new list item and handles email delivery.
+ * ============================================================================ */
+/**
+ * SUBMISSION HANDLER
+ * Called when the user clicks Submit on the review step.
+ * Flow: authenticate → create SharePoint List item → upload attachments
+ *
+ * In demo mode (no clientId/tenantId configured), simulates the submission
+ * with a 1.6-second delay and skips all API calls.
+ *
+ * The list item includes all form data plus a pre-rendered HTML email body
+ * and subject line. Power Automate picks up from there to send the email.
+ */
 function handleSubmit(){
   collectFields();
   $('btn-submit').disabled=true;
@@ -1956,151 +2058,163 @@ function handleSubmit(){
   }
   setOverlay(true,'Authenticating\u2026');
   ensureToken().then(function(){
-    setOverlay(true,'Writing to Excel\u2026');
-    return writeToExcel();
+    setOverlay(true,'Submitting request\u2026');
+    return createListItem();
   }).then(function(){
-    setOverlay(true,'Sending email\u2026');
-    return sendEmail();
+    var allAtt=attachments.concat(fqAttachments);
+    if(!allAtt.length) return;
+    setOverlay(true,'Uploading attachments\u2026');
+    return uploadAttachments(allAtt);
   }).then(function(){setOverlay(false);markSubmitted();showSuccess();}).catch(function(e){
     setOverlay(false);$('btn-submit').disabled=false;toast('Error: '+e.message,'err');
   });
 }
 
-function sendEmail(){
-  var recs=buildRecipients();
-  if(!recs.length) return Promise.resolve();
-  var subj=(cfg.emailSubject||DC.emailSubject).replace('{sponsor}',fd['f-sponsor']||'').replace('{protocol}',fd['f-protocol']||'');
+var currentSubmissionId='';
 
-  var allAttachments=attachments.concat(fqAttachments);
-  var totalRaw=allAttachments.reduce(function(s,f){return s+(f.size||0);},0);
-  var anyLarge=allAttachments.some(function(f){return f.size>3*1024*1024;});
+/**
+ * Creates a new item in the SharePoint List with all form field values.
+ * Generates a unique submission ID (SUB-YYYYMMDDHHMMSS-xxxx) used as the
+ * list item Title and as the attachment folder name.
+ *
+ * Fields written to the list item:
+ *   - All form data (Protocol, Sponsor, Regions, Countries, etc.)
+ *   - AttachmentFolder: path where uploaded files will be stored
+ *   - EmailSubject: pre-computed subject line for Power Automate
+ *   - EmailBodyHTML: full HTML email body for Power Automate
+ *
+ * Graph endpoint: POST /sites/{host}:/{site}:/lists/{name}/items
+ */
+function createListItem(){
+  if(!cfg.spHostname||!cfg.spSitePath||!cfg.listName) return Promise.reject(new Error('SharePoint List not configured'));
+  var subj='Post-Award Feasibility Request \u2014 '+(fd['f-sponsor']||'Unknown Sponsor')+' \u00b7 '+(fd['f-protocol']||'Unknown Protocol');
+  var fo=getFeasibilityOwner();
+  var crsStr=getActiveCountryRows().map(function(r){return r.country+'('+r.classification+')';}).join('; ');
+  var allAtt=attachments.concat(fqAttachments);
 
-  var ccs=(cfg.ccEmails||[]).filter(Boolean);
-  var replyAddr=(cfg.replyToEmail||'Feasibility.Admin\x40novotech-cro.com').trim();
+  currentSubmissionId='SUB-'+new Date().toISOString().replace(/[-:T]/g,'').slice(0,14)+'-'+Math.random().toString(36).slice(2,6);
 
-  var baseMessage={
-    subject:subj,
-    body:{contentType:'HTML',content:buildHtmlEmail()},
-    toRecipients:recs.map(function(a){return{emailAddress:{address:a}};}),
-    ccRecipients:ccs.map(function(a){return{emailAddress:{address:a}};}),
-    replyTo:replyAddr?[{emailAddress:{address:replyAddr}}]:[]
+  var fields={
+    Title:currentSubmissionId,
+    Protocol:fd['f-protocol']||'',
+    NHHCode:fd['f-nhh']||'',
+    Sponsor:fd['f-sponsor']||'',
+    Regions:(fd.region||[]).join('; '),
+    SupportRequested:(fd.support||[]).join('; '),
+    ProtocolStatus:fd.protocolStatus||'',
+    Timelines:fd['f-timelines']||'',
+    PartA:partA?'Yes':'No',
+    PartB:partB?'Yes':'No',
+    PartC:partC?'Yes':'No',
+    Countries:crsStr,
+    SiteListApproach:fd.siteList||'',
+    SitePreferences:fd['f-siteprefs']||'',
+    FacilityType:(fd.facility||[]).join('; '),
+    SiteListDate:fd['f-sitedate']||'',
+    FirstTimeFeasibility:fd.firstTime||'',
+    FQType:fd.fqType||'',
+    CDAType:fd.cdaType||'',
+    SiteRequirements:(fd.siteReqs||[]).join('; '),
+    FQApproval:fd.fqApproval||'',
+    FQResponseDate:fd['f-fqdate']||'',
+    DateReason:(fd.dateReason||[]).join('; '),
+    AttachmentNames:allAtt.map(function(f){return f.name;}).join('; '),
+    AttachmentFolder:allAtt.length?(cfg.attachmentPath||'/Feasibility-Attachments')+'/'+currentSubmissionId:'',
+    SubmitterName:submitterName||'',
+    SubmitterEmail:submitterEmail||'',
+    FOName:fo.name||'',
+    FOEmail:fo.email||'',
+    EmailSubject:subj,
+    EmailBodyHTML:buildHtmlEmail()
   };
 
-  // FAST PATH — total under ~2 MB raw and no individual file > 3 MB
-  if(!anyLarge&&totalRaw<2*1024*1024){
-    baseMessage.attachments=allAttachments.map(function(f){
-      return{'@odata.type':'#microsoft.graph.fileAttachment',name:f.name,contentType:f.contentType,contentBytes:f.data};
-    });
-    return graphFetch('/me/sendMail',{
-      method:'POST',
-      body:JSON.stringify({message:baseMessage,saveToSentItems:true})
-    });
-  }
+  var listPath=encodeURIComponent(cfg.listName);
+  var path='/sites/'+cfg.spHostname+':'+cfg.spSitePath+':/lists/'+listPath+'/items';
+  return graphFetch(path,{method:'POST',body:JSON.stringify({fields:fields})});
+}
 
-  // SLOW PATH — create draft, attach each file (chunked if large), then send
-  return graphFetch('/me/messages',{
-    method:'POST',body:JSON.stringify(baseMessage)
-  }).then(function(r){return r.json();}).then(function(draft){
-    var msgId=draft.id;
-    return allAttachments.reduce(function(p,f){
-      return p.then(function(){
-        setOverlay(true,'Uploading '+f.name+'\u2026');
-        return attachToDraft(msgId,f);
+/**
+ * Uploads all form attachments to a SharePoint Documents library folder.
+ * Files are stored under: /{attachmentPath}/{submissionId}/{filename}
+ *
+ * Uses direct PUT for files up to 4 MB and an upload session with chunked
+ * PUT for files over 4 MB (up to the 10 MB per-file UI limit).
+ * The folder is auto-created by the Graph API on first file upload.
+ *
+ * Graph endpoint: PUT /sites/{host}:/{site}:/drive/root:/{path}:/content
+ */
+function uploadAttachments(allAtt){
+  var folderPath=(cfg.attachmentPath||'/Feasibility-Attachments')+'/'+currentSubmissionId;
+  var sitePath='/sites/'+cfg.spHostname+':'+cfg.spSitePath+':/drive/root:'+folderPath+'/';
+
+  return allAtt.reduce(function(p,f){
+    return p.then(function(){
+      setOverlay(true,'Uploading '+f.name+'\u2026');
+      var bytes=b64ToBytes(f.data);
+      var filePath=sitePath+encodeURIComponent(f.name)+':/content';
+      if(bytes.length<=4*1024*1024){
+        return fetch('https://graph.microsoft.com/v1.0'+filePath,{
+          method:'PUT',
+          headers:{'Authorization':'Bearer '+token,'Content-Type':f.contentType||'application/octet-stream'},
+          body:bytes
+        }).then(function(r){if(!r.ok) throw new Error('Upload failed for '+f.name+': HTTP '+r.status);});
+      }
+      var sessionPath=sitePath+encodeURIComponent(f.name)+':/createUploadSession';
+      return graphFetch(sessionPath,{
+        method:'POST',
+        body:JSON.stringify({item:{'@microsoft.graph.conflictBehavior':'rename'}})
+      }).then(function(r){return r.json();}).then(function(session){
+        return uploadInChunks(session.uploadUrl,bytes);
       });
-    },Promise.resolve()).then(function(){
-      setOverlay(true,'Sending email\u2026');
-      return graphFetch('/me/messages/'+msgId+'/send',{method:'POST'});
     });
-  });
+  },Promise.resolve());
 }
 
-function writeToExcel(){
-  if(!cfg.spHostname||!cfg.spSitePath||!cfg.spFilePath) return Promise.resolve();
-  var crsStr=getActiveCountryRows().map(function(r){return r.country+'('+r.classification+')';}).join('; ');
-  var fileNames=attachments.map(function(f){return f.name;}).join('; ');
-  var fo=getFeasibilityOwner();
-  var vals=[[
-    new Date().toISOString(),fd['f-protocol']||'',fd['f-nhh']||'',fd['f-sponsor']||'',
-    (fd.region||[]).join('; '),(fd.support||[]).join('; '),fd.protocolStatus||'',fd['f-timelines']||'',
-    partA?'Yes':'No',partB?'Yes':'No',partC?'Yes':'No',
-    crsStr,fd.siteList||'',fd['f-siteprefs']||'',(fd.facility||[]).join('; '),fd['f-sitedate']||'',
-    fd.firstTime||'',fd.fqType||'',fd.cdaType||'',(fd.siteReqs||[]).join('; '),fd.fqApproval||'',
-    fd['f-fqdate']||'',(fd.dateReason||[]).join('; '),
-    fileNames,submitterName||'',submitterEmail||'',
-    fo.name||'',fo.email||''
-  ]];
-  var path='/sites/'+cfg.spHostname+':'+cfg.spSitePath+':/drive/root:'+cfg.spFilePath+':/workbook/tables/'+(cfg.excelTable||'Submissions')+'/rows/add';
-  return graphFetch(path,{
-    method:'POST',
-    body:JSON.stringify({values:vals})
-  });
-}
-
-/* ── GRAPH HELPERS ── */
+/* \u2500\u2500 GRAPH HELPERS \u2500\u2500 */
 function graphFetch(path,opts){
   opts=opts||{};
   opts.headers=Object.assign({'Authorization':'Bearer '+token,'Content-Type':'application/json'},opts.headers||{});
   var url=path.indexOf('http')===0?path:'https://graph.microsoft.com/v1.0'+path;
   return fetch(url,opts).then(function(r){
-    if(!r.ok){
-      return r.json().then(function(e){
-        throw new Error((e.error&&e.error.message)||('Graph error '+r.status));
-      });
-    }
+    if(!r.ok){return r.json().then(function(e){throw new Error((e.error&&e.error.message)||('Graph error '+r.status));});}
     return r;
   });
 }
 
 function b64ToBytes(b64){
-  var bin=atob(b64);
-  var arr=new Uint8Array(bin.length);
+  var bin=atob(b64);var arr=new Uint8Array(bin.length);
   for(var i=0;i<bin.length;i++) arr[i]=bin.charCodeAt(i);
   return arr;
 }
 
-function attachToDraft(msgId,file){
-  if(file.size<=3*1024*1024){
-    return graphFetch('/me/messages/'+msgId+'/attachments',{
-      method:'POST',
-      body:JSON.stringify({
-        '@odata.type':'#microsoft.graph.fileAttachment',
-        name:file.name,contentType:file.contentType,contentBytes:file.data
-      })
-    });
-  }
-  return graphFetch('/me/messages/'+msgId+'/attachments/createUploadSession',{
-    method:'POST',
-    body:JSON.stringify({
-      AttachmentItem:{attachmentType:'file',name:file.name,size:file.size}
-    })
-  }).then(function(r){return r.json();}).then(function(session){
-    return uploadInChunks(session.uploadUrl,b64ToBytes(file.data));
-  });
-}
-
 function uploadInChunks(uploadUrl,bytes){
-  var CHUNK=5*320*1024; // 1.6 MiB — must be multiple of 320 KiB
-  var total=bytes.length;
-  var offset=0;
+  var CHUNK=5*320*1024;var total=bytes.length;var offset=0;
   function next(){
     if(offset>=total) return Promise.resolve();
     var end=Math.min(offset+CHUNK,total);
     var slice=bytes.subarray(offset,end);
     var range='bytes '+offset+'-'+(end-1)+'/'+total;
-    return fetch(uploadUrl,{
-      method:'PUT',
-      headers:{'Content-Range':range},
-      body:slice
-    }).then(function(r){
-      if(!r.ok) throw new Error('Attachment chunk failed: HTTP '+r.status);
-      offset=end;
-      return next();
+    return fetch(uploadUrl,{method:'PUT',headers:{'Content-Range':range},body:slice}).then(function(r){
+      if(!r.ok&&r.status!==201) throw new Error('Chunk upload failed: HTTP '+r.status);
+      offset=end;return next();
     });
   }
   return next();
 }
 
-/* ── MSAL ── */
+/* ============================================================================
+ * AUTHENTICATION (MSAL.js)
+ * Uses Microsoft Authentication Library (MSAL) for Azure AD popup-based
+ * login. On successful auth, extracts the user's display name and email
+ * from the account object to populate submitter identity fields.
+ *
+ * Scopes requested:
+ *   - Sites.ReadWrite.All : write list items + upload files to doc library
+ *   - User.Read           : read logged-in user's name and email
+ *
+ * Token is stored in module-scoped `token` variable and refreshed silently
+ * on each submit via acquireTokenSilent (falls back to popup if expired).
+ * ============================================================================ */
 /* ── SUBMITTER IDENTITY ── */
 var submitterName='';
 var submitterEmail='';
@@ -2125,7 +2239,7 @@ function initMSAL(){
 }
 function ensureToken(){
   if(!msalApp) return Promise.reject(new Error('MSAL not configured'));
-  var sc=['https://graph.microsoft.com/Mail.Send','https://graph.microsoft.com/Files.ReadWrite.All','https://graph.microsoft.com/User.Read'];
+  var sc=['https://graph.microsoft.com/Sites.ReadWrite.All','https://graph.microsoft.com/User.Read'];
   var acct=msalApp.getAllAccounts()[0];
   var p=acct
     ? msalApp.acquireTokenSilent({scopes:sc,account:acct}).then(function(r){token=r.accessToken;setSubmitterIdentity(acct.name||'',acct.username||'');}).catch(function(){return msalApp.acquireTokenPopup({scopes:sc}).then(function(r){token=r.accessToken;var a2=msalApp.getAllAccounts()[0];if(a2)setSubmitterIdentity(a2.name||'',a2.username||'');});})
@@ -2164,7 +2278,19 @@ function getFeasibilityOwner(){
 }
 
 
-/* ── CONFIG ── */
+/* ============================================================================
+ * CONFIGURATION MANAGEMENT
+ * Loads/saves admin config to localStorage ('feas_cfg'). Includes Azure AD
+ * app IDs, SharePoint site/list paths, and attachment folder. Accessed via
+ * the Admin panel (gear icon on landing page, or ?admin=true URL parameter).
+ * ============================================================================ */
+/**
+ * CONFIG MANAGEMENT
+ * Loads and saves admin configuration to/from localStorage under the key
+ * 'feas_cfg'. Configuration includes Azure AD app IDs, SharePoint List
+ * details, and attachment folder path. Accessed via the Admin panel
+ * (gear icon on landing page, or ?admin=true URL parameter).
+ */
 function loadConfig(){
   try{var s=localStorage.getItem('feas_cfg');cfg=s?Object.assign({},DC,JSON.parse(s)):Object.assign({},DC);}catch(e){cfg=Object.assign({},DC);}
   applyToAdmin();initMSAL();
@@ -2176,71 +2302,35 @@ function saveConfig(){
 }
 function collectAdminFields(){
   cfg.clientId=$('cfg-client-id').value.trim();cfg.tenantId=$('cfg-tenant-id').value.trim();
-  cfg.spHostname=$('cfg-sp-hostname').value.trim();cfg.spSitePath=$('cfg-sp-site').value.trim();cfg.spFilePath=$('cfg-sp-file').value.trim();
-  cfg.excelTable=$('cfg-excel-table').value.trim()||'Submissions';cfg.replyToEmail=$('cfg-reply-to').value.trim();
-  cfg.emailSubject=$('cfg-email-subject').value.trim();cfg.emailFooter=$('cfg-email-footer').value.trim();
-  cfg.ccEmails=[].slice.call(document.querySelectorAll('#cc-list .cc-inp')).map(function(i){return i.value.trim();}).filter(Boolean);
-  cfg.regionalEmails={};
-  [].slice.call(document.querySelectorAll('#routing-tbody tr[data-region]')).forEach(function(tr){
-    cfg.regionalEmails[tr.dataset.region]=[].slice.call(tr.querySelectorAll('.reg-inp')).map(function(i){return i.value.trim();}).filter(Boolean);
-  });
+  cfg.spHostname=$('cfg-sp-hostname').value.trim();cfg.spSitePath=$('cfg-sp-site').value.trim();
+  cfg.listName=$('cfg-list-name').value.trim()||'Feasibility Requests';cfg.attachmentPath=$('cfg-attach-path').value.trim()||'/Feasibility-Attachments';
+
 }
 function applyToAdmin(){
   $('cfg-client-id').value=cfg.clientId||'';$('cfg-tenant-id').value=cfg.tenantId||'';
-  $('cfg-sp-hostname').value=cfg.spHostname||'';$('cfg-sp-site').value=cfg.spSitePath||'';$('cfg-sp-file').value=cfg.spFilePath||'';
-  $('cfg-excel-table').value=cfg.excelTable||'Submissions';$('cfg-reply-to').value=cfg.replyToEmail||'';
-  $('cfg-email-subject').value=cfg.emailSubject||DC.emailSubject;$('cfg-email-footer').value=cfg.emailFooter||DC.emailFooter;
-  renderCC();renderRouting();
+  $('cfg-sp-hostname').value=cfg.spHostname||'';$('cfg-sp-site').value=cfg.spSitePath||'';
+  $('cfg-list-name').value=cfg.listName||'Feasibility Requests';$('cfg-attach-path').value=cfg.attachmentPath||'/Feasibility-Attachments';
+
   var st=$('cfg-status');
   if(cfg.clientId&&cfg.tenantId){st.className='cfg-status cfg-ok';st.textContent='\u2713 Azure AD configured';}
   else{st.className='cfg-status cfg-warn';st.textContent='\u26a0 Not configured \u2014 demo mode';}
 }
-var REGIONS=['Asia','Australia / New Zealand','Europe / Africa','North America','China','Other'];
-function renderCC(){
-  var l=$('cc-list');l.innerHTML='';
-  (cfg.ccEmails||[]).forEach(function(e){l.appendChild(makeEmailRow(e,'cc-inp'));});
-}
-function renderRouting(){
-  var tb=$('routing-tbody');tb.innerHTML='';
-  REGIONS.forEach(function(r){
-    var emails=(cfg.regionalEmails||{})[r]||[];
-    var tr=document.createElement('tr');tr.dataset.region=r;
-    var td1=document.createElement('td');td1.innerHTML='<div class="rregion">'+r+'</div>';
-    var td2=document.createElement('td');
-    var el=document.createElement('div');
-    emails.forEach(function(e){el.appendChild(makeEmailRow(e,'reg-inp'));});
-    var btn=document.createElement('button');btn.className='btn-add';btn.textContent='+ Add address';
-    btn.addEventListener('click',function(){el.appendChild(makeEmailRow('','reg-inp'));showSaveBar();});
-    td2.appendChild(el);td2.appendChild(btn);tr.appendChild(td1);tr.appendChild(td2);tb.appendChild(tr);
-  });
-}
-function makeEmailRow(val,cls){
-  var row=document.createElement('div');row.className='email-row';
-  var inp=document.createElement('input');inp.type='email';inp.className=cls;inp.value=val;inp.placeholder='&#x6e;&#x61;&#x6d;&#x65;&#x40;&#x6e;&#x6f;&#x76;&#x6f;&#x74;&#x65;&#x63;&#x68;&#x2d;&#x63;&#x72;&#x6f;&#x2e;&#x63;&#x6f;&#x6d;';inp.style.cssText='font-size:13px;width:100%';
-  inp.addEventListener('input',showSaveBar);
-  var btn=document.createElement('button');btn.className='btn-remove';btn.textContent='\u00d7';
-  btn.addEventListener('click',function(){row.remove();showSaveBar();});
-  row.appendChild(inp);row.appendChild(btn);return row;
-}
-function showSaveBar(){$('save-bar').classList.add('show');}
-function hideSaveBar(){$('save-bar').classList.remove('show');}
-
-/* ── ADMIN WIRING ── */
-if($('btn-exit-admin')) $('btn-exit-admin').addEventListener('click',function(){
-  if($('save-bar').classList.contains('show')&&confirm('Unsaved changes. Save before leaving?')) saveConfig();
-  hide('admin-panel');showLanding();
-});
-if($('btn-save')) $('btn-save').addEventListener('click',saveConfig);
-if($('btn-discard')) $('btn-discard').addEventListener('click',function(){loadConfig();hideSaveBar();});
-if($('btn-add-cc')) $('btn-add-cc').addEventListener('click',function(){$('cc-list').appendChild(makeEmailRow('','cc-inp'));showSaveBar();});
 if($('btn-test-graph')) $('btn-test-graph').addEventListener('click',function(){
   if(!cfg.clientId||!cfg.tenantId){toast('Enter Client ID and Tenant ID first','err');return;}
   toast('Testing\u2026');
   ensureToken().then(function(){return graphFetch('/me').then(function(r){return r.json();});}).then(function(d){toast('Connected as '+(d.displayName||d.userPrincipalName),'ok');}).catch(function(e){toast('Error: '+e.message,'err');});
 });
-['cfg-client-id','cfg-tenant-id','cfg-sp-hostname','cfg-sp-site','cfg-sp-file','cfg-excel-table','cfg-reply-to','cfg-email-subject','cfg-email-footer'].forEach(function(id){var e=$(id);if(e)e.addEventListener('input',showSaveBar);});
+['cfg-client-id','cfg-tenant-id','cfg-sp-hostname','cfg-sp-site','cfg-list-name','cfg-attach-path'].forEach(function(id){var e=$(id);if(e)e.addEventListener('input',showSaveBar);});
+function showSaveBar(){$('save-bar').classList.add('show');}
+function hideSaveBar(){$('save-bar').classList.remove('show');}
+if($('btn-save')) $('btn-save').addEventListener('click',saveConfig);
+if($('btn-discard')) $('btn-discard').addEventListener('click',function(){loadConfig();hideSaveBar();});
 
-/* ── SUCCESS / RESET ── */
+/* ============================================================================
+ * SUCCESS SCREEN & FORM RESET
+ * Displays a branded confirmation after successful submission and provides
+ * options to start a new request or return to the landing page.
+ * ============================================================================ */
 function showSuccess(){
   hide('form-app');
   $('success-screen').style.display='flex';
@@ -2659,93 +2749,368 @@ function escHtml(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').rep
 if(typeof Array.prototype.findIndex==='undefined'){Array.prototype.findIndex=function(fn){for(var i=0;i<this.length;i++){if(fn(this[i],i))return i;}return -1;};}
 if(typeof Array.prototype.find==='undefined'){Array.prototype.find=function(fn){for(var i=0;i<this.length;i++){if(fn(this[i],i))return this[i];}return undefined;};}
 
-/* ── INIT ── */
+/* ============================================================================
+ * INITIALISATION
+ * Loads config, initialises MSAL, renders the landing page, and checks
+ * for admin mode (?admin=true URL parameter).
+ * ============================================================================ */
 document.querySelectorAll('.snum').forEach(function(el){el.dataset.orig=el.textContent;});
 loadConfig();
-if(new URLSearchParams(window.location.search).get('admin')==='true'){
+var urlParams=new URLSearchParams(window.location.search);
+if(urlParams.get('admin')==='true'){
   $('form-app').style.display='none';
   $('admin-panel').style.display='block';
   loadConfig();
+} else if(urlParams.get('inbox')==='true'){
+  $('form-app').style.display='none';
+  showInbox();
 } else {
   showLanding();
 }
 
 
-/* ── ADMIN SUBMISSIONS PAGE ── */
-function showAdminSubs(){
-  ['screen-landing','form-app','admin-panel','success-screen'].forEach(function(id){
-    var el=$(id);if(el)el.style.display='none';
-  });
+/* ============================================================================
+ * SUBMISSIONS INBOX
+ * SharePoint List-powered inbox for the feasibility team. Reads submissions
+ * from the SharePoint List via Graph API. Supports:
+ *   - Sortable/filterable table view
+ *   - Slide-in detail panel with all submission fields
+ *   - Quick status updates (dropdown)
+ *   - Full field editing with save to SharePoint
+ *   - Email body preview
+ *
+ * Accessible via ?inbox=true URL parameter, or from the Admin panel.
+ * Requires authentication (MSAL) to read/write list items.
+ * ============================================================================ */
+var inboxItems=[];
+var inboxSort={col:'Created',dir:'desc'};
+var STATUSES=['New','In Review','In Progress','On Hold','Complete','Sent','Failed','Cancelled'];
+var STATUS_CSS={'New':'new','In Review':'inreview','In Progress':'inprogress','On Hold':'onhold','Complete':'complete','Sent':'sent','Failed':'failed','Cancelled':'cancelled'};
+
+function showInbox(){
+  ['screen-landing','form-app','admin-panel','success-screen'].forEach(function(id){var el=$(id);if(el)el.style.display='none';});
   $('screen-admin-subs').style.display='block';
-  renderAdminTable();
-  // Load saved admin emails
-  try{
-    var saved=localStorage.getItem('feas_admin_emails');
-    if(saved&&$('cfg-admin-emails')) $('cfg-admin-emails').value=saved;
-  }catch(e){}
-}
-
-function renderAdminTable(){
-  var container=$('admin-subs-table');if(!container)return;
-  var reqs=loadRequests();
-  var q=($('admin-search')?$('admin-search').value.trim().toLowerCase():'');
-  var statusFilter=($('admin-filter-status')?$('admin-filter-status').value:'');
-  if(statusFilter) reqs=reqs.filter(function(r){return r.status===statusFilter;});
-  if(q) reqs=reqs.filter(function(r){
-    return (r.sponsor||'').toLowerCase().indexOf(q)>-1||(r.protocol||'').toLowerCase().indexOf(q)>-1||
-      (r.foName||'').toLowerCase().indexOf(q)>-1||
-      ((r.fd&&r.fd['f-submitter-name'])||'').toLowerCase().indexOf(q)>-1;
+  $('inbox-table-wrap').innerHTML='<div class="inbox-loading">Authenticating\u2026</div>';
+  ensureToken().then(function(){
+    $('inbox-table-wrap').innerHTML='<div class="inbox-loading">Loading submissions\u2026</div>';
+    return loadInboxItems();
+  }).then(function(){
+    renderInboxTable();
+  }).catch(function(e){
+    $('inbox-table-wrap').innerHTML='<div class="inbox-empty">Error loading submissions: '+escHtml(e.message)+'</div>';
   });
-  if(!reqs.length){container.innerHTML='<div style="padding:32px;text-align:center;color:var(--ink4);font-size:13px">No submissions found.</div>';return;}
-  var html='<table class="rtable"><thead><tr><th>Date</th><th>Feasibility Owner</th><th>Sponsor</th><th>Protocol</th><th>Parts</th><th>Status</th><th>Actions</th></tr></thead><tbody>';
-  reqs.forEach(function(req){
-    var date=req.submittedAt||req.updatedAt||req.createdAt||'';
-    var dateStr=date?new Date(date).toLocaleDateString('en-AU',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}):'—';
-    var parts=(req.parts||[]).join(', ')||'General';
-    var statusBadge=req.status==='submitted'?'<span style="background:var(--teal-bg);color:var(--teal);font-size:11px;font-weight:700;padding:2px 8px;border-radius:4px">Submitted</span>':'<span style="background:var(--amber-bg);color:var(--amber);font-size:11px;font-weight:700;padding:2px 8px;border-radius:4px">Draft</span>';
-    html+='<tr style="cursor:pointer" data-reqid="'+escHtml(req.id)+'">';
-    html+='<td>'+escHtml(dateStr)+'</td>';
-    html+='<td>'+escHtml(req.foName||'—')+'</td>';
-    html+='<td style="font-weight:500">'+escHtml(req.sponsor||'—')+'</td>';
-    html+='<td>'+escHtml(req.protocol||'—')+'</td>';
-    html+='<td>'+escHtml(parts)+'</td>';
-    html+='<td>'+statusBadge+'</td>';
-    html+='<td><button class="btn btn-ghost" data-edit="'+escHtml(req.id)+'" style="font-size:12px;padding:5px 12px">Edit</button></td>';
-    html+='</tr>';
+}
+
+/** Fetch all items from the SharePoint List via Graph API */
+function loadInboxItems(){
+  if(!cfg.spHostname||!cfg.spSitePath||!cfg.listName) return Promise.reject(new Error('SharePoint List not configured'));
+  var listPath=encodeURIComponent(cfg.listName);
+  var path='/sites/'+cfg.spHostname+':'+cfg.spSitePath+':/lists/'+listPath+'/items?$expand=fields&$top=500&$orderby=createdDateTime desc';
+  return graphFetch(path,{method:'GET'}).then(function(r){return r.json();}).then(function(data){
+    inboxItems=(data.value||[]).map(function(item){
+      var f=item.fields||{};
+      f._id=item.id;
+      f._created=item.createdDateTime;
+      f._modified=item.lastModifiedDateTime;
+      return f;
+    });
   });
-  html+='</tbody></table>';
-  container.innerHTML=html;
 }
 
-function adminEditRequest(id){
-  // Load any request (even submitted) for editing
-  $('screen-admin-subs').style.display='none';
-  editSubmitted(id);
+/** Render the inbox table with current filters and sort */
+function renderInboxTable(){
+  var wrap=$('inbox-table-wrap');if(!wrap)return;
+  var q=($('inbox-search')?$('inbox-search').value.trim().toLowerCase():'');
+  var sf=($('inbox-status-filter')?$('inbox-status-filter').value:'');
+
+  var filtered=inboxItems.filter(function(f){
+    if(sf&&(f.Status||'New')!==sf) return false;
+    if(q){
+      var hay=[(f.Protocol||''),(f.Sponsor||''),(f.SubmitterName||''),(f.Title||''),(f.Regions||''),(f.FOName||'')].join(' ').toLowerCase();
+      if(hay.indexOf(q)<0) return false;
+    }
+    return true;
+  });
+
+  // Sort
+  var col=inboxSort.col;var dir=inboxSort.dir==='asc'?1:-1;
+  filtered.sort(function(a,b){
+    var va=col==='Created'?(a._created||''):(a[col]||'');
+    var vb=col==='Created'?(b._created||''):(b[col]||'');
+    if(va<vb) return -1*dir; if(va>vb) return 1*dir; return 0;
+  });
+
+  var countEl=$('inbox-count');
+  if(countEl) countEl.textContent=filtered.length+' of '+inboxItems.length+' submissions';
+
+  if(!filtered.length){wrap.innerHTML='<div class="inbox-empty">No submissions found.</div>';return;}
+
+  var cols=[
+    {key:'Created',label:'Date',w:'130px'},
+    {key:'Title',label:'ID',w:'160px'},
+    {key:'Protocol',label:'Protocol',w:''},
+    {key:'Sponsor',label:'Sponsor',w:''},
+    {key:'Regions',label:'Regions',w:''},
+    {key:'SubmitterName',label:'Submitter',w:''},
+    {key:'Status',label:'Status',w:'110px'}
+  ];
+
+  var h='<table class="itable"><thead><tr>';
+  cols.forEach(function(c){
+    var sorted=inboxSort.col===c.key;
+    var arrow=sorted?(inboxSort.dir==='asc'?'\u25B2':'\u25BC'):'\u25BC';
+    h+='<th'+(sorted?' class="sorted"':'')+(c.w?' style="width:'+c.w+'"':'')+' data-sort="'+c.key+'">'+c.label+' <span class="sort-icon">'+arrow+'</span></th>';
+  });
+  h+='</tr></thead><tbody>';
+
+  filtered.forEach(function(f){
+    var date=f._created?new Date(f._created).toLocaleDateString('en-AU',{day:'numeric',month:'short',year:'numeric'}):'\u2014';
+    var status=f.Status||'New';
+    var cls=STATUS_CSS[status]||'new';
+    h+='<tr data-itemid="'+escHtml(f._id)+'">';
+    h+='<td>'+escHtml(date)+'</td>';
+    h+='<td style="font-family:monospace;font-size:12px">'+escHtml(f.Title||'\u2014')+'</td>';
+    h+='<td style="font-weight:500">'+escHtml(f.Protocol||'\u2014')+'</td>';
+    h+='<td>'+escHtml(f.Sponsor||'\u2014')+'</td>';
+    h+='<td style="font-size:12px">'+escHtml((f.Regions||'').replace(/; /g,', '))+'</td>';
+    h+='<td>'+escHtml(f.SubmitterName||'\u2014')+'</td>';
+    h+='<td><span class="sbadge sbadge-'+cls+'">'+escHtml(status)+'</span></td>';
+    h+='</tr>';
+  });
+  h+='</tbody></table>';
+  wrap.innerHTML=h;
 }
 
+/** Open the detail panel for a submission */
+function openDetail(itemId){
+  var item=inboxItems.find(function(f){return f._id===itemId;});
+  if(!item) return;
+  // Remove any existing overlay
+  var old=document.querySelector('.detail-overlay');if(old)old.remove();
+
+  var ov=document.createElement('div');
+  ov.className='detail-overlay';
+  ov.innerHTML=buildDetailHTML(item,false);
+  document.body.appendChild(ov);
+  setTimeout(function(){ov.classList.add('open');},20);
+
+  // Close on backdrop click
+  ov.addEventListener('click',function(e){if(e.target===ov)closeDetail();});
+}
+
+function closeDetail(){
+  var ov=document.querySelector('.detail-overlay');
+  if(!ov)return;
+  ov.classList.remove('open');
+  setTimeout(function(){ov.remove();},250);
+}
+
+/** Build the detail panel HTML */
+function buildDetailHTML(f,editMode){
+  var date=f._created?new Date(f._created).toLocaleString('en-AU',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}):'\u2014';
+  var status=f.Status||'New';
+  var cls=STATUS_CSS[status]||'new';
+
+  var h='<div class="detail-panel">';
+  // Header
+  h+='<div class="dp-head"><div class="dp-head-info"><h2>'+(f.Protocol||'Untitled')+'</h2>';
+  h+='<div class="dp-meta">'+escHtml(f.Title||'')+' \u00b7 Submitted '+date+' by '+escHtml(f.SubmitterName||'Unknown')+'</div></div>';
+  h+='<button class="dp-close" onclick="closeDetail()">\u2715</button></div>';
+
+  // Status row
+  h+='<div class="dp-status-row"><label style="font-size:13px;font-weight:600;color:var(--ink4)">Status:</label>';
+  h+='<select id="dp-status">';
+  STATUSES.forEach(function(s){h+='<option value="'+s+'"'+(s===status?' selected':'')+'>'+s+'</option>';});
+  h+='</select>';
+  h+='<button class="btn btn-teal" onclick="quickSaveStatus(\''+f._id+'\')">Save status</button>';
+  h+='<div style="flex:1"></div>';
+  if(!editMode) h+='<button class="btn btn-primary" onclick="startEdit(\''+f._id+'\')">\u270E Edit fields</button>';
+  h+='</div>';
+
+  if(editMode){
+    h+='<div class="dp-edit-bar"><span style="font-size:13px;font-weight:600;color:var(--teal)">\u270E Editing mode</span><div style="flex:1"></div>';
+    h+='<button class="btn btn-ghost" onclick="openDetail(\''+f._id+'\')">Cancel</button>';
+    h+='<button class="btn btn-teal" onclick="saveDetailEdit(\''+f._id+'\')">Save changes</button></div>';
+  }
+
+  // Field sections
+  var field=function(label,key,type){
+    type=type||'text';
+    var val=f[key]||'';
+    if(editMode){
+      if(type==='textarea') return '<div class="dp-field"><div class="dp-field-label">'+label+'</div><textarea data-field="'+key+'">'+escHtml(val)+'</textarea></div>';
+      return '<div class="dp-field"><div class="dp-field-label">'+label+'</div><input type="text" data-field="'+key+'" value="'+escHtml(val)+'"></div>';
+    }
+    return '<div class="dp-field"><div class="dp-field-label">'+label+'</div><div class="dp-field-value">'+escHtml(val)+'</div></div>';
+  };
+
+  h+='<div class="dp-section"><h3>Study Information</h3>';
+  h+=field('Protocol / Study','Protocol');
+  h+=field('NHH Code','NHHCode');
+  h+=field('Sponsor','Sponsor');
+  h+=field('Regions','Regions');
+  h+=field('Support Requested','SupportRequested','textarea');
+  h+=field('Protocol Status','ProtocolStatus');
+  h+=field('Timelines','Timelines','textarea');
+  h+=field('Parts','PartA')+field('','PartB')+field('','PartC');
+  h+=field('Feasibility Owner',null);
+  // FO as read-only composite
+  h=h.replace(field('Feasibility Owner',null),'<div class="dp-field"><div class="dp-field-label">Feasibility Owner</div><div class="dp-field-value">'+escHtml((f.FOName||'')+(f.FOEmail?' ('+f.FOEmail+')':''))+'</div></div>');
+  h+='</div>';
+
+  // Part A
+  if(f.PartA==='Yes'){
+    h+='<div class="dp-section"><h3>Part A \u2014 Site Identification</h3>';
+    h+=field('Countries','Countries','textarea');
+    h+=field('Site List Approach','SiteListApproach');
+    h+=field('Site Preferences','SitePreferences','textarea');
+    h+=field('Facility Type','FacilityType');
+    h+=field('Site List Date','SiteListDate');
+    h+='</div>';
+  }
+
+  // Part B
+  if(f.PartB==='Yes'){
+    h+='<div class="dp-section"><h3>Part B \u2014 FQ Template</h3>';
+    h+=field('First Time Feasibility','FirstTimeFeasibility');
+    h+=field('FQ Type','FQType');
+    h+=field('CDA Type','CDAType');
+    h+=field('Site Requirements','SiteRequirements','textarea');
+    h+=field('FQ Approval','FQApproval');
+    h+='</div>';
+  }
+
+  // Part C
+  if(f.PartC==='Yes'){
+    h+='<div class="dp-section"><h3>Part C \u2014 Site Outreach</h3>';
+    h+=field('FQ Response Date','FQResponseDate');
+    h+=field('Date Reason','DateReason');
+    h+='</div>';
+  }
+
+  // Attachments
+  var attFolder=f.AttachmentFolder||'';
+  var attNames=f.AttachmentNames||'';
+  if(attNames){
+    h+='<div class="dp-section"><h3>Attachments</h3>';
+    h+='<div class="dp-field"><div class="dp-field-label">Files</div><div class="dp-field-value">'+escHtml(attNames)+'</div></div>';
+    if(attFolder) h+='<div class="dp-field"><div class="dp-field-label">Folder</div><div class="dp-field-value" style="font-family:monospace;font-size:12px">'+escHtml(attFolder)+'</div></div>';
+    h+='</div>';
+  }
+
+  // Email preview
+  if(f.EmailBodyHTML){
+    h+='<div class="dp-section"><h3>Email Preview</h3>';
+    h+='<div class="dp-email-preview"><iframe id="dp-email-frame" sandbox="allow-same-origin"></iframe></div>';
+    h+='</div>';
+  }
+
+  h+='<div style="height:40px"></div></div>';
+  return h;
+}
+
+/** Update just the status field */
+function quickSaveStatus(itemId){
+  var sel=document.getElementById('dp-status');if(!sel)return;
+  var newStatus=sel.value;
+  var listPath=encodeURIComponent(cfg.listName);
+  var path='/sites/'+cfg.spHostname+':'+cfg.spSitePath+':/lists/'+listPath+'/items/'+itemId+'/fields';
+  graphFetch(path,{method:'PATCH',body:JSON.stringify({Status:newStatus})}).then(function(){
+    // Update local cache
+    var item=inboxItems.find(function(f){return f._id===itemId;});
+    if(item) item.Status=newStatus;
+    renderInboxTable();
+    toast('Status updated to '+newStatus,'ok');
+  }).catch(function(e){toast('Error: '+e.message,'err');});
+}
+
+/** Switch to edit mode */
+function startEdit(itemId){
+  var item=inboxItems.find(function(f){return f._id===itemId;});
+  if(!item)return;
+  var ov=document.querySelector('.detail-overlay');
+  if(ov){
+    var panel=ov.querySelector('.detail-panel');
+    if(panel) panel.outerHTML=buildDetailHTML(item,true);
+    writeEmailPreview(item);
+  }
+}
+
+/** Save edited fields back to SharePoint */
+function saveDetailEdit(itemId){
+  var inputs=document.querySelectorAll('.detail-panel [data-field]');
+  var patch={};
+  inputs.forEach(function(el){
+    var key=el.dataset.field;
+    var val=el.value;
+    patch[key]=val;
+  });
+  // Also save status
+  var sel=document.getElementById('dp-status');
+  if(sel) patch.Status=sel.value;
+
+  var listPath=encodeURIComponent(cfg.listName);
+  var path='/sites/'+cfg.spHostname+':'+cfg.spSitePath+':/lists/'+listPath+'/items/'+itemId+'/fields';
+  toast('Saving\u2026');
+  graphFetch(path,{method:'PATCH',body:JSON.stringify(patch)}).then(function(){
+    // Update local cache
+    var item=inboxItems.find(function(f){return f._id===itemId;});
+    if(item) Object.assign(item,patch);
+    renderInboxTable();
+    openDetail(itemId); // Switch back to view mode
+    toast('Changes saved','ok');
+  }).catch(function(e){toast('Error: '+e.message,'err');});
+}
+
+/** Write the email HTML into the preview iframe */
+function writeEmailPreview(item){
+  setTimeout(function(){
+    var frame=document.getElementById('dp-email-frame');
+    if(frame&&item.EmailBodyHTML){
+      var doc=frame.contentDocument||frame.contentWindow.document;
+      doc.open();doc.write(item.EmailBodyHTML);doc.close();
+      // Auto-size
+      setTimeout(function(){frame.style.height=(doc.body.scrollHeight+20)+'px';},100);
+    }
+  },50);
+}
+
+// ── Event listeners ──
 if($('btn-admin-subs-exit')) $('btn-admin-subs-exit').addEventListener('click',function(){
   $('screen-admin-subs').style.display='none';
+  closeDetail();
   showLanding();
 });
-if($('btn-admin-refresh')) $('btn-admin-refresh').addEventListener('click',renderAdminTable);
-// Delegated clicks on admin table
-document.addEventListener('click',function(e){
-  var editBtn=e.target.closest('[data-edit]');
-  if(editBtn){e.stopPropagation();adminEditRequest(editBtn.dataset.edit);return;}
-  var row=e.target.closest('tr[data-reqid]');
-  if(row&&row.dataset.reqid){adminEditRequest(row.dataset.reqid);}
-});
-if($('admin-search')) $('admin-search').addEventListener('input',renderAdminTable);
-if($('admin-filter-status')) $('admin-filter-status').addEventListener('change',renderAdminTable);
-if($('btn-save-admin-emails')){
-  if($('btn-save-admin-emails')) $('btn-save-admin-emails').addEventListener('click',function(){
-    var val=$('cfg-admin-emails').value.trim();
-    try{localStorage.setItem('feas_admin_emails',val);}catch(e){}
-    toast('Admin emails saved','ok');
+if($('btn-inbox-refresh')) $('btn-inbox-refresh').addEventListener('click',function(){
+  $('inbox-table-wrap').innerHTML='<div class="inbox-loading">Refreshing\u2026</div>';
+  loadInboxItems().then(renderInboxTable).catch(function(e){
+    $('inbox-table-wrap').innerHTML='<div class="inbox-empty">Error: '+escHtml(e.message)+'</div>';
   });
-}
+});
+if($('inbox-search')) $('inbox-search').addEventListener('input',renderInboxTable);
+if($('inbox-status-filter')) $('inbox-status-filter').addEventListener('change',renderInboxTable);
 
-// Add admin subs button to existing admin panel
+// Sort by column header click
+document.addEventListener('click',function(e){
+  var th=e.target.closest('.itable th[data-sort]');
+  if(th){
+    var col=th.dataset.sort;
+    if(inboxSort.col===col) inboxSort.dir=inboxSort.dir==='asc'?'desc':'asc';
+    else{inboxSort.col=col;inboxSort.dir=col==='Created'?'desc':'asc';}
+    renderInboxTable();
+    return;
+  }
+  // Row click to open detail
+  var row=e.target.closest('.itable tr[data-itemid]');
+  if(row){
+    openDetail(row.dataset.itemid);
+    // Write email preview after panel renders
+    var item=inboxItems.find(function(f){return f._id===row.dataset.itemid;});
+    if(item) writeEmailPreview(item);
+  }
+});
+
+// Add inbox button to admin panel
 (function(){
   var adminMain=document.querySelector('.admin-main');
   if(!adminMain) return;
@@ -2754,10 +3119,7 @@ if($('btn-save-admin-emails')){
   btn.style.cssText='margin-bottom:28px';
   btn.type='button';
   btn.innerHTML='&#128203; View All Submissions';
-  btn.addEventListener('click',function(){
-    hide('admin-panel');
-    showAdminSubs();
-  });
+  btn.addEventListener('click',function(){hide('admin-panel');showInbox();});
   adminMain.insertBefore(btn,adminMain.firstChild);
 })();
 
