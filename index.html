@@ -366,58 +366,6 @@ textarea{resize:vertical;min-height:84px;line-height:1.55}
 .cb-remove{background:none;border:none;cursor:pointer;color:var(--ink4);font-size:18px;line-height:1;padding:0;transition:color .15s;display:flex;align-items:center;justify-content:center;height:32px;width:32px}
 .cb-remove:hover{color:var(--red)}
 .cb-footer{padding:8px 12px;border-top:1px solid var(--surface2)}
-
-/* ── SUBMISSIONS INBOX ── */
-.inbox-bar{display:flex;gap:10px;align-items:center;padding:14px 24px;border-bottom:1px solid var(--rule);flex-wrap:wrap}
-.inbox-bar input,.inbox-bar select{padding:7px 12px;font-size:13px;border:1.5px solid var(--rule);border-radius:var(--rsm);font-family:Inter,sans-serif;color:var(--ink);background:var(--white)}
-.inbox-bar input{max-width:320px;flex:1}
-.inbox-bar select{min-width:140px}
-.inbox-count{font-size:12px;color:var(--ink4);margin-left:auto}
-.itable{width:100%;border-collapse:collapse;font-size:13px}
-.itable th{text-align:left;padding:10px 14px;font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--ink4);border-bottom:2px solid var(--rule);cursor:pointer;user-select:none;white-space:nowrap}
-.itable th:hover{color:var(--teal)}
-.itable th .sort-icon{margin-left:4px;font-size:10px;opacity:.4}
-.itable th.sorted .sort-icon{opacity:1;color:var(--teal)}
-.itable td{padding:10px 14px;border-bottom:1px solid var(--rule);color:var(--ink2);vertical-align:middle}
-.itable tr:hover td{background:var(--teal-bg)}
-.itable tr{cursor:pointer;transition:background .1s}
-.sbadge{display:inline-block;font-size:11px;font-weight:700;padding:2px 9px;border-radius:4px;white-space:nowrap}
-.sbadge-new{background:#DBEAFE;color:#2563EB}
-.sbadge-inreview{background:var(--teal-bg);color:var(--teal)}
-.sbadge-inprogress{background:var(--amber-bg,#FEF3C7);color:var(--amber,#D97706)}
-.sbadge-onhold{background:var(--surface);color:var(--ink4)}
-.sbadge-complete{background:#DCFCE7;color:#16A34A}
-.sbadge-cancelled{background:#FEE2E2;color:#DC2626}
-.sbadge-sent{background:#DCFCE7;color:#16A34A}
-.sbadge-failed{background:#FEE2E2;color:#DC2626}
-/* Detail panel */
-.detail-overlay{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:500;display:flex;justify-content:flex-end;opacity:0;transition:opacity .2s}
-.detail-overlay.open{opacity:1}
-.detail-panel{width:min(720px,92vw);height:100vh;background:var(--bg);overflow-y:auto;box-shadow:-8px 0 30px rgba(0,0,0,.12);transform:translateX(100%);transition:transform .25s ease}
-.detail-overlay.open .detail-panel{transform:translateX(0)}
-.dp-head{padding:24px 28px 16px;border-bottom:1px solid var(--rule);display:flex;align-items:flex-start;gap:16px;background:var(--white);position:sticky;top:0;z-index:1}
-.dp-head-info{flex:1;min-width:0}
-.dp-head-info h2{font-size:18px;font-weight:700;color:var(--navy);margin:0 0 4px}
-.dp-head-info .dp-meta{font-size:12px;color:var(--ink4)}
-.dp-close{background:none;border:none;font-size:20px;cursor:pointer;color:var(--ink4);padding:4px 8px;border-radius:6px}
-.dp-close:hover{background:var(--surface);color:var(--ink)}
-.dp-status-row{display:flex;align-items:center;gap:10px;padding:16px 28px;background:var(--white);border-bottom:1px solid var(--rule)}
-.dp-status-row select{padding:6px 10px;font-size:13px;border:1.5px solid var(--rule);border-radius:var(--rsm);font-family:Inter,sans-serif}
-.dp-status-row .btn{font-size:12px;padding:6px 14px}
-.dp-section{padding:20px 28px;border-bottom:1px solid var(--rule)}
-.dp-section h3{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--teal);margin:0 0 14px}
-.dp-field{display:flex;gap:12px;margin-bottom:10px;font-size:13.5px}
-.dp-field-label{width:160px;flex-shrink:0;font-weight:600;color:var(--ink4);padding-top:2px}
-.dp-field-value{flex:1;color:var(--ink);word-break:break-word;white-space:pre-wrap}
-.dp-field-value:empty::after{content:'—';color:var(--ink4)}
-.dp-field input,.dp-field textarea,.dp-field select{width:100%;padding:6px 10px;font-size:13px;border:1.5px solid var(--rule);border-radius:var(--rsm);font-family:Inter,sans-serif;color:var(--ink);background:var(--white)}
-.dp-field textarea{min-height:60px;resize:vertical}
-.dp-edit-bar{padding:16px 28px;border-bottom:1px solid var(--rule);display:flex;gap:10px;background:var(--surface)}
-.dp-actions{padding:20px 28px;display:flex;gap:10px}
-.dp-email-preview{border:1px solid var(--rule);border-radius:var(--rsm);background:var(--white);max-height:400px;overflow:auto;padding:0}
-.dp-email-preview iframe{width:100%;min-height:300px;border:none}
-.inbox-empty{padding:48px;text-align:center;color:var(--ink4);font-size:14px}
-.inbox-loading{padding:48px;text-align:center;color:var(--ink4);font-size:13px}
 </style>
 </head>
 <body>
@@ -1053,41 +1001,40 @@ textarea{resize:vertical;min-height:84px;line-height:1.55}
     </div>
   </div>
 
-  <!-- ── SUBMISSIONS INBOX ── -->
+  <!-- ── ADMIN SUBMISSIONS SCREEN ── -->
   <div id="screen-admin-subs" style="display:none;min-height:100vh;background:var(--bg)">
     <div class="admin-topbar">
-      <span class="admin-label">&#128203; Feasibility Submissions Inbox</span>
-      <button class="admin-exit-btn" id="btn-admin-subs-exit">&#8592; Back</button>
+      <span class="admin-label">&#128203; Feasibility Admin &mdash; All Submissions</span>
+      <button class="admin-exit-btn" id="btn-admin-subs-exit">&#8592; Exit admin view</button>
     </div>
-    <div class="admin-main" style="max-width:1200px">
+    <div class="admin-main" style="max-width:1100px">
       <div class="asec">
         <div class="asec-head">
-          <h2>All Submissions</h2>
-          <p>Live data from the SharePoint List. Click any row to view details, update status, or edit fields.</p>
+          <h2>Submission Inbox</h2>
+          <p>All requests submitted via this tool. Click any row to expand and edit. In production, this reads from the shared Excel file via Graph API.</p>
         </div>
         <div class="asec-body" style="padding:0">
-          <div class="inbox-bar">
-            <input type="text" id="inbox-search" placeholder="Search by sponsor, protocol, submitter&hellip;">
-            <select id="inbox-status-filter">
+          <div style="padding:14px 24px;border-bottom:1px solid var(--rule);display:flex;gap:10px;align-items:center">
+            <input type="text" id="admin-search" placeholder="Search by sponsor, protocol, or feasibility owner…" style="max-width:340px;font-size:13px;padding:7px 12px">
+            <select id="admin-filter-status" style="padding:7px 12px;font-size:13px;border:1.5px solid var(--rule);border-radius:var(--rsm);font-family:Inter,sans-serif;color:var(--ink);background:var(--white)">
               <option value="">All statuses</option>
-              <option value="New">New</option>
-              <option value="In Review">In Review</option>
-              <option value="In Progress">In Progress</option>
-              <option value="On Hold">On Hold</option>
-              <option value="Complete">Complete</option>
-              <option value="Sent">Sent</option>
-              <option value="Failed">Failed</option>
-              <option value="Cancelled">Cancelled</option>
+              <option value="submitted">Submitted</option>
+              <option value="draft">Draft</option>
             </select>
-            <button class="btn btn-ghost" id="btn-inbox-refresh" type="button" style="font-size:12px;padding:7px 14px">&#8635; Refresh</button>
-            <span class="inbox-count" id="inbox-count"></span>
+            <button class="btn btn-ghost" id="btn-admin-refresh" type="button" style="font-size:12px;padding:7px 14px">&#8635; Refresh</button>
           </div>
-          <div id="inbox-table-wrap"><div class="inbox-loading">Authenticating&hellip;</div></div>
+          <div id="admin-subs-table"></div>
+        </div>
+      </div>
+      <div class="asec" id="admin-email-config-sec">
+        <div class="asec-head"><h2>Admin Notification Email</h2><p>Email address(es) that receive a copy of every submission. Separate multiple with commas.</p></div>
+        <div class="asec-body">
+          <div class="cfg-field" style="max-width:480px"><label>Admin email address(es)</label><input type="text" id="cfg-admin-emails" placeholder="e.g. admin1@novotech-cro.com, admin2@novotech-cro.com"></div>
+          <button class="btn btn-primary" id="btn-save-admin-emails" type="button" style="margin-top:12px">Save</button>
         </div>
       </div>
     </div>
   </div>
-  <!-- Detail panel (rendered dynamically, inserted into body) -->
 
 <div class="overlay" id="overlay"><div class="spinner"></div><div class="overlay-text" id="overlay-text">Submitting&hellip;</div></div>
 <div class="toast" id="toast"></div>
@@ -1395,9 +1342,9 @@ var FMAP={
   prelim:['f-protocol','f-nhh','f-sponsor','f-other-region','f-fo-name','f-fo-email'],
   support:['f-comments','f-other-support','f-kom-date'],
   protocol:['f-timelines','f-amendment'],
-  parta:['f-siteprefs','f-sitedate','f-sitereason','f-other-facility','f-site-involvement'],
+  parta:['f-siteprefs','f-sitedate','f-sitereason','f-other-facility','f-site-involvement','f-timelines-paste'],
   partb:['f-fqchanges','f-blindedreason','f-other-siteReqs'],
-  partc:['f-fqdate','f-other-dateReason']
+  partc:['f-fqdate','f-other-dateReason','f-sites-paste']
 };
 function collectFields(){
   var step=currentStep();
@@ -1889,6 +1836,7 @@ function doReview(){
   if(submitterEmail&&submitterEmail!==rfo.email) h+=row('Submitted by',submitterName+(submitterEmail?' ('+submitterEmail+')':''));
   h+=rowC('Regions',fd.region)+(fd['f-other-region']?row('Other region detail',fd['f-other-region']):'');
   h+=rowC('Support',fd.support)+(fd['f-other-support']?row('Other support detail',fd['f-other-support']):'');
+  h+=(fd['f-kom-date']?row('KOM / Meeting Date',fd['f-kom-date']):'');
   h+=row('Comments',fd['f-comments']||'');
   h+='</div></div>';
 
@@ -1912,18 +1860,8 @@ function doReview(){
       acr.forEach(function(r){h+='<tr><td style="padding:4px 8px 4px 0;color:var(--ink)">'+escHtml(r.country)+'</td><td style="padding:4px 8px"><span class="chip">'+escHtml(r.classification)+'</span></td><td style="padding:4px 8px;color:var(--ink)">'+escHtml(r.needed||'\u2014')+'</td><td style="padding:4px 8px;color:var(--ink)">'+escHtml(r.budgeted||'\u2014')+'</td><td style="padding:4px 8px;color:var(--ink)">'+escHtml(r.ecDate||'\u2014')+'</td><td style="padding:4px 8px;color:var(--ink)">'+escHtml(r.fpiDate||'\u2014')+'</td><td style="padding:4px 0;color:var(--ink)">'+escHtml(r.enrolMonths?r.enrolMonths+' mo':'\u2014')+'</td></tr>';});
       h+='</table></div></div>';
     }
-    h+=row('Site List Approach',fd.siteList||'')+(fd.sponsorApproval?row('Sponsor Approval Required',fd.sponsorApproval):'');
-    if(fd['f-sites-paste']) h+=row('Sites (paste notes)',fd['f-sites-paste']);
     h+=row('Site Involvement',fd.siteInvolvement||'')+(fd['f-site-involvement']?row('Involvement Detail',fd['f-site-involvement']):'');
-    var activeRows=getActiveSiteRows();
-    if(activeRows.length){
-      h+='<div class="rrow"><div class="rk">Shortlisted Sites</div><div class="rv rv-table-wrap">';
-      h+='<table style="width:100%;border-collapse:collapse;font-size:12.5px">';
-      h+='<tr style="color:var(--ink3);font-size:11px;font-weight:600"><td style="padding:3px 8px 3px 0">Site</td><td style="padding:3px 8px">Country</td><td style="padding:3px 0">PI Name</td></tr>';
-      activeRows.forEach(function(r){h+='<tr><td style="padding:3px 8px 3px 0;color:var(--ink)">'+escHtml(r.siteName||'\u2014')+'</td><td style="padding:3px 8px;color:var(--ink)">'+escHtml(r.country||'\u2014')+'</td><td style="padding:3px 0;color:var(--ink3)">'+escHtml(r.pi||'\u2014')+'</td></tr>';});
-      h+='</table></div></div>';
-    }
-    if(fd['f-timelines-paste']) h+=row('Timeline notes',fd['f-timelines-paste']);
+    if(fd['f-timelines-paste']) h+=rowP('Target Country Details',fd['f-timelines-paste']);
     h+=row('Site / PI Preferences',fd['f-siteprefs']);
     h+=rowC('Facility Type',fd.facility)+(fd['f-other-facility']?row('Other facility',fd['f-other-facility']):'');
     h+=row('Site List Target Date',fd['f-sitedate'])+row('Reason for Date',fd['f-sitereason']||'');
@@ -1944,6 +1882,16 @@ function doReview(){
   // Part C
   if(partC){
     h+='<div class="rsurf"><div class="rsurf-head"><span>C</span><span>Part C &mdash; Site Outreach Request</span></div><div class="rbody">';
+    h+=row('Site List Approach',fd.siteList||'')+(fd.sponsorApproval?row('Sponsor Approval Required',fd.sponsorApproval):'');
+    var activeRows=getActiveSiteRows();
+    if(activeRows.length){
+      h+='<div class="rrow"><div class="rk">Shortlisted Sites</div><div class="rv rv-table-wrap">';
+      h+='<table style="width:100%;border-collapse:collapse;font-size:12.5px">';
+      h+='<tr style="color:var(--ink3);font-size:11px;font-weight:600"><td style="padding:3px 8px 3px 0">Site</td><td style="padding:3px 8px">Country</td><td style="padding:3px 0">PI Name</td></tr>';
+      activeRows.forEach(function(r){h+='<tr><td style="padding:3px 8px 3px 0;color:var(--ink)">'+escHtml(r.siteName||'—')+'</td><td style="padding:3px 8px;color:var(--ink)">'+escHtml(r.country||'—')+'</td><td style="padding:3px 0;color:var(--ink3)">'+escHtml(r.pi||'—')+'</td></tr>';});
+      h+='</table></div></div>';
+    }
+    if(fd['f-sites-paste']) h+=rowP('Sites (paste notes)',fd['f-sites-paste']);
     h+=row('Target Response Date',fd['f-fqdate']);
     h+=rowC('Reason for Date',fd.dateReason)+(fd['f-other-dateReason']?row('Other reason detail',fd['f-other-dateReason']):'');
     h+='</div></div>';
@@ -2000,10 +1948,10 @@ function buildHtmlEmail(){
     if(acr2.length){
       countriesHtml='<tr><td style="'+th+'">Target Countries</td><td style="'+td+'"><table style="width:100%;border-collapse:collapse;font-size:12px"><tr style="color:#78716C;font-size:11px"><td style="padding:2px 10px 4px 0;font-weight:600">Country</td><td style="padding:2px 10px 4px;font-weight:600">Classification</td><td style="padding:2px 10px 4px;font-weight:600">Sites Needed</td><td style="padding:2px 0 4px;font-weight:600">Sites Budgeted for Outreach</td></tr>'+acr2.map(function(r){return'<tr><td style="padding:3px 10px 3px 0">'+esc(r.country)+'</td><td style="padding:3px 10px">'+esc(r.classification)+'</td><td style="padding:3px 10px">'+esc(r.needed||'\u2014')+'</td><td style="padding:3px 10px">'+esc(r.budgeted||'\u2014')+'</td><td style="padding:3px 10px">'+esc(r.ecDate||'\u2014')+'</td><td style="padding:3px 10px">'+esc(r.fpiDate||'\u2014')+'</td><td style="padding:3px 0">'+esc(r.enrolMonths?r.enrolMonths+' mo':'\u2014')+'</td></tr>';}).join('')+'</table></td></tr>';
     }
-    b+=sec('A','Part A &mdash; Site Identification',countriesHtml+row('Site List Approach',fd.siteList||'')+(fd.sponsorApproval?row('Sponsor Approval Required',fd.sponsorApproval):'') +siteRowsHtml+row('Site Involvement',fd.siteInvolvement||'')+(fd['f-site-involvement']?rowP('Involvement Detail',fd['f-site-involvement']):'')+rowP('Site / PI Preferences',fd['f-siteprefs'])+rowC('Facility Type',fd.facility)+(fd['f-other-facility']?row('Other facility',fd['f-other-facility']):'')+(fd['f-sites-paste']?rowP('Sites (paste)',fd['f-sites-paste']):'')+(fd['f-timelines-paste']?rowP('Timeline Notes',fd['f-timelines-paste']):'')+row('Site List Target Date',fd['f-sitedate'])+row('Reason for Date',fd['f-sitereason']||''));
+    b+=sec('A','Part A &mdash; Site Identification',countriesHtml+row('Site Involvement',fd.siteInvolvement||'')+(fd['f-site-involvement']?rowP('Involvement Detail',fd['f-site-involvement']):'')+rowP('Site / PI Preferences',fd['f-siteprefs'])+rowC('Facility Type',fd.facility)+(fd['f-other-facility']?row('Other facility',fd['f-other-facility']):'')+(fd['f-timelines-paste']?rowP('Target Country Details',fd['f-timelines-paste']):'')+row('Site List Target Date',fd['f-sitedate'])+row('Reason for Date',fd['f-sitereason']||''));
   }
   if(partB) b+=sec('B','Part B &mdash; FQ Template Development',row('First Time Feasibility',fd.firstTime)+(fd['f-fqchanges']?rowP('FQ Changes',fd['f-fqchanges']):'')+row('FQ Type',fd.fqType)+(fd['f-blindedreason']?row('Blinded Reason',fd['f-blindedreason']):'')+row('CDA Type',fd.cdaType)+rowC('Critical Site Criteria',fd.siteReqs)+(fd['f-other-siteReqs']?row('Other criteria',fd['f-other-siteReqs']):'')+row('FQ Approval By',fd.fqApproval));
-  if(partC) b+=sec('C','Part C &mdash; Site Outreach Request',row('Target Response Date',fd['f-fqdate'])+rowC('Reason for Date',fd.dateReason)+(fd['f-other-dateReason']?row('Other reason',fd['f-other-dateReason']):''));
+  if(partC) b+=sec('C','Part C &mdash; Site Outreach Request',row('Site List Approach',fd.siteList||'')+(fd.sponsorApproval?row('Sponsor Approval Required',fd.sponsorApproval):'')+siteRowsHtml+(fd['f-sites-paste']?rowP('Sites (paste)',fd['f-sites-paste']):'')+row('Target Response Date',fd['f-fqdate'])+rowC('Reason for Date',fd.dateReason)+(fd['f-other-dateReason']?row('Other reason',fd['f-other-dateReason']):''));
   b+='<div style="margin-top:24px;padding:14px 0 22px;border-top:1px solid #EEEAE2;font-size:12px;color:#A8A29E;line-height:1.6">'+esc('This is an automated notification from the Novotech Feasibility Request Tool. Reply to this email to add further information.')+'</div></div></div>';
   return b;
 }
@@ -2291,6 +2239,9 @@ function getFeasibilityOwner(){
  * details, and attachment folder path. Accessed via the Admin panel
  * (gear icon on landing page, or ?admin=true URL parameter).
  */
+function showSaveBar(){var b=$('save-bar');if(b)b.classList.add('show');}
+function hideSaveBar(){var b=$('save-bar');if(b)b.classList.remove('show');}
+
 function loadConfig(){
   try{var s=localStorage.getItem('feas_cfg');cfg=s?Object.assign({},DC,JSON.parse(s)):Object.assign({},DC);}catch(e){cfg=Object.assign({},DC);}
   applyToAdmin();initMSAL();
@@ -2321,10 +2272,6 @@ if($('btn-test-graph')) $('btn-test-graph').addEventListener('click',function(){
   ensureToken().then(function(){return graphFetch('/me').then(function(r){return r.json();});}).then(function(d){toast('Connected as '+(d.displayName||d.userPrincipalName),'ok');}).catch(function(e){toast('Error: '+e.message,'err');});
 });
 ['cfg-client-id','cfg-tenant-id','cfg-sp-hostname','cfg-sp-site','cfg-list-name','cfg-attach-path'].forEach(function(id){var e=$(id);if(e)e.addEventListener('input',showSaveBar);});
-function showSaveBar(){$('save-bar').classList.add('show');}
-function hideSaveBar(){$('save-bar').classList.remove('show');}
-if($('btn-save')) $('btn-save').addEventListener('click',saveConfig);
-if($('btn-discard')) $('btn-discard').addEventListener('click',function(){loadConfig();hideSaveBar();});
 
 /* ============================================================================
  * SUCCESS SCREEN & FORM RESET
@@ -2430,20 +2377,11 @@ function viewRequestSummary(req){
       acr.forEach(function(r){h+='<tr><td style="padding:4px 8px 4px 0">'+esc(r.country)+'</td><td style="padding:4px 8px"><span class="chip">'+esc(r.classification)+'</span></td><td style="padding:4px 8px">'+esc(r.needed||'—')+'</td><td style="padding:4px 8px">'+esc(r.budgeted||'—')+'</td><td style="padding:4px 8px">'+esc(r.ecDate||'—')+'</td><td style="padding:4px 8px">'+esc(r.fpiDate||'—')+'</td><td style="padding:4px 0">'+esc(r.enrolMonths?r.enrolMonths+' mo':'—')+'</td></tr>';});
       h+='</table></div></div></div>';
     }
-    h+=row('Site List Approach',fd.siteList||'')+(fd.sponsorApproval?row('Sponsor Approval',fd.sponsorApproval):'');
-    var activeRows=getActiveSiteRows();
-    if(activeRows.length){
-      h+='<div class="rrow"><div class="rk">Sites to Approach</div><div class="rv"><table style="width:100%;border-collapse:collapse;font-size:12.5px">';
-      h+='<tr style="color:var(--ink3);font-size:11px;font-weight:600"><td style="padding:2px 8px 4px 0">Site</td><td style="padding:2px 8px">Country</td><td style="padding:2px 0">PI</td></tr>';
-      activeRows.forEach(function(r){h+='<tr><td style="padding:3px 8px 3px 0">'+esc(r.siteName||'—')+'</td><td style="padding:3px 8px">'+esc(r.country||'—')+'</td><td style="padding:3px 0;color:var(--ink3)">'+esc(r.pi||'—')+'</td></tr>';});
-      h+='</table></div></div>';
-    }
-    if(req.sitesPaste) h+=rowP('Sites (paste)',req.sitesPaste);
     h+=row('Site Involvement',fd.siteInvolvement||'')+(fd['f-site-involvement']?rowP('Involvement Detail',fd['f-site-involvement']):'');
     h+=(fd['f-siteprefs']?rowP('Site / PI Preferences',fd['f-siteprefs']):'');
     h+=rowC('Facility Type',fd.facility)+(fd['f-other-facility']?row('Other facility',fd['f-other-facility']):'');
     h+=rowC('Critical Site Criteria',fd.siteReqs)+(fd['f-other-siteReqs']?row('Other criteria',fd['f-other-siteReqs']):'');
-    if(req.timelinesPaste) h+=rowP('Timeline notes',req.timelinesPaste);
+    if(req.timelinesPaste) h+=rowP('Target Country Details',req.timelinesPaste);
     h+=row('Site List Target Date',fd['f-sitedate'])+(fd['f-sitereason']?row('Reason for Date',fd['f-sitereason']):'');
     h+='</div></div>';
   }
@@ -2462,6 +2400,16 @@ function viewRequestSummary(req){
   // Part C
   if(partC){
     h+='<div class="rsurf"><div class="rsurf-head"><span>C</span><span>Part C — Site Outreach Request</span></div><div class="rbody">';
+    h+=row('Site List Approach',fd.siteList||'')+(fd.sponsorApproval?row('Sponsor Approval Required',fd.sponsorApproval):'');
+    var cActiveRows=getActiveSiteRows();
+    if(cActiveRows.length){
+      h+='<div class="rrow"><div class="rk">Shortlisted Sites</div><div class="rv rv-table-wrap">';
+      h+='<table style="width:100%;border-collapse:collapse;font-size:12.5px">';
+      h+='<tr style="color:var(--ink3);font-size:11px;font-weight:600"><td style="padding:3px 8px 3px 0">Site</td><td style="padding:3px 8px">Country</td><td style="padding:3px 0">PI Name</td></tr>';
+      cActiveRows.forEach(function(r){h+='<tr><td style="padding:3px 8px 3px 0;color:var(--ink)">'+esc(r.siteName||'—')+'</td><td style="padding:3px 8px;color:var(--ink)">'+esc(r.country||'—')+'</td><td style="padding:3px 0;color:var(--ink3)">'+esc(r.pi||'—')+'</td></tr>';});
+      h+='</table></div></div>';
+    }
+    if(req.sitesPaste) h+=rowP('Sites (paste)',req.sitesPaste);
     h+=row('Target Response Date',fd['f-fqdate']);
     h+=rowC('Reason for Date',fd.dateReason)+(fd['f-other-dateReason']?row('Other reason',fd['f-other-dateReason']):'');
     h+='</div></div>';
@@ -2756,361 +2704,95 @@ if(typeof Array.prototype.find==='undefined'){Array.prototype.find=function(fn){
  * ============================================================================ */
 document.querySelectorAll('.snum').forEach(function(el){el.dataset.orig=el.textContent;});
 loadConfig();
-var urlParams=new URLSearchParams(window.location.search);
-if(urlParams.get('admin')==='true'){
+if(new URLSearchParams(window.location.search).get('admin')==='true'){
   $('form-app').style.display='none';
   $('admin-panel').style.display='block';
   loadConfig();
-} else if(urlParams.get('inbox')==='true'){
-  $('form-app').style.display='none';
-  showInbox();
 } else {
   showLanding();
 }
 
 
 /* ============================================================================
- * SUBMISSIONS INBOX
- * SharePoint List-powered inbox for the feasibility team. Reads submissions
- * from the SharePoint List via Graph API. Supports:
- *   - Sortable/filterable table view
- *   - Slide-in detail panel with all submission fields
- *   - Quick status updates (dropdown)
- *   - Full field editing with save to SharePoint
- *   - Email body preview
- *
- * Accessible via ?inbox=true URL parameter, or from the Admin panel.
- * Requires authentication (MSAL) to read/write list items.
+ * ADMIN SUBMISSIONS PAGE
+ * Accessible via ?admin=true. Shows all locally-stored submissions with
+ * the ability to view summaries and edit existing requests. Note: this
+ * reads from localStorage, not from the SharePoint List.
  * ============================================================================ */
-var inboxItems=[];
-var inboxSort={col:'Created',dir:'desc'};
-var STATUSES=['New','In Review','In Progress','On Hold','Complete','Sent','Failed','Cancelled'];
-var STATUS_CSS={'New':'new','In Review':'inreview','In Progress':'inprogress','On Hold':'onhold','Complete':'complete','Sent':'sent','Failed':'failed','Cancelled':'cancelled'};
-
-function showInbox(){
-  ['screen-landing','form-app','admin-panel','success-screen'].forEach(function(id){var el=$(id);if(el)el.style.display='none';});
+function showAdminSubs(){
+  ['screen-landing','form-app','admin-panel','success-screen'].forEach(function(id){
+    var el=$(id);if(el)el.style.display='none';
+  });
   $('screen-admin-subs').style.display='block';
-  $('inbox-table-wrap').innerHTML='<div class="inbox-loading">Authenticating\u2026</div>';
-  ensureToken().then(function(){
-    $('inbox-table-wrap').innerHTML='<div class="inbox-loading">Loading submissions\u2026</div>';
-    return loadInboxItems();
-  }).then(function(){
-    renderInboxTable();
-  }).catch(function(e){
-    $('inbox-table-wrap').innerHTML='<div class="inbox-empty">Error loading submissions: '+escHtml(e.message)+'</div>';
+  renderAdminTable();
+  // Load saved admin emails
+  try{
+    var saved=localStorage.getItem('feas_admin_emails');
+    if(saved&&$('cfg-admin-emails')) $('cfg-admin-emails').value=saved;
+  }catch(e){}
+}
+
+function renderAdminTable(){
+  var container=$('admin-subs-table');if(!container)return;
+  var reqs=loadRequests();
+  var q=($('admin-search')?$('admin-search').value.trim().toLowerCase():'');
+  var statusFilter=($('admin-filter-status')?$('admin-filter-status').value:'');
+  if(statusFilter) reqs=reqs.filter(function(r){return r.status===statusFilter;});
+  if(q) reqs=reqs.filter(function(r){
+    return (r.sponsor||'').toLowerCase().indexOf(q)>-1||(r.protocol||'').toLowerCase().indexOf(q)>-1||
+      (r.foName||'').toLowerCase().indexOf(q)>-1||
+      ((r.fd&&r.fd['f-submitter-name'])||'').toLowerCase().indexOf(q)>-1;
   });
-}
-
-/** Fetch all items from the SharePoint List via Graph API */
-function loadInboxItems(){
-  if(!cfg.spHostname||!cfg.spSitePath||!cfg.listName) return Promise.reject(new Error('SharePoint List not configured'));
-  var listPath=encodeURIComponent(cfg.listName);
-  var path='/sites/'+cfg.spHostname+':'+cfg.spSitePath+':/lists/'+listPath+'/items?$expand=fields&$top=500&$orderby=createdDateTime desc';
-  return graphFetch(path,{method:'GET'}).then(function(r){return r.json();}).then(function(data){
-    inboxItems=(data.value||[]).map(function(item){
-      var f=item.fields||{};
-      f._id=item.id;
-      f._created=item.createdDateTime;
-      f._modified=item.lastModifiedDateTime;
-      return f;
-    });
+  if(!reqs.length){container.innerHTML='<div style="padding:32px;text-align:center;color:var(--ink4);font-size:13px">No submissions found.</div>';return;}
+  var html='<table class="rtable"><thead><tr><th>Date</th><th>Feasibility Owner</th><th>Sponsor</th><th>Protocol</th><th>Parts</th><th>Status</th><th>Actions</th></tr></thead><tbody>';
+  reqs.forEach(function(req){
+    var date=req.submittedAt||req.updatedAt||req.createdAt||'';
+    var dateStr=date?new Date(date).toLocaleDateString('en-AU',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}):'—';
+    var parts=(req.parts||[]).join(', ')||'General';
+    var statusBadge=req.status==='submitted'?'<span style="background:var(--teal-bg);color:var(--teal);font-size:11px;font-weight:700;padding:2px 8px;border-radius:4px">Submitted</span>':'<span style="background:var(--amber-bg);color:var(--amber);font-size:11px;font-weight:700;padding:2px 8px;border-radius:4px">Draft</span>';
+    html+='<tr style="cursor:pointer" data-reqid="'+escHtml(req.id)+'">';
+    html+='<td>'+escHtml(dateStr)+'</td>';
+    html+='<td>'+escHtml(req.foName||'—')+'</td>';
+    html+='<td style="font-weight:500">'+escHtml(req.sponsor||'—')+'</td>';
+    html+='<td>'+escHtml(req.protocol||'—')+'</td>';
+    html+='<td>'+escHtml(parts)+'</td>';
+    html+='<td>'+statusBadge+'</td>';
+    html+='<td><button class="btn btn-ghost" data-edit="'+escHtml(req.id)+'" style="font-size:12px;padding:5px 12px">Edit</button></td>';
+    html+='</tr>';
   });
+  html+='</tbody></table>';
+  container.innerHTML=html;
 }
 
-/** Render the inbox table with current filters and sort */
-function renderInboxTable(){
-  var wrap=$('inbox-table-wrap');if(!wrap)return;
-  var q=($('inbox-search')?$('inbox-search').value.trim().toLowerCase():'');
-  var sf=($('inbox-status-filter')?$('inbox-status-filter').value:'');
-
-  var filtered=inboxItems.filter(function(f){
-    if(sf&&(f.Status||'New')!==sf) return false;
-    if(q){
-      var hay=[(f.Protocol||''),(f.Sponsor||''),(f.SubmitterName||''),(f.Title||''),(f.Regions||''),(f.FOName||'')].join(' ').toLowerCase();
-      if(hay.indexOf(q)<0) return false;
-    }
-    return true;
-  });
-
-  // Sort
-  var col=inboxSort.col;var dir=inboxSort.dir==='asc'?1:-1;
-  filtered.sort(function(a,b){
-    var va=col==='Created'?(a._created||''):(a[col]||'');
-    var vb=col==='Created'?(b._created||''):(b[col]||'');
-    if(va<vb) return -1*dir; if(va>vb) return 1*dir; return 0;
-  });
-
-  var countEl=$('inbox-count');
-  if(countEl) countEl.textContent=filtered.length+' of '+inboxItems.length+' submissions';
-
-  if(!filtered.length){wrap.innerHTML='<div class="inbox-empty">No submissions found.</div>';return;}
-
-  var cols=[
-    {key:'Created',label:'Date',w:'130px'},
-    {key:'Title',label:'ID',w:'160px'},
-    {key:'Protocol',label:'Protocol',w:''},
-    {key:'Sponsor',label:'Sponsor',w:''},
-    {key:'Regions',label:'Regions',w:''},
-    {key:'SubmitterName',label:'Submitter',w:''},
-    {key:'Status',label:'Status',w:'110px'}
-  ];
-
-  var h='<table class="itable"><thead><tr>';
-  cols.forEach(function(c){
-    var sorted=inboxSort.col===c.key;
-    var arrow=sorted?(inboxSort.dir==='asc'?'\u25B2':'\u25BC'):'\u25BC';
-    h+='<th'+(sorted?' class="sorted"':'')+(c.w?' style="width:'+c.w+'"':'')+' data-sort="'+c.key+'">'+c.label+' <span class="sort-icon">'+arrow+'</span></th>';
-  });
-  h+='</tr></thead><tbody>';
-
-  filtered.forEach(function(f){
-    var date=f._created?new Date(f._created).toLocaleDateString('en-AU',{day:'numeric',month:'short',year:'numeric'}):'\u2014';
-    var status=f.Status||'New';
-    var cls=STATUS_CSS[status]||'new';
-    h+='<tr data-itemid="'+escHtml(f._id)+'">';
-    h+='<td>'+escHtml(date)+'</td>';
-    h+='<td style="font-family:monospace;font-size:12px">'+escHtml(f.Title||'\u2014')+'</td>';
-    h+='<td style="font-weight:500">'+escHtml(f.Protocol||'\u2014')+'</td>';
-    h+='<td>'+escHtml(f.Sponsor||'\u2014')+'</td>';
-    h+='<td style="font-size:12px">'+escHtml((f.Regions||'').replace(/; /g,', '))+'</td>';
-    h+='<td>'+escHtml(f.SubmitterName||'\u2014')+'</td>';
-    h+='<td><span class="sbadge sbadge-'+cls+'">'+escHtml(status)+'</span></td>';
-    h+='</tr>';
-  });
-  h+='</tbody></table>';
-  wrap.innerHTML=h;
+function adminEditRequest(id){
+  // Load any request (even submitted) for editing
+  $('screen-admin-subs').style.display='none';
+  editSubmitted(id);
 }
 
-/** Open the detail panel for a submission */
-function openDetail(itemId){
-  var item=inboxItems.find(function(f){return f._id===itemId;});
-  if(!item) return;
-  // Remove any existing overlay
-  var old=document.querySelector('.detail-overlay');if(old)old.remove();
-
-  var ov=document.createElement('div');
-  ov.className='detail-overlay';
-  ov.innerHTML=buildDetailHTML(item,false);
-  document.body.appendChild(ov);
-  setTimeout(function(){ov.classList.add('open');},20);
-
-  // Close on backdrop click
-  ov.addEventListener('click',function(e){if(e.target===ov)closeDetail();});
-}
-
-function closeDetail(){
-  var ov=document.querySelector('.detail-overlay');
-  if(!ov)return;
-  ov.classList.remove('open');
-  setTimeout(function(){ov.remove();},250);
-}
-
-/** Build the detail panel HTML */
-function buildDetailHTML(f,editMode){
-  var date=f._created?new Date(f._created).toLocaleString('en-AU',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}):'\u2014';
-  var status=f.Status||'New';
-  var cls=STATUS_CSS[status]||'new';
-
-  var h='<div class="detail-panel">';
-  // Header
-  h+='<div class="dp-head"><div class="dp-head-info"><h2>'+(f.Protocol||'Untitled')+'</h2>';
-  h+='<div class="dp-meta">'+escHtml(f.Title||'')+' \u00b7 Submitted '+date+' by '+escHtml(f.SubmitterName||'Unknown')+'</div></div>';
-  h+='<button class="dp-close" onclick="closeDetail()">\u2715</button></div>';
-
-  // Status row
-  h+='<div class="dp-status-row"><label style="font-size:13px;font-weight:600;color:var(--ink4)">Status:</label>';
-  h+='<select id="dp-status">';
-  STATUSES.forEach(function(s){h+='<option value="'+s+'"'+(s===status?' selected':'')+'>'+s+'</option>';});
-  h+='</select>';
-  h+='<button class="btn btn-teal" onclick="quickSaveStatus(\''+f._id+'\')">Save status</button>';
-  h+='<div style="flex:1"></div>';
-  if(!editMode) h+='<button class="btn btn-primary" onclick="startEdit(\''+f._id+'\')">\u270E Edit fields</button>';
-  h+='</div>';
-
-  if(editMode){
-    h+='<div class="dp-edit-bar"><span style="font-size:13px;font-weight:600;color:var(--teal)">\u270E Editing mode</span><div style="flex:1"></div>';
-    h+='<button class="btn btn-ghost" onclick="openDetail(\''+f._id+'\')">Cancel</button>';
-    h+='<button class="btn btn-teal" onclick="saveDetailEdit(\''+f._id+'\')">Save changes</button></div>';
-  }
-
-  // Field sections
-  var field=function(label,key,type){
-    type=type||'text';
-    var val=f[key]||'';
-    if(editMode){
-      if(type==='textarea') return '<div class="dp-field"><div class="dp-field-label">'+label+'</div><textarea data-field="'+key+'">'+escHtml(val)+'</textarea></div>';
-      return '<div class="dp-field"><div class="dp-field-label">'+label+'</div><input type="text" data-field="'+key+'" value="'+escHtml(val)+'"></div>';
-    }
-    return '<div class="dp-field"><div class="dp-field-label">'+label+'</div><div class="dp-field-value">'+escHtml(val)+'</div></div>';
-  };
-
-  h+='<div class="dp-section"><h3>Study Information</h3>';
-  h+=field('Protocol / Study','Protocol');
-  h+=field('NHH Code','NHHCode');
-  h+=field('Sponsor','Sponsor');
-  h+=field('Regions','Regions');
-  h+=field('Support Requested','SupportRequested','textarea');
-  h+=field('Protocol Status','ProtocolStatus');
-  h+=field('Timelines','Timelines','textarea');
-  h+=field('Parts','PartA')+field('','PartB')+field('','PartC');
-  h+=field('Feasibility Owner',null);
-  // FO as read-only composite
-  h=h.replace(field('Feasibility Owner',null),'<div class="dp-field"><div class="dp-field-label">Feasibility Owner</div><div class="dp-field-value">'+escHtml((f.FOName||'')+(f.FOEmail?' ('+f.FOEmail+')':''))+'</div></div>');
-  h+='</div>';
-
-  // Part A
-  if(f.PartA==='Yes'){
-    h+='<div class="dp-section"><h3>Part A \u2014 Site Identification</h3>';
-    h+=field('Countries','Countries','textarea');
-    h+=field('Site List Approach','SiteListApproach');
-    h+=field('Site Preferences','SitePreferences','textarea');
-    h+=field('Facility Type','FacilityType');
-    h+=field('Site List Date','SiteListDate');
-    h+='</div>';
-  }
-
-  // Part B
-  if(f.PartB==='Yes'){
-    h+='<div class="dp-section"><h3>Part B \u2014 FQ Template</h3>';
-    h+=field('First Time Feasibility','FirstTimeFeasibility');
-    h+=field('FQ Type','FQType');
-    h+=field('CDA Type','CDAType');
-    h+=field('Site Requirements','SiteRequirements','textarea');
-    h+=field('FQ Approval','FQApproval');
-    h+='</div>';
-  }
-
-  // Part C
-  if(f.PartC==='Yes'){
-    h+='<div class="dp-section"><h3>Part C \u2014 Site Outreach</h3>';
-    h+=field('FQ Response Date','FQResponseDate');
-    h+=field('Date Reason','DateReason');
-    h+='</div>';
-  }
-
-  // Attachments
-  var attFolder=f.AttachmentFolder||'';
-  var attNames=f.AttachmentNames||'';
-  if(attNames){
-    h+='<div class="dp-section"><h3>Attachments</h3>';
-    h+='<div class="dp-field"><div class="dp-field-label">Files</div><div class="dp-field-value">'+escHtml(attNames)+'</div></div>';
-    if(attFolder) h+='<div class="dp-field"><div class="dp-field-label">Folder</div><div class="dp-field-value" style="font-family:monospace;font-size:12px">'+escHtml(attFolder)+'</div></div>';
-    h+='</div>';
-  }
-
-  // Email preview
-  if(f.EmailBodyHTML){
-    h+='<div class="dp-section"><h3>Email Preview</h3>';
-    h+='<div class="dp-email-preview"><iframe id="dp-email-frame" sandbox="allow-same-origin"></iframe></div>';
-    h+='</div>';
-  }
-
-  h+='<div style="height:40px"></div></div>';
-  return h;
-}
-
-/** Update just the status field */
-function quickSaveStatus(itemId){
-  var sel=document.getElementById('dp-status');if(!sel)return;
-  var newStatus=sel.value;
-  var listPath=encodeURIComponent(cfg.listName);
-  var path='/sites/'+cfg.spHostname+':'+cfg.spSitePath+':/lists/'+listPath+'/items/'+itemId+'/fields';
-  graphFetch(path,{method:'PATCH',body:JSON.stringify({Status:newStatus})}).then(function(){
-    // Update local cache
-    var item=inboxItems.find(function(f){return f._id===itemId;});
-    if(item) item.Status=newStatus;
-    renderInboxTable();
-    toast('Status updated to '+newStatus,'ok');
-  }).catch(function(e){toast('Error: '+e.message,'err');});
-}
-
-/** Switch to edit mode */
-function startEdit(itemId){
-  var item=inboxItems.find(function(f){return f._id===itemId;});
-  if(!item)return;
-  var ov=document.querySelector('.detail-overlay');
-  if(ov){
-    var panel=ov.querySelector('.detail-panel');
-    if(panel) panel.outerHTML=buildDetailHTML(item,true);
-    writeEmailPreview(item);
-  }
-}
-
-/** Save edited fields back to SharePoint */
-function saveDetailEdit(itemId){
-  var inputs=document.querySelectorAll('.detail-panel [data-field]');
-  var patch={};
-  inputs.forEach(function(el){
-    var key=el.dataset.field;
-    var val=el.value;
-    patch[key]=val;
-  });
-  // Also save status
-  var sel=document.getElementById('dp-status');
-  if(sel) patch.Status=sel.value;
-
-  var listPath=encodeURIComponent(cfg.listName);
-  var path='/sites/'+cfg.spHostname+':'+cfg.spSitePath+':/lists/'+listPath+'/items/'+itemId+'/fields';
-  toast('Saving\u2026');
-  graphFetch(path,{method:'PATCH',body:JSON.stringify(patch)}).then(function(){
-    // Update local cache
-    var item=inboxItems.find(function(f){return f._id===itemId;});
-    if(item) Object.assign(item,patch);
-    renderInboxTable();
-    openDetail(itemId); // Switch back to view mode
-    toast('Changes saved','ok');
-  }).catch(function(e){toast('Error: '+e.message,'err');});
-}
-
-/** Write the email HTML into the preview iframe */
-function writeEmailPreview(item){
-  setTimeout(function(){
-    var frame=document.getElementById('dp-email-frame');
-    if(frame&&item.EmailBodyHTML){
-      var doc=frame.contentDocument||frame.contentWindow.document;
-      doc.open();doc.write(item.EmailBodyHTML);doc.close();
-      // Auto-size
-      setTimeout(function(){frame.style.height=(doc.body.scrollHeight+20)+'px';},100);
-    }
-  },50);
-}
-
-// ── Event listeners ──
 if($('btn-admin-subs-exit')) $('btn-admin-subs-exit').addEventListener('click',function(){
   $('screen-admin-subs').style.display='none';
-  closeDetail();
   showLanding();
 });
-if($('btn-inbox-refresh')) $('btn-inbox-refresh').addEventListener('click',function(){
-  $('inbox-table-wrap').innerHTML='<div class="inbox-loading">Refreshing\u2026</div>';
-  loadInboxItems().then(renderInboxTable).catch(function(e){
-    $('inbox-table-wrap').innerHTML='<div class="inbox-empty">Error: '+escHtml(e.message)+'</div>';
-  });
-});
-if($('inbox-search')) $('inbox-search').addEventListener('input',renderInboxTable);
-if($('inbox-status-filter')) $('inbox-status-filter').addEventListener('change',renderInboxTable);
-
-// Sort by column header click
+if($('btn-admin-refresh')) $('btn-admin-refresh').addEventListener('click',renderAdminTable);
+// Delegated clicks on admin table
 document.addEventListener('click',function(e){
-  var th=e.target.closest('.itable th[data-sort]');
-  if(th){
-    var col=th.dataset.sort;
-    if(inboxSort.col===col) inboxSort.dir=inboxSort.dir==='asc'?'desc':'asc';
-    else{inboxSort.col=col;inboxSort.dir=col==='Created'?'desc':'asc';}
-    renderInboxTable();
-    return;
-  }
-  // Row click to open detail
-  var row=e.target.closest('.itable tr[data-itemid]');
-  if(row){
-    openDetail(row.dataset.itemid);
-    // Write email preview after panel renders
-    var item=inboxItems.find(function(f){return f._id===row.dataset.itemid;});
-    if(item) writeEmailPreview(item);
-  }
+  var editBtn=e.target.closest('[data-edit]');
+  if(editBtn){e.stopPropagation();adminEditRequest(editBtn.dataset.edit);return;}
+  var row=e.target.closest('tr[data-reqid]');
+  if(row&&row.dataset.reqid){adminEditRequest(row.dataset.reqid);}
 });
+if($('admin-search')) $('admin-search').addEventListener('input',renderAdminTable);
+if($('admin-filter-status')) $('admin-filter-status').addEventListener('change',renderAdminTable);
+if($('btn-save-admin-emails')){
+  if($('btn-save-admin-emails')) $('btn-save-admin-emails').addEventListener('click',function(){
+    var val=$('cfg-admin-emails').value.trim();
+    try{localStorage.setItem('feas_admin_emails',val);}catch(e){}
+    toast('Admin emails saved','ok');
+  });
+}
 
-// Add inbox button to admin panel
+// Add admin subs button to existing admin panel
 (function(){
   var adminMain=document.querySelector('.admin-main');
   if(!adminMain) return;
@@ -3119,7 +2801,10 @@ document.addEventListener('click',function(e){
   btn.style.cssText='margin-bottom:28px';
   btn.type='button';
   btn.innerHTML='&#128203; View All Submissions';
-  btn.addEventListener('click',function(){hide('admin-panel');showInbox();});
+  btn.addEventListener('click',function(){
+    hide('admin-panel');
+    showAdminSubs();
+  });
   adminMain.insertBefore(btn,adminMain.firstChild);
 })();
 
