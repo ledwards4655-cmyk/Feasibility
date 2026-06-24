@@ -343,6 +343,7 @@ textarea{resize:vertical;min-height:84px;line-height:1.55}
 .cb-card-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .cb-card-country{flex:1;min-width:160px}
 .cb-card-tl{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;padding-top:10px;border-top:1px dashed var(--surface2)}
+.cb-outreach-flag{margin-top:10px;padding:9px 11px;background:var(--teal-bg);border-radius:var(--rsm)}
 .cb-mini-field{display:flex;flex-direction:column;gap:3px;min-width:90px;flex:1}
 .cb-mini-label{font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--ink4)}
 .cr-num{padding:6px 9px;font-size:13px;border:1.5px solid var(--rule);border-radius:var(--rsm);font-family:Inter,sans-serif;color:var(--ink);width:100%;-moz-appearance:textfield}
@@ -584,19 +585,20 @@ textarea{resize:vertical;min-height:84px;line-height:1.55}
             <div class="tile" data-g="support" data-v="Internal country strategy" data-t="c"><div class="tbox"><svg class="ck" viewBox="0 0 12 10" fill="none"><path d="M1 5l3.5 3.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="tile-text"><strong>Internal country strategy</strong></div></div>
             <div class="tile" data-g="support" data-v="Join PM/Sponsor meetings" data-t="c" data-x="kom-date"><div class="tbox"><svg class="ck" viewBox="0 0 12 10" fill="none"><path d="M1 5l3.5 3.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="tile-text"><strong>Join PM / Sponsor meetings</strong></div></div>
             <div class="tile" data-g="support" data-v="Site Identification" data-t="c"><div class="tbox"><svg class="ck" viewBox="0 0 12 10" fill="none"><path d="M1 5l3.5 3.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="tile-text"><strong>Site Identification</strong></div></div>
-            <div class="tile" data-g="support" data-v="FQ Creation" data-t="c"><div class="tbox"><svg class="ck" viewBox="0 0 12 10" fill="none"><path d="M1 5l3.5 3.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="tile-text"><strong>FQ Creation</strong></div></div>
+            <div class="tile" data-g="support" data-v="FQ Creation" data-t="c" data-x="fqcreation"><div class="tbox"><svg class="ck" viewBox="0 0 12 10" fill="none"><path d="M1 5l3.5 3.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="tile-text"><strong>FQ Creation</strong></div></div>
             <div class="tile" data-g="support" data-v="Feasibility Outreach" data-t="c"><div class="tbox"><svg class="ck" viewBox="0 0 12 10" fill="none"><path d="M1 5l3.5 3.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="tile-text"><strong>Feasibility Outreach</strong></div></div>
             <div class="tile" data-g="support" data-v="Other" data-t="c" data-x="other-support"><div class="tbox"><svg class="ck" viewBox="0 0 12 10" fill="none"><path d="M1 5l3.5 3.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="tile-text"><strong>Other</strong></div></div>
           </div>
           <div id="cond-other-support" style="display:none;margin-top:10px"><input type="text" id="f-other-support" placeholder="Please describe the other support required&hellip;"></div>
           <div id="cond-kom-date" style="display:none;margin-top:12px"><label class="flabel" for="f-kom-date">KOM / meeting date</label><div class="fhint">Provide the date of the kick-off or Sponsor meeting you need the feasibility team to attend. If the date is not yet confirmed, leave blank and note it in Additional Comments.</div><input type="date" id="f-kom-date"></div>
+          <div id="cond-fqcreation" style="display:none;margin-top:12px"><div class="callout info"><div class="callout-icon">&#128161;</div><p>FQ Creation is supported via Veeva Vault and the Veeva Library. Before submitting, please refer to the Clinical Operations SharePoint page for guidance on the Question Library within Veeva Vault, which contains pre-configured questions and survey templates to build from.</p></div></div>
         </div>
-        <div class="field"><label class="flabel" for="f-comments">Additional comments</label><textarea id="f-comments" placeholder="e.g. PM meeting dates with Sponsor where support is needed, Sponsor timezone requirements, any other context&hellip;"></textarea></div>
+        <div class="field"><label class="flabel" for="f-comments">Additional comments</label><div class="fhint">Provide a brief background of any critical information that may help coordinate the feasibility request. E.g. current availability of Final Protocol and/or IB release date, Proposal provided some suggested Site ID, Sponsor is in discussion with 3 KOLs directly. Relevant documents can be attached at the next step.</div><textarea id="f-comments" placeholder="e.g. PM meeting dates with Sponsor where support is needed, Sponsor timezone requirements, any other context&hellip;"></textarea></div>
 
         <!-- DOCUMENT UPLOAD -->
         <div class="field">
           <label class="flabel">Relevant documents</label>
-          <div class="fhint">Attach any supporting files &mdash; protocol / synopsis, Investigator&rsquo;s Brochure, Sponsor CDA template, previous outreach trackers, previous FQ templates, or other relevant documents. Files will be attached to the submission email.</div>
+          <div class="fhint">Attach any supporting files &mdash; Protocol / Synopsis, Investigator&rsquo;s Brochure, Sponsor CDA template, previous Site outreach trackers, SiteID lists, previous FQ templates, or other relevant documents. Files will be attached to the submission email.</div>
           <div class="file-drop" id="file-drop">
             <input type="file" id="file-input" multiple accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.jpg,.jpeg,.png" style="display:none">
             <div class="file-drop-icon">&#128196;</div>
@@ -666,7 +668,7 @@ textarea{resize:vertical;min-height:84px;line-height:1.55}
       <div id="block-parta" style="display:none">
         <div class="step-eyebrow"><span class="edot"></span>Part A</div>
         <h1 class="step-title">Site Identification</h1>
-        <p class="step-desc">Define the country strategy, target site profile, and timeline for PI / site list submission to the PM or Sponsor.</p>
+        <p class="step-desc" style="max-width:none;color:var(--ink);font-weight:600;font-size:14px">Define the country strategy, target site profile, and timeline for PI / site list submission to the PM or Sponsor.</p>
         <div class="step-rule"></div>
 
         <div class="field">
@@ -693,18 +695,19 @@ textarea{resize:vertical;min-height:84px;line-height:1.55}
         <div class="field">
           <label class="flabel" for="f-siteprefs">Site &amp; PI preferences <span class="req">*</span></label>
           <div class="fhint">Describe PI medical specialisation, institution type (e.g. large metropolitan hospital, private clinic), IEC submission preferences, and any geographical considerations.</div>
+          <div class="fhint" style="color:var(--teal);margin-top:-2px">If a previous preferred PI / KOL / Site ID list exists, please ensure it was uploaded in the Documents section (Step 2), and that the &lsquo;Site Outreach Request&rsquo; / Part C details are completed.</div>
           <textarea id="f-siteprefs" placeholder="e.g. Oncology PIs with Phase 2 experience, large metropolitan hospitals preferred, no private clinics…"></textarea>
         </div>
 
         <div class="field">
           <label class="flabel" for="f-site-involvement">Site involvement in study</label>
-          <div class="fhint">Indicate how sites will participate &mdash; e.g. Whole Study, Part of Study (dose escalation only), or Specific Patient Population. This helps the feasibility team target the right sites.</div>
+          <div class="fhint">Indicate how sites will participate &mdash; select all that apply. In some studies (e.g. oncology) more than one may apply. Use the box below to explain further.</div>
           <div class="rstack" style="margin-bottom:10px">
-            <div class="tile" data-g="siteInvolvement" data-v="Whole Study" data-t="r"><div class="tcircle"></div><div class="tile-text"><strong>Whole Study</strong><span>Sites will participate across all parts / cohorts of the study</span></div></div>
-            <div class="tile" data-g="siteInvolvement" data-v="Part of Study" data-t="r" data-show="cond-involvement-detail"><div class="tcircle"></div><div class="tile-text"><strong>Part of Study</strong><span>Sites will only participate in specific parts, cohorts, or phases</span></div></div>
-            <div class="tile" data-g="siteInvolvement" data-v="Specific Patient Population" data-t="r" data-show="cond-involvement-detail"><div class="tcircle"></div><div class="tile-text"><strong>Specific Patient Population</strong><span>Sites are being targeted for a defined patient sub-group</span></div></div>
+            <div class="tile" data-g="siteInvolvement" data-v="Whole Study" data-t="c"><div class="tbox"><svg class="ck" viewBox="0 0 12 10" fill="none"><path d="M1 5l3.5 3.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="tile-text"><strong>Whole Study</strong><span>Sites will participate across all parts / cohorts of the study</span></div></div>
+            <div class="tile" data-g="siteInvolvement" data-v="Part of Study" data-t="c"><div class="tbox"><svg class="ck" viewBox="0 0 12 10" fill="none"><path d="M1 5l3.5 3.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="tile-text"><strong>Part of Study</strong><span>Sites will only participate in specific parts, cohorts, or phases</span></div></div>
+            <div class="tile" data-g="siteInvolvement" data-v="Specific Patient Population" data-t="c"><div class="tbox"><svg class="ck" viewBox="0 0 12 10" fill="none"><path d="M1 5l3.5 3.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="tile-text"><strong>Specific Patient Population</strong><span>Sites are being targeted for a defined patient sub-group</span></div></div>
           </div>
-          <div id="cond-involvement-detail" style="display:none">
+          <div id="cond-involvement-detail">
             <textarea id="f-site-involvement" rows="3" placeholder="Please provide relevant details, e.g. will some sites only participate in dose escalation, will some sites participate in dose expansion, specific patient criteria, etc."></textarea>
           </div>
         </div>
@@ -719,11 +722,11 @@ textarea{resize:vertical;min-height:84px;line-height:1.55}
             <div class="fm-col-head">Patient &mdash; Currently<br>on Treatment / SoC</div>
             <div class="fm-col-head">Patient &mdash; Newly<br>Diagnosed / Treatment-naive</div>
 
-            <div class="fm-row-head"><span class="fm-row-icon">🔬</span>Phase 1 Unit</div>
-            <div class="fm-cell" data-g="facility" data-v="Phase 1 Unit – Healthy Volunteers"><div class="fm-check"><svg viewBox="0 0 12 10" fill="none"><path d="M1 5l3.5 3.5L11 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
-            <div class="fm-cell" data-g="facility" data-v="Phase 1 Unit – Adolescents"><div class="fm-check"><svg viewBox="0 0 12 10" fill="none"><path d="M1 5l3.5 3.5L11 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
-            <div class="fm-cell" data-g="facility" data-v="Phase 1 Unit – Patient (On Treatment/SoC)"><div class="fm-check"><svg viewBox="0 0 12 10" fill="none"><path d="M1 5l3.5 3.5L11 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
-            <div class="fm-cell" data-g="facility" data-v="Phase 1 Unit – Patient (Treatment-naive)"><div class="fm-check"><svg viewBox="0 0 12 10" fill="none"><path d="M1 5l3.5 3.5L11 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+            <div class="fm-row-head"><span class="fm-row-icon">🔬</span>Phase 1 Unit / Inpatient Facility</div>
+            <div class="fm-cell" data-g="facility" data-v="Phase 1 Unit / Inpatient – Healthy Volunteers"><div class="fm-check"><svg viewBox="0 0 12 10" fill="none"><path d="M1 5l3.5 3.5L11 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+            <div class="fm-cell" data-g="facility" data-v="Phase 1 Unit / Inpatient – Adolescents"><div class="fm-check"><svg viewBox="0 0 12 10" fill="none"><path d="M1 5l3.5 3.5L11 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+            <div class="fm-cell" data-g="facility" data-v="Phase 1 Unit / Inpatient – Patient (On Treatment/SoC)"><div class="fm-check"><svg viewBox="0 0 12 10" fill="none"><path d="M1 5l3.5 3.5L11 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+            <div class="fm-cell" data-g="facility" data-v="Phase 1 Unit / Inpatient – Patient (Treatment-naive)"><div class="fm-check"><svg viewBox="0 0 12 10" fill="none"><path d="M1 5l3.5 3.5L11 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
 
             <div class="fm-row-head"><span class="fm-row-icon">🏥</span>Standard Clinic /<br>Hospital (Outpatient)</div>
             <div class="fm-cell" data-g="facility" data-v="Standard Clinic/Hospital (Outpatient) – Healthy Volunteers"><div class="fm-check"><svg viewBox="0 0 12 10" fill="none"><path d="M1 5l3.5 3.5L11 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
@@ -799,11 +802,22 @@ textarea{resize:vertical;min-height:84px;line-height:1.55}
           <label class="flabel">Is this the first time feasibility is being conducted for this study? <span class="req">*</span></label>
           <div class="rstack">
             <div class="tile" data-g="firstTime" data-v="Yes – first time" data-t="r" data-hide="cond-existing"><div class="tcircle"></div><div class="tile-text"><strong>Yes &mdash; first time</strong><span>No prior outreach has been conducted for this study</span></div></div>
-            <div class="tile" data-g="firstTime" data-v="No – prior outreach exists" data-t="r" data-show="cond-existing"><div class="tcircle"></div><div class="tile-text"><strong>No &mdash; prior outreach exists</strong><span>Previous outreach was conducted by Novotech, Sponsor, or a Vendor</span></div></div>
+            <div class="tile" data-g="firstTime" data-v="No – prior Site outreach exists and FQ template is available" data-t="r" data-show="cond-existing"><div class="tcircle"></div><div class="tile-text"><strong>No &mdash; prior Site outreach exists and FQ template is available</strong><span>Previous Site outreach was conducted (by Novotech, Sponsor, or a Vendor) and an existing FQ template can be provided.</span></div></div>
+            <div class="tile" data-g="firstTime" data-v="No – prior Site outreach exists but no FQ template is available" data-t="r" data-show="cond-existing"><div class="tcircle"></div><div class="tile-text"><strong>No &mdash; prior Site outreach exists but no FQ template is available</strong><span>Previous Site outreach was conducted, but no FQ template or prior results are available to provide.</span></div></div>
           </div>
         </div>
         <div id="cond-existing" style="display:none">
           <div class="callout info"><div class="callout-icon">&#128203;</div><p>If a previous FQ template or outreach tracker exists, please ensure it was uploaded in the Documents section (Step 2).</p></div>
+          <div class="field">
+            <label class="flabel">Is an existing FQ template or prior results available?</label>
+            <div class="rstack">
+              <div class="tile" data-g="fqExisting" data-v="Yes – existing FQ template available" data-t="r" data-hide="cond-fqexisting-na"><div class="tcircle"></div><div class="tile-text"><strong>Yes &mdash; existing FQ template available</strong><span>Please ensure it was uploaded in the Documents section (Step 2) or below.</span></div></div>
+              <div class="tile" data-g="fqExisting" data-v="N/A – prior Site outreach exists, no vendor results or template available" data-t="r" data-show="cond-fqexisting-na"><div class="tcircle"></div><div class="tile-text"><strong>N/A &mdash; prior Site outreach exists, no template / results available</strong><span>e.g. Sponsor advised outreach was conducted by another vendor, but no FQ template or results were shared.</span></div></div>
+            </div>
+          </div>
+          <div id="cond-fqexisting-na" style="display:none">
+            <div class="field"><label class="flabel" for="f-fqexisting-detail">Further detail (optional)</label><div class="fhint">Add any context on the prior outreach &mdash; who conducted it, what is known, and what is missing.</div><textarea id="f-fqexisting-detail" rows="2" placeholder="e.g. Sponsor advised a previous vendor conducted limited outreach in 2024; no tracker or FQ template available…"></textarea></div>
+          </div>
           <div class="field"><label class="flabel" for="f-fqchanges">Changes to incorporate into the existing FQ template</label><div class="fhint">e.g. Protocol Amendment, addition or expansion of countries, start of dose expansion phase, updated eligibility criteria.</div><textarea id="f-fqchanges" placeholder="Describe the changes required…"></textarea></div>
         </div>
 
@@ -815,7 +829,7 @@ textarea{resize:vertical;min-height:84px;line-height:1.55}
           </div>
         </div>
         <div id="cond-blinded" style="display:none">
-          <div class="field"><label class="flabel" for="f-blindedreason">Reason a blinded FQ is required</label><textarea id="f-blindedreason" placeholder="e.g. Sponsor has requested that no study-specific details be shared prior to CDA execution…"></textarea></div>
+          <div class="field"><label class="flabel" for="f-blindedreason">Reason a blinded FQ is required</label><textarea id="f-blindedreason" placeholder="e.g. Sponsor has requested that certain details not be shared prior to CDA execution — such as the Sponsor name, protocol synopsis, Investigator's Brochure (IB), or Investigational Product (IP) name. Specify what may be shared (e.g. IP class only)…"></textarea></div>
         </div>
 
         <div class="field">
@@ -823,7 +837,7 @@ textarea{resize:vertical;min-height:84px;line-height:1.55}
           <div class="fhint">CDA execution typically takes 5&ndash;10 business days; some regions (e.g. EU) can take 4&ndash;6 weeks. If engaging multiple regions, confirm the appropriate CDA type for each with the Sponsor. Note: blinded outreach can commence <em>before</em> a CDA is in place to confirm top-level interest.</div>
           <div class="rstack">
             <div class="tile" data-g="cdaType" data-v="NHH CDA" data-t="r"><div class="tcircle"></div><div class="tile-text"><strong>NHH CDA</strong></div></div>
-            <div class="tile" data-g="cdaType" data-v="Sponsor CDA" data-t="r"><div class="tcircle"></div><div class="tile-text"><strong>Sponsor CDA</strong><span>If engaging multiple regions, confirm approval of Sponsor CDA type for each region.</span></div></div>
+            <div class="tile" data-g="cdaType" data-v="Sponsor CDA" data-t="r"><div class="tcircle"></div><div class="tile-text"><strong>Sponsor CDA</strong><span>If engaging multiple regions, confirm approval of Sponsor CDA type for each region. Ensure Sponsor CDA template attached in &lsquo;Relevant documents&rsquo;.</span></div></div>
             <div class="tile" data-g="cdaType" data-v="N/A – Blinded outreach" data-t="r"><div class="tcircle"></div><div class="tile-text"><strong>N/A &mdash; Blinded outreach</strong></div></div>
           </div>
         </div>
@@ -865,9 +879,10 @@ textarea{resize:vertical;min-height:84px;line-height:1.55}
         <!-- SITE LIST APPROACH (moved from Part A) -->
         <div class="field">
           <label class="flabel">Site list approach <span class="req">*</span></label>
+          <div class="fhint">Select all that apply. The PM / Sponsor may hold a partial shortlist while still requesting the Feasibility team generate additional sites.</div>
           <div class="rstack">
-            <div class="tile" data-g="siteList" data-v="PM/Sponsor holds a shortlist of PIs/sites" data-t="r" data-show="cond-shortlist"><div class="tcircle"></div><div class="tile-text"><strong>PM / Sponsor holds a shortlist of PIs / sites</strong><span>You will be prompted to enter site details below. A document upload is also accepted.</span></div></div>
-            <div class="tile" data-g="siteList" data-v="Feasibility team to generate site list in consultation with Country Clinical Operations" data-t="r" data-hide="cond-shortlist"><div class="tcircle"></div><div class="tile-text"><strong>Feasibility team to generate site list</strong><span>In consultation with Country Clinical Operations team</span></div></div>
+            <div class="tile" data-g="siteList" data-v="PM/Sponsor holds a shortlist of PIs/sites" data-t="c" data-x="shortlist"><div class="tbox"><svg class="ck" viewBox="0 0 12 10" fill="none"><path d="M1 5l3.5 3.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="tile-text"><strong>PM / Sponsor holds a shortlist of PIs / sites</strong><span>You will be prompted to enter site details below. A document upload is also accepted.</span></div></div>
+            <div class="tile" data-g="siteList" data-v="Feasibility team to generate site list in consultation with Country Clinical Operations" data-t="c"><div class="tbox"><svg class="ck" viewBox="0 0 12 10" fill="none"><path d="M1 5l3.5 3.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="tile-text"><strong>Feasibility team to generate site list</strong><span>In consultation with Country Clinical Operations team</span></div></div>
           </div>
         </div><!-- /field: site list approach -->
 
@@ -924,7 +939,20 @@ textarea{resize:vertical;min-height:84px;line-height:1.55}
 
         <div class="field-row">
           <div>
+            <label class="flabel" for="f-outreachdate">Target date for Site Outreach commencement</label>
+            <div class="fhint">This should be at least 10 business days after site list generation, as the site list is a prerequisite to outreach.</div>
+            <input type="date" id="f-outreachdate">
+          </div>
+          <div>
+            <label class="flabel" for="f-outreachreason">Reason for this date</label>
+            <textarea id="f-outreachreason" rows="3" placeholder="e.g. aligned to study start-up timelines, Sponsor-driven milestone&hellip;"></textarea>
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div>
             <label class="flabel" for="f-fqdate">Target date for feasibility responses <span class="req">*</span></label>
+            <div class="fhint">Must be at least 10 business days after the Site Outreach start date (a minimum of 10 business days is required for site feedback once outreach commences).</div>
             <input type="date" id="f-fqdate">
           </div>
           <div>
@@ -1343,8 +1371,8 @@ var FMAP={
   support:['f-comments','f-other-support','f-kom-date'],
   protocol:['f-timelines','f-amendment'],
   parta:['f-siteprefs','f-sitedate','f-sitereason','f-other-facility','f-site-involvement','f-timelines-paste'],
-  partb:['f-fqchanges','f-blindedreason','f-other-siteReqs'],
-  partc:['f-fqdate','f-other-dateReason','f-sites-paste']
+  partb:['f-fqchanges','f-blindedreason','f-other-siteReqs','f-fqexisting-detail'],
+  partc:['f-fqdate','f-other-dateReason','f-sites-paste','f-outreachdate','f-outreachreason']
 };
 function collectFields(){
   var step=currentStep();
@@ -1352,7 +1380,7 @@ function collectFields(){
 }
 
 /* ── COUNTRY LIST & SEARCHABLE DROPDOWN ── */
-var COUNTRIES=['Afghanistan','Albania','Algeria','Andorra','Angola','Antigua and Barbuda','Argentina','Armenia','Australia','Austria','Azerbaijan','Bahamas','Bahrain','Bangladesh','Barbados','Belarus','Belgium','Belize','Benin','Bhutan','Bolivia','Bosnia and Herzegovina','Botswana','Brazil','Brunei','Bulgaria','Burkina Faso','Burundi','Cabo Verde','Cambodia','Cameroon','Canada','Central African Republic','Chad','Chile','China','Colombia','Comoros','Congo','Costa Rica','Croatia','Cuba','Cyprus','Czech Republic','Denmark','Djibouti','Dominica','Dominican Republic','Ecuador','Egypt','El Salvador','Equatorial Guinea','Eritrea','Estonia','Eswatini','Ethiopia','Fiji','Finland','France','Gabon','Gambia','Georgia','Germany','Ghana','Greece','Grenada','Guatemala','Guinea','Guinea-Bissau','Guyana','Haiti','Honduras','Hungary','Iceland','India','Indonesia','Iran','Iraq','Ireland','Israel','Italy','Jamaica','Japan','Jordan','Kazakhstan','Kenya','Kiribati','Kuwait','Kyrgyzstan','Laos','Latvia','Lebanon','Lesotho','Liberia','Libya','Liechtenstein','Lithuania','Luxembourg','Madagascar','Malawi','Malaysia','Maldives','Mali','Malta','Marshall Islands','Mauritania','Mauritius','Mexico','Micronesia','Moldova','Monaco','Mongolia','Montenegro','Morocco','Mozambique','Myanmar','Namibia','Nauru','Nepal','Netherlands','New Zealand','Nicaragua','Niger','Nigeria','North Korea','North Macedonia','Norway','Oman','Pakistan','Palau','Palestine','Panama','Papua New Guinea','Paraguay','Peru','Philippines','Poland','Portugal','Qatar','Romania','Russia','Rwanda','Saint Kitts and Nevis','Saint Lucia','Saint Vincent and the Grenadines','Samoa','San Marino','Sao Tome and Principe','Saudi Arabia','Senegal','Serbia','Seychelles','Sierra Leone','Singapore','Slovakia','Slovenia','Solomon Islands','Somalia','South Africa','South Korea','South Sudan','Spain','Sri Lanka','Sudan','Suriname','Sweden','Switzerland','Syria','Taiwan','Tajikistan','Tanzania','Thailand','Timor-Leste','Togo','Tonga','Trinidad and Tobago','Tunisia','Turkey','Turkmenistan','Tuvalu','Uganda','Ukraine','United Arab Emirates','United Kingdom','United States','Uruguay','Uzbekistan','Vanuatu','Vatican City','Venezuela','Vietnam','Yemen','Zambia','Zimbabwe'];
+var COUNTRIES=['Afghanistan','Albania','Algeria','Andorra','Angola','Antigua and Barbuda','Argentina','Armenia','Australia','Austria','Azerbaijan','Bahamas','Bahrain','Bangladesh','Barbados','Belarus','Belgium','Belize','Benin','Bhutan','Bolivia','Bosnia and Herzegovina','Botswana','Brazil','Brunei','Bulgaria','Burkina Faso','Burundi','Cabo Verde','Cambodia','Cameroon','Canada','Central African Republic','Chad','Chile','China','Colombia','Comoros','Congo','Costa Rica','Croatia','Cuba','Cyprus','Czech Republic','Denmark','Djibouti','Dominica','Dominican Republic','Ecuador','Egypt','El Salvador','Equatorial Guinea','Eritrea','Estonia','Eswatini','Ethiopia','Fiji','Finland','France','Gabon','Gambia','Georgia','Germany','Ghana','Greece','Grenada','Guatemala','Guinea','Guinea-Bissau','Guyana','Haiti','Honduras','Hong Kong','Hungary','Iceland','India','Indonesia','Iran','Iraq','Ireland','Israel','Italy','Jamaica','Japan','Jordan','Kazakhstan','Kenya','Kiribati','Kuwait','Kyrgyzstan','Laos','Latvia','Lebanon','Lesotho','Liberia','Libya','Liechtenstein','Lithuania','Luxembourg','Madagascar','Malawi','Malaysia','Maldives','Mali','Malta','Marshall Islands','Mauritania','Mauritius','Mexico','Micronesia','Moldova','Monaco','Mongolia','Montenegro','Morocco','Mozambique','Myanmar','Namibia','Nauru','Nepal','Netherlands','New Zealand','Nicaragua','Niger','Nigeria','North Korea','North Macedonia','Norway','Oman','Pakistan','Palau','Palestine','Panama','Papua New Guinea','Paraguay','Peru','Philippines','Poland','Portugal','Qatar','Romania','Russia','Rwanda','Saint Kitts and Nevis','Saint Lucia','Saint Vincent and the Grenadines','Samoa','San Marino','Sao Tome and Principe','Saudi Arabia','Senegal','Serbia','Seychelles','Sierra Leone','Singapore','Slovakia','Slovenia','Solomon Islands','Somalia','South Africa','South Korea','South Sudan','Spain','Sri Lanka','Sudan','Suriname','Sweden','Switzerland','Syria','Taiwan','Tajikistan','Tanzania','Thailand','Timor-Leste','Togo','Tonga','Trinidad and Tobago','Tunisia','Turkey','Turkmenistan','Tuvalu','Uganda','Ukraine','United Arab Emirates','United Kingdom','United States','Uruguay','Uzbekistan','Vanuatu','Vatican City','Venezuela','Vietnam','Yemen','Zambia','Zimbabwe'];
 
 function makeCountrySelect(initialValue,onSelect){
   var wrap=document.createElement('div');wrap.className='country-select-wrap';
@@ -1397,9 +1425,14 @@ function makeCountrySelect(initialValue,onSelect){
 }
 
 /* ── COUNTRY ROW BUILDER ── */
-function addCountryRow(country,classification,needed,budgeted,ecDate,fpiDate,enrolMonths){
+function addCountryRow(country,classification,needed,budgeted,ecDate,fpiDate,enrolMonths,extra){
   var idx=countryRows.length;
-  var row={country:country||'',classification:classification||'Primary',needed:needed||'',budgeted:budgeted||'',ecDate:ecDate||'',fpiDate:fpiDate||'',enrolMonths:enrolMonths||''};
+  extra=extra||{};
+  var row={country:country||'',classification:classification||'Primary',needed:needed||'',
+    budgeted:budgeted||'',budgetedUnknown:!!extra.budgetedUnknown,
+    budgetOutreach:extra.budgetOutreach||'',budgetOutreachUnknown:!!extra.budgetOutreachUnknown,
+    outreach:extra.outreach!==undefined?!!extra.outreach:true,
+    ecDate:ecDate||'',fpiDate:fpiDate||'',enrolMonths:enrolMonths||''};
   countryRows.push(row);
   var container=document.getElementById('country-rows');
   var div=document.createElement('div');div.className='cb-card';div.dataset.idx=idx;
@@ -1426,6 +1459,22 @@ function addCountryRow(country,classification,needed,budgeted,ecDate,fpiDate,enr
     inp.addEventListener('input',function(){countryRows[idx][key]=this.value.trim();});
     wrap.appendChild(lbl);wrap.appendChild(inp);return wrap;
   }
+  // number field with an "Unknown / TBC" toggle that disables the amount input
+  function budgetField(label,valKey,unknownKey){
+    var wrap=document.createElement('div');wrap.className='cb-mini-field';
+    var head=document.createElement('div');head.style.cssText='display:flex;align-items:center;justify-content:space-between;gap:8px';
+    var lbl=document.createElement('span');lbl.className='cb-mini-label';lbl.textContent=label;
+    var tgl=document.createElement('label');tgl.style.cssText='display:flex;align-items:center;gap:4px;font-size:11px;color:var(--ink3);cursor:pointer;white-space:nowrap';
+    var chk=document.createElement('input');chk.type='checkbox';chk.style.cssText='width:13px;height:13px;accent-color:var(--teal)';chk.checked=!!countryRows[idx][unknownKey];
+    tgl.appendChild(chk);tgl.appendChild(document.createTextNode('Unknown / TBC'));
+    head.appendChild(lbl);head.appendChild(tgl);
+    var inp=document.createElement('input');inp.type='number';inp.className='cr-num';inp.placeholder='0';inp.min='0';inp.value=countryRows[idx][valKey]||'';
+    function applyState(){if(chk.checked){inp.disabled=true;inp.style.opacity='0.45';inp.value='';countryRows[idx][valKey]='';}else{inp.disabled=false;inp.style.opacity='';}}
+    inp.addEventListener('input',function(){countryRows[idx][valKey]=this.value.trim();});
+    chk.addEventListener('change',function(){countryRows[idx][unknownKey]=this.checked;applyState();});
+    applyState();
+    wrap.appendChild(head);wrap.appendChild(inp);return wrap;
+  }
   function dateField(label,val,key){
     var wrap=document.createElement('div');wrap.className='cb-mini-field';
     var lbl=document.createElement('span');lbl.className='cb-mini-label';lbl.textContent=label;
@@ -1439,9 +1488,20 @@ function addCountryRow(country,classification,needed,budgeted,ecDate,fpiDate,enr
 
   topRow.appendChild(csWrap);
   topRow.appendChild(ctDiv);
-  topRow.appendChild(numField('Sites needed',row.needed,'needed'));
-  topRow.appendChild(numField('Budgeted',row.budgeted,'budgeted'));
   topRow.appendChild(rmBtn);
+
+  // outreach request flag for this country
+  var orRow=document.createElement('div');orRow.className='cb-outreach-flag';
+  var orLbl=document.createElement('label');orLbl.style.cssText='display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--teal);cursor:pointer';
+  var orChk=document.createElement('input');orChk.type='checkbox';orChk.style.cssText='width:15px;height:15px;accent-color:var(--teal)';orChk.checked=row.outreach;
+  orChk.addEventListener('change',function(){countryRows[idx].outreach=this.checked;});
+  orLbl.appendChild(orChk);orLbl.appendChild(document.createTextNode('Request site outreach at this country as part of this request'));
+  orRow.appendChild(orLbl);
+
+  var numRow=document.createElement('div');numRow.className='cb-card-tl';
+  numRow.appendChild(numField('Sites needed',row.needed,'needed'));
+  numRow.appendChild(budgetField('Budget for site selection & activation','budgeted','budgetedUnknown'));
+  numRow.appendChild(budgetField('Budget for site outreach / feasibility','budgetOutreach','budgetOutreachUnknown'));
 
   var tlRow=document.createElement('div');tlRow.className='cb-card-tl';
   tlRow.appendChild(dateField('EC Submission',row.ecDate,'ecDate'));
@@ -1449,10 +1509,14 @@ function addCountryRow(country,classification,needed,budgeted,ecDate,fpiDate,enr
   tlRow.appendChild(numField('Enrolment (months)',row.enrolMonths,'enrolMonths'));
 
   div.appendChild(topRow);
+  div.appendChild(orRow);
+  div.appendChild(numRow);
   div.appendChild(tlRow);
   container.appendChild(div);
 }
 function getActiveCountryRows(){return countryRows.filter(function(r){return r&&r.country;});}
+// format a budget value for display: "Unknown / TBC" when toggled, else the amount
+function fmtBudget(val,unknown){return unknown?'Unknown / TBC':(val||'\u2014');}
 
 /* ── COUNTRY TABLE / PASTE MODE TOGGLE ── */
 document.addEventListener('DOMContentLoaded',function(){});
@@ -1604,6 +1668,7 @@ document.addEventListener('click',function(e){
       var isOn=(fd[g]||[]).indexOf(v)>-1;
       var condEl=document.getElementById('cond-'+tile.dataset.x);
       if(condEl) condEl.style.display=isOn?'block':'none';
+      if(tile.dataset.x==='shortlist'&&isOn){var sr=document.getElementById('site-rows');if(sr&&sr.children.length===0)addSiteRow('','','');}
     }
     // Sync part cards when support tiles change
     if(g==='support') syncPartsFromSupport();
@@ -1822,7 +1887,7 @@ function doReview(){
   var chip=function(v){return'<span class="chip">'+esc(v)+'</span>';};
   var row=function(k,v){return v?'<div class="rrow"><div class="rk">'+k+'</div><div class="rv">'+esc(v)+'</div></div>':'';};
   var rowP=function(k,v){return v?'<div class="rrow"><div class="rk">'+k+'</div><div class="rv pre">'+esc(v)+'</div></div>':'';};
-  var rowC=function(k,a){return(a&&a.length)?'<div class="rrow"><div class="rk">'+k+'</div><div class="rv">'+a.map(chip).join('')+'</div></div>':'';};
+  var rowC=function(k,a){if(typeof a==='string')a=a?[a]:[];return(a&&a.length)?'<div class="rrow"><div class="rk">'+k+'</div><div class="rv">'+a.map(chip).join('')+'</div></div>':'';};
   var parts=[partA?'Part A':'',partB?'Part B':'',partC?'Part C':''].filter(Boolean).join(', ')||'General Support / Country Strategy';
   var selectedRegions=(fd.region||[]).join(', ')||'No regions selected';
 
@@ -1856,11 +1921,11 @@ function doReview(){
     h+='<div class="rsurf"><div class="rsurf-head"><span>A</span><span>Part A &mdash; Site Identification</span></div><div class="rbody">';
     var acr=getActiveCountryRows();
     if(acr.length){
-      h+='<div class="rrow"><div class="rk">Target Countries</div><div class="rv"><div class="rv-table-wrap"><table style="width:100%;border-collapse:collapse;font-size:12.5px;min-width:480px"><tr style="color:var(--ink3);font-size:11px;font-weight:600"><td style="padding:3px 8px 3px 0">Country</td><td style="padding:3px 8px">Class.</td><td style="padding:3px 8px">Needed</td><td style="padding:3px 8px">Budgeted</td><td style="padding:3px 8px">EC Date</td><td style="padding:3px 8px">FPI Date</td><td style="padding:3px 0">Enrol (mo)</td></tr>';
-      acr.forEach(function(r){h+='<tr><td style="padding:4px 8px 4px 0;color:var(--ink)">'+escHtml(r.country)+'</td><td style="padding:4px 8px"><span class="chip">'+escHtml(r.classification)+'</span></td><td style="padding:4px 8px;color:var(--ink)">'+escHtml(r.needed||'\u2014')+'</td><td style="padding:4px 8px;color:var(--ink)">'+escHtml(r.budgeted||'\u2014')+'</td><td style="padding:4px 8px;color:var(--ink)">'+escHtml(r.ecDate||'\u2014')+'</td><td style="padding:4px 8px;color:var(--ink)">'+escHtml(r.fpiDate||'\u2014')+'</td><td style="padding:4px 0;color:var(--ink)">'+escHtml(r.enrolMonths?r.enrolMonths+' mo':'\u2014')+'</td></tr>';});
+      h+='<div class="rrow"><div class="rk">Target Countries</div><div class="rv"><div class="rv-table-wrap"><table style="width:100%;border-collapse:collapse;font-size:12.5px;min-width:480px"><tr style="color:var(--ink3);font-size:11px;font-weight:600"><td style="padding:3px 8px 3px 0">Country</td><td style="padding:3px 8px">Class.</td><td style="padding:3px 8px">Outreach</td><td style="padding:3px 8px">Needed</td><td style="padding:3px 8px">Budget: Sel/Act</td><td style="padding:3px 8px">Budget: Outreach</td><td style="padding:3px 8px">EC Date</td><td style="padding:3px 8px">FPI Date</td><td style="padding:3px 0">Enrol (mo)</td></tr>';
+      acr.forEach(function(r){h+='<tr><td style="padding:4px 8px 4px 0;color:var(--ink)">'+escHtml(r.country)+'</td><td style="padding:4px 8px"><span class="chip">'+escHtml(r.classification)+'</span></td><td style="padding:4px 8px;color:var(--ink)">'+(r.outreach?'Yes':'No')+'</td><td style="padding:4px 8px;color:var(--ink)">'+escHtml(r.needed||'\u2014')+'</td><td style="padding:4px 8px;color:var(--ink)">'+escHtml(fmtBudget(r.budgeted,r.budgetedUnknown))+'</td><td style="padding:4px 8px;color:var(--ink)">'+escHtml(fmtBudget(r.budgetOutreach,r.budgetOutreachUnknown))+'</td><td style="padding:4px 8px;color:var(--ink)">'+escHtml(r.ecDate||'\u2014')+'</td><td style="padding:4px 8px;color:var(--ink)">'+escHtml(r.fpiDate||'\u2014')+'</td><td style="padding:4px 0;color:var(--ink)">'+escHtml(r.enrolMonths?r.enrolMonths+' mo':'\u2014')+'</td></tr>';});
       h+='</table></div></div>';
     }
-    h+=row('Site Involvement',fd.siteInvolvement||'')+(fd['f-site-involvement']?row('Involvement Detail',fd['f-site-involvement']):'');
+    h+=rowC('Site Involvement',fd.siteInvolvement)+(fd['f-site-involvement']?row('Involvement Detail',fd['f-site-involvement']):'');
     if(fd['f-timelines-paste']) h+=rowP('Target Country Details',fd['f-timelines-paste']);
     h+=row('Site / PI Preferences',fd['f-siteprefs']);
     h+=rowC('Facility Type',fd.facility)+(fd['f-other-facility']?row('Other facility',fd['f-other-facility']):'');
@@ -1871,7 +1936,7 @@ function doReview(){
   // Part B
   if(partB){
     h+='<div class="rsurf"><div class="rsurf-head"><span>B</span><span>Part B &mdash; FQ Template Development</span></div><div class="rbody">';
-    h+=row('First Time Feasibility',fd.firstTime)+(fd['f-fqchanges']?rowP('FQ Changes',fd['f-fqchanges']):'');
+    h+=row('First Time Feasibility',fd.firstTime)+(fd.fqExisting?row('Existing FQ Template',fd.fqExisting):'')+(fd['f-fqexisting-detail']?rowP('Prior Outreach Detail',fd['f-fqexisting-detail']):'')+(fd['f-fqchanges']?rowP('FQ Changes',fd['f-fqchanges']):'');
     h+=row('FQ Type',fd.fqType)+(fd['f-blindedreason']?row('Blinded Reason',fd['f-blindedreason']):'');
     h+=row('CDA Type',fd.cdaType);
     h+=rowC('Critical Site Criteria',fd.siteReqs)+(fd['f-other-siteReqs']?row('Other criteria',fd['f-other-siteReqs']):'');
@@ -1882,7 +1947,7 @@ function doReview(){
   // Part C
   if(partC){
     h+='<div class="rsurf"><div class="rsurf-head"><span>C</span><span>Part C &mdash; Site Outreach Request</span></div><div class="rbody">';
-    h+=row('Site List Approach',fd.siteList||'')+(fd.sponsorApproval?row('Sponsor Approval Required',fd.sponsorApproval):'');
+    h+=rowC('Site List Approach',fd.siteList)+(fd.sponsorApproval?row('Sponsor Approval Required',fd.sponsorApproval):'');
     var activeRows=getActiveSiteRows();
     if(activeRows.length){
       h+='<div class="rrow"><div class="rk">Shortlisted Sites</div><div class="rv rv-table-wrap">';
@@ -1892,7 +1957,7 @@ function doReview(){
       h+='</table></div></div>';
     }
     if(fd['f-sites-paste']) h+=rowP('Sites (paste notes)',fd['f-sites-paste']);
-    h+=row('Target Response Date',fd['f-fqdate']);
+    h+=row('Site Outreach Target Date',fd['f-outreachdate'])+(fd['f-outreachreason']?rowP('Outreach Date Reason',fd['f-outreachreason']):'')+row('Target Response Date',fd['f-fqdate']);
     h+=rowC('Reason for Date',fd.dateReason)+(fd['f-other-dateReason']?row('Other reason detail',fd['f-other-dateReason']):'');
     h+='</div></div>';
   }
@@ -1946,12 +2011,12 @@ function buildHtmlEmail(){
     var acr2=getActiveCountryRows();
     var countriesHtml='';
     if(acr2.length){
-      countriesHtml='<tr><td style="'+th+'">Target Countries</td><td style="'+td+'"><table style="width:100%;border-collapse:collapse;font-size:12px"><tr style="color:#78716C;font-size:11px"><td style="padding:2px 10px 4px 0;font-weight:600">Country</td><td style="padding:2px 10px 4px;font-weight:600">Classification</td><td style="padding:2px 10px 4px;font-weight:600">Sites Needed</td><td style="padding:2px 0 4px;font-weight:600">Sites Budgeted for Outreach</td></tr>'+acr2.map(function(r){return'<tr><td style="padding:3px 10px 3px 0">'+esc(r.country)+'</td><td style="padding:3px 10px">'+esc(r.classification)+'</td><td style="padding:3px 10px">'+esc(r.needed||'\u2014')+'</td><td style="padding:3px 10px">'+esc(r.budgeted||'\u2014')+'</td><td style="padding:3px 10px">'+esc(r.ecDate||'\u2014')+'</td><td style="padding:3px 10px">'+esc(r.fpiDate||'\u2014')+'</td><td style="padding:3px 0">'+esc(r.enrolMonths?r.enrolMonths+' mo':'\u2014')+'</td></tr>';}).join('')+'</table></td></tr>';
+      countriesHtml='<tr><td style="'+th+'">Target Countries</td><td style="'+td+'"><table style="width:100%;border-collapse:collapse;font-size:12px"><tr style="color:#78716C;font-size:11px"><td style="padding:2px 10px 4px 0;font-weight:600">Country</td><td style="padding:2px 10px 4px;font-weight:600">Classification</td><td style="padding:2px 10px 4px;font-weight:600">Outreach</td><td style="padding:2px 10px 4px;font-weight:600">Sites Needed</td><td style="padding:2px 10px 4px;font-weight:600">Budget: Sel/Act</td><td style="padding:2px 10px 4px;font-weight:600">Budget: Outreach</td><td style="padding:2px 10px 4px;font-weight:600">EC</td><td style="padding:2px 10px 4px;font-weight:600">FPI</td><td style="padding:2px 0 4px;font-weight:600">Enrol</td></tr>'+acr2.map(function(r){return'<tr><td style="padding:3px 10px 3px 0">'+esc(r.country)+'</td><td style="padding:3px 10px">'+esc(r.classification)+'</td><td style="padding:3px 10px">'+(r.outreach?'Yes':'No')+'</td><td style="padding:3px 10px">'+esc(r.needed||'\u2014')+'</td><td style="padding:3px 10px">'+esc(fmtBudget(r.budgeted,r.budgetedUnknown))+'</td><td style="padding:3px 10px">'+esc(fmtBudget(r.budgetOutreach,r.budgetOutreachUnknown))+'</td><td style="padding:3px 10px">'+esc(r.ecDate||'\u2014')+'</td><td style="padding:3px 10px">'+esc(r.fpiDate||'\u2014')+'</td><td style="padding:3px 0">'+esc(r.enrolMonths?r.enrolMonths+' mo':'\u2014')+'</td></tr>';}).join('')+'</table></td></tr>';
     }
-    b+=sec('A','Part A &mdash; Site Identification',countriesHtml+row('Site Involvement',fd.siteInvolvement||'')+(fd['f-site-involvement']?rowP('Involvement Detail',fd['f-site-involvement']):'')+rowP('Site / PI Preferences',fd['f-siteprefs'])+rowC('Facility Type',fd.facility)+(fd['f-other-facility']?row('Other facility',fd['f-other-facility']):'')+(fd['f-timelines-paste']?rowP('Target Country Details',fd['f-timelines-paste']):'')+row('Site List Target Date',fd['f-sitedate'])+row('Reason for Date',fd['f-sitereason']||''));
+    b+=sec('A','Part A &mdash; Site Identification',countriesHtml+rowC('Site Involvement',fd.siteInvolvement)+(fd['f-site-involvement']?rowP('Involvement Detail',fd['f-site-involvement']):'')+rowP('Site / PI Preferences',fd['f-siteprefs'])+rowC('Facility Type',fd.facility)+(fd['f-other-facility']?row('Other facility',fd['f-other-facility']):'')+(fd['f-timelines-paste']?rowP('Target Country Details',fd['f-timelines-paste']):'')+row('Site List Target Date',fd['f-sitedate'])+row('Reason for Date',fd['f-sitereason']||''));
   }
-  if(partB) b+=sec('B','Part B &mdash; FQ Template Development',row('First Time Feasibility',fd.firstTime)+(fd['f-fqchanges']?rowP('FQ Changes',fd['f-fqchanges']):'')+row('FQ Type',fd.fqType)+(fd['f-blindedreason']?row('Blinded Reason',fd['f-blindedreason']):'')+row('CDA Type',fd.cdaType)+rowC('Critical Site Criteria',fd.siteReqs)+(fd['f-other-siteReqs']?row('Other criteria',fd['f-other-siteReqs']):'')+row('FQ Approval By',fd.fqApproval));
-  if(partC) b+=sec('C','Part C &mdash; Site Outreach Request',row('Site List Approach',fd.siteList||'')+(fd.sponsorApproval?row('Sponsor Approval Required',fd.sponsorApproval):'')+siteRowsHtml+(fd['f-sites-paste']?rowP('Sites (paste)',fd['f-sites-paste']):'')+row('Target Response Date',fd['f-fqdate'])+rowC('Reason for Date',fd.dateReason)+(fd['f-other-dateReason']?row('Other reason',fd['f-other-dateReason']):''));
+  if(partB) b+=sec('B','Part B &mdash; FQ Template Development',row('First Time Feasibility',fd.firstTime)+(fd.fqExisting?row('Existing FQ Template',fd.fqExisting):'')+(fd['f-fqexisting-detail']?rowP('Prior Outreach Detail',fd['f-fqexisting-detail']):'')+(fd['f-fqchanges']?rowP('FQ Changes',fd['f-fqchanges']):'')+row('FQ Type',fd.fqType)+(fd['f-blindedreason']?row('Blinded Reason',fd['f-blindedreason']):'')+row('CDA Type',fd.cdaType)+rowC('Critical Site Criteria',fd.siteReqs)+(fd['f-other-siteReqs']?row('Other criteria',fd['f-other-siteReqs']):'')+row('FQ Approval By',fd.fqApproval));
+  if(partC) b+=sec('C','Part C &mdash; Site Outreach Request',rowC('Site List Approach',fd.siteList)+(fd.sponsorApproval?row('Sponsor Approval Required',fd.sponsorApproval):'')+siteRowsHtml+(fd['f-sites-paste']?rowP('Sites (paste)',fd['f-sites-paste']):'')+row('Site Outreach Target Date',fd['f-outreachdate'])+(fd['f-outreachreason']?rowP('Outreach Date Reason',fd['f-outreachreason']):'')+row('Target Response Date',fd['f-fqdate'])+rowC('Reason for Date',fd.dateReason)+(fd['f-other-dateReason']?row('Other reason',fd['f-other-dateReason']):''));
   b+='<div style="margin-top:24px;padding:14px 0 22px;border-top:1px solid #EEEAE2;font-size:12px;color:#A8A29E;line-height:1.6">'+esc('This is an automated notification from the Novotech Feasibility Request Tool. Reply to this email to add further information.')+'</div></div></div>';
   return b;
 }
@@ -1964,11 +2029,11 @@ function buildPlain(){
     fd['f-amendment']?'Amendment:\n'+fd['f-amendment']:'','Timelines:\n'+(fd['f-timelines']||'\u2014')];
   if(attachments.length) lines.push('','ATTACHMENTS: '+attachments.map(function(f){return f.name;}).join(', '));
   if(partA){
-    var crs=getActiveCountryRows().map(function(r){return r.country+' ('+r.classification+')'+(r.needed?' - '+r.needed+' sites needed':'')+(r.budgeted?' / '+r.budgeted+' budgeted':'');}).join('\n')||'\u2014';
-    lines.push('','PART A \u2014 SITE IDENTIFICATION','Countries:\n'+crs,'Site List Approach: '+(fd.siteList||'\u2014')+(fd.sponsorApproval?' ['+fd.sponsorApproval+']':''),'Site Prefs: '+(fd['f-siteprefs']||'\u2014'),'Facility: '+((fd.facility||[]).join(', ')||'\u2014'),'Site List Date: '+(fd['f-sitedate']||'\u2014'));
+    var crs=getActiveCountryRows().map(function(r){return r.country+' ('+r.classification+')'+(r.outreach?' [outreach requested]':'')+(r.needed?' - '+r.needed+' sites needed':'')+' / sel-act budget: '+fmtBudget(r.budgeted,r.budgetedUnknown)+' / outreach budget: '+fmtBudget(r.budgetOutreach,r.budgetOutreachUnknown);}).join('\n')||'\u2014';
+    lines.push('','PART A \u2014 SITE IDENTIFICATION','Countries:\n'+crs,'Site List Approach: '+((fd.siteList||[]).join('; ')||'\u2014')+(fd.sponsorApproval?' ['+fd.sponsorApproval+']':''),'Site Prefs: '+(fd['f-siteprefs']||'\u2014'),'Facility: '+((fd.facility||[]).join(', ')||'\u2014'),'Site List Date: '+(fd['f-sitedate']||'\u2014'));
   }
   if(partB) lines.push('','PART B \u2014 FQ TEMPLATE','First Time: '+(fd.firstTime||'\u2014'),'FQ Type: '+(fd.fqType||'\u2014'),'CDA: '+(fd.cdaType||'\u2014'),'Site Reqs: '+((fd.siteReqs||[]).join(', ')||'\u2014'),'Approval: '+(fd.fqApproval||'\u2014'));
-  if(partC) lines.push('','PART C \u2014 SITE OUTREACH','Response Date: '+(fd['f-fqdate']||'\u2014'),'Reason: '+((fd.dateReason||[]).join(', ')||'\u2014'));
+  if(partC) lines.push('','PART C \u2014 SITE OUTREACH','Outreach Start Date: '+(fd['f-outreachdate']||'\u2014'),'Response Date: '+(fd['f-fqdate']||'\u2014'),'Reason: '+((fd.dateReason||[]).join(', ')||'\u2014'));
   return lines.filter(function(l){return l!==null&&l!==undefined;}).join('\n');
 }
 
@@ -2055,15 +2120,20 @@ function createListItem(){
     PartB:partB?'Yes':'No',
     PartC:partC?'Yes':'No',
     Countries:crsStr,
-    SiteListApproach:fd.siteList||'',
+    SiteListApproach:(fd.siteList||[]).join('; '),
+    SiteInvolvement:(fd.siteInvolvement||[]).join('; '),
     SitePreferences:fd['f-siteprefs']||'',
     FacilityType:(fd.facility||[]).join('; '),
     SiteListDate:fd['f-sitedate']||'',
     FirstTimeFeasibility:fd.firstTime||'',
+    ExistingFQTemplate:fd.fqExisting||'',
+    PriorOutreachDetail:fd['f-fqexisting-detail']||'',
     FQType:fd.fqType||'',
     CDAType:fd.cdaType||'',
     SiteRequirements:(fd.siteReqs||[]).join('; '),
     FQApproval:fd.fqApproval||'',
+    OutreachStartDate:fd['f-outreachdate']||'',
+    OutreachDateReason:fd['f-outreachreason']||'',
     FQResponseDate:fd['f-fqdate']||'',
     DateReason:(fd.dateReason||[]).join('; '),
     AttachmentNames:allAtt.map(function(f){return f.name;}).join('; '),
@@ -2306,8 +2376,10 @@ function resetForm(){
   ['sub-a','sub-b','sub-c'].forEach(function(id){$(id).style.display='none';});
   var sr=document.getElementById('site-rows');if(sr)sr.innerHTML='';
   var cr=document.getElementById('country-rows');if(cr)cr.innerHTML='';
-  ['cond-amendment','cond-blinded','cond-existing','cond-shortlist','cond-other-region','cond-other-support','cond-kom-date','cond-involvement-detail','cond-other-facility','cond-other-siteReqs','cond-other-dateReason'].forEach(function(id){var e=document.getElementById(id);if(e)e.style.display='none';});
+  ['cond-amendment','cond-blinded','cond-existing','cond-fqexisting-na','cond-shortlist','cond-other-region','cond-other-support','cond-kom-date','cond-fqcreation','cond-involvement-detail','cond-other-facility','cond-other-siteReqs','cond-other-dateReason'].forEach(function(id){var e=document.getElementById(id);if(e)e.style.display='none';});
   var foCheck=$('fo-same-check');if(foCheck){foCheck.checked=true;$('fo-other-fields').style.display='none';$('fo-same-text').textContent=submitterName?'I am the Feasibility Owner ('+submitterName+')':'I am the Feasibility Owner for this study';}
+  if(typeof window.clearTA==='function') window.clearTA();
+  if(typeof window.clearInd==='function') window.clearInd();
   renderFileList();
   $('btn-submit').disabled=false;
 }
@@ -2324,6 +2396,10 @@ function viewRequestSummary(req){
   // Load the request data
   Object.keys(fd).forEach(function(k){delete fd[k];});
   Object.assign(fd,req.fd||{});
+  // normalise checkbox-group fields (legacy drafts may have stored strings)
+  ['region','support','siteReqs','dateReason','siteInvolvement','siteList','facility'].forEach(function(g){
+    if(typeof fd[g]==='string') fd[g]=fd[g]?[fd[g]]:[];
+  });
   partA=req.partA||false;partB=req.partB||false;partC=req.partC||false;
   countryRows=(req.countryRows||[]).slice();
   siteRows=(req.siteRows||[]).slice();
@@ -2335,7 +2411,7 @@ function viewRequestSummary(req){
   var chip=function(v){return'<span class="chip">'+esc(v)+'</span>';};
   var row=function(k,v){return v?'<div class="rrow"><div class="rk">'+k+'</div><div class="rv">'+esc(v)+'</div></div>':'';};
   var rowP=function(k,v){return v?'<div class="rrow"><div class="rk">'+k+'</div><div class="rv pre">'+esc(v)+'</div></div>':'';};
-  var rowC=function(k,a){return(a&&a.length)?'<div class="rrow"><div class="rk">'+k+'</div><div class="rv">'+a.map(chip).join('')+'</div></div>':'';};
+  var rowC=function(k,a){if(typeof a==='string')a=a?[a]:[];return(a&&a.length)?'<div class="rrow"><div class="rk">'+k+'</div><div class="rv">'+a.map(chip).join('')+'</div></div>':'';};
   var parts=[partA?'Part A':'',partB?'Part B':'',partC?'Part C':''].filter(Boolean).join(', ')||'General Support / Country Strategy';
 
   var h='';
@@ -2373,11 +2449,11 @@ function viewRequestSummary(req){
     var acr=getActiveCountryRows();
     if(acr.length){
       h+='<div class="rrow"><div class="rk">Target Countries</div><div class="rv"><div class="rv-table-wrap"><table style="width:100%;border-collapse:collapse;font-size:12.5px;min-width:480px">';
-      h+='<tr style="color:var(--ink3);font-size:11px;font-weight:600"><td style="padding:3px 8px 3px 0">Country</td><td style="padding:3px 8px">Class.</td><td style="padding:3px 8px">Needed</td><td style="padding:3px 8px">Budgeted</td><td style="padding:3px 8px">EC Date</td><td style="padding:3px 8px">FPI Date</td><td style="padding:3px 0">Enrol (mo)</td></tr>';
-      acr.forEach(function(r){h+='<tr><td style="padding:4px 8px 4px 0">'+esc(r.country)+'</td><td style="padding:4px 8px"><span class="chip">'+esc(r.classification)+'</span></td><td style="padding:4px 8px">'+esc(r.needed||'—')+'</td><td style="padding:4px 8px">'+esc(r.budgeted||'—')+'</td><td style="padding:4px 8px">'+esc(r.ecDate||'—')+'</td><td style="padding:4px 8px">'+esc(r.fpiDate||'—')+'</td><td style="padding:4px 0">'+esc(r.enrolMonths?r.enrolMonths+' mo':'—')+'</td></tr>';});
+      h+='<tr style="color:var(--ink3);font-size:11px;font-weight:600"><td style="padding:3px 8px 3px 0">Country</td><td style="padding:3px 8px">Class.</td><td style="padding:3px 8px">Outreach</td><td style="padding:3px 8px">Needed</td><td style="padding:3px 8px">Budget: Sel/Act</td><td style="padding:3px 8px">Budget: Outreach</td><td style="padding:3px 8px">EC Date</td><td style="padding:3px 8px">FPI Date</td><td style="padding:3px 0">Enrol (mo)</td></tr>';
+      acr.forEach(function(r){h+='<tr><td style="padding:4px 8px 4px 0">'+esc(r.country)+'</td><td style="padding:4px 8px"><span class="chip">'+esc(r.classification)+'</span></td><td style="padding:4px 8px">'+(r.outreach?'Yes':'No')+'</td><td style="padding:4px 8px">'+esc(r.needed||'—')+'</td><td style="padding:4px 8px">'+esc(fmtBudget(r.budgeted,r.budgetedUnknown))+'</td><td style="padding:4px 8px">'+esc(fmtBudget(r.budgetOutreach,r.budgetOutreachUnknown))+'</td><td style="padding:4px 8px">'+esc(r.ecDate||'—')+'</td><td style="padding:4px 8px">'+esc(r.fpiDate||'—')+'</td><td style="padding:4px 0">'+esc(r.enrolMonths?r.enrolMonths+' mo':'—')+'</td></tr>';});
       h+='</table></div></div></div>';
     }
-    h+=row('Site Involvement',fd.siteInvolvement||'')+(fd['f-site-involvement']?rowP('Involvement Detail',fd['f-site-involvement']):'');
+    h+=rowC('Site Involvement',fd.siteInvolvement)+(fd['f-site-involvement']?rowP('Involvement Detail',fd['f-site-involvement']):'');
     h+=(fd['f-siteprefs']?rowP('Site / PI Preferences',fd['f-siteprefs']):'');
     h+=rowC('Facility Type',fd.facility)+(fd['f-other-facility']?row('Other facility',fd['f-other-facility']):'');
     h+=rowC('Critical Site Criteria',fd.siteReqs)+(fd['f-other-siteReqs']?row('Other criteria',fd['f-other-siteReqs']):'');
@@ -2389,7 +2465,7 @@ function viewRequestSummary(req){
   // Part B
   if(partB){
     h+='<div class="rsurf"><div class="rsurf-head"><span>B</span><span>Part B — FQ Template Development</span></div><div class="rbody">';
-    h+=row('First Time Feasibility',fd.firstTime)+(fd['f-fqchanges']?rowP('FQ Changes',fd['f-fqchanges']):'');
+    h+=row('First Time Feasibility',fd.firstTime)+(fd.fqExisting?row('Existing FQ Template',fd.fqExisting):'')+(fd['f-fqexisting-detail']?rowP('Prior Outreach Detail',fd['f-fqexisting-detail']):'')+(fd['f-fqchanges']?rowP('FQ Changes',fd['f-fqchanges']):'');
     h+=row('FQ Type',fd.fqType)+(fd['f-blindedreason']?row('Blinded Reason',fd['f-blindedreason']):'');
     h+=row('CDA Type',fd.cdaType);
     h+=rowC('Critical Site Criteria',fd.siteReqs)+(fd['f-other-siteReqs']?row('Other criteria',fd['f-other-siteReqs']):'');
@@ -2400,7 +2476,7 @@ function viewRequestSummary(req){
   // Part C
   if(partC){
     h+='<div class="rsurf"><div class="rsurf-head"><span>C</span><span>Part C — Site Outreach Request</span></div><div class="rbody">';
-    h+=row('Site List Approach',fd.siteList||'')+(fd.sponsorApproval?row('Sponsor Approval Required',fd.sponsorApproval):'');
+    h+=rowC('Site List Approach',fd.siteList)+(fd.sponsorApproval?row('Sponsor Approval Required',fd.sponsorApproval):'');
     var cActiveRows=getActiveSiteRows();
     if(cActiveRows.length){
       h+='<div class="rrow"><div class="rk">Shortlisted Sites</div><div class="rv rv-table-wrap">';
@@ -2410,7 +2486,7 @@ function viewRequestSummary(req){
       h+='</table></div></div>';
     }
     if(req.sitesPaste) h+=rowP('Sites (paste)',req.sitesPaste);
-    h+=row('Target Response Date',fd['f-fqdate']);
+    h+=row('Site Outreach Target Date',fd['f-outreachdate'])+(fd['f-outreachreason']?rowP('Outreach Date Reason',fd['f-outreachreason']):'')+row('Target Response Date',fd['f-fqdate']);
     h+=rowC('Reason for Date',fd.dateReason)+(fd['f-other-dateReason']?row('Other reason',fd['f-other-dateReason']):'');
     h+='</div></div>';
   }
@@ -2523,16 +2599,20 @@ function resumeRequest(id){
   currentDraftId=id;
   // restore fd
   Object.keys(fd).forEach(function(k){delete fd[k];});Object.assign(fd,req.fd||{});
+  // normalise checkbox-group fields (legacy drafts may have stored strings)
+  ['region','support','siteReqs','dateReason','siteInvolvement','siteList','facility'].forEach(function(g){
+    if(typeof fd[g]==='string') fd[g]=fd[g]?[fd[g]]:[];
+  });
   partA=req.partA||false;partB=req.partB||false;partC=req.partC||false;
   // restore country rows
-  (req.countryRows||[]).forEach(function(r){addCountryRow(r.country,r.classification,r.needed,r.budgeted,r.ecDate,r.fpiDate,r.enrolMonths);});
+  (req.countryRows||[]).forEach(function(r){addCountryRow(r.country,r.classification,r.needed,r.budgeted,r.ecDate,r.fpiDate,r.enrolMonths,{outreach:r.outreach,budgetedUnknown:r.budgetedUnknown,budgetOutreach:r.budgetOutreach,budgetOutreachUnknown:r.budgetOutreachUnknown});});
   if(countryRows.filter(Boolean).length===0) addCountryRow('','Primary','','');
   // restore site rows
   (req.siteRows||[]).forEach(function(r){addSiteRow(r.siteName,r.country,r.pi);});
   // restore text inputs
   Object.keys(fd).forEach(function(k){var e=$(k);if(e&&e.tagName!=='SELECT')e.value=fd[k]||'';});
   // restore tile selections
-  ['region','support','siteReqs','dateReason'].forEach(function(g){
+  ['region','support','siteReqs','dateReason','siteInvolvement','siteList'].forEach(function(g){
     (fd[g]||[]).forEach(function(v){
       var tile=document.querySelector('.tile[data-g="'+g+'"][data-v="'+v+'"]');
       if(tile){tile.classList.add('on');if(tile.dataset.x){var ce=document.getElementById('cond-'+tile.dataset.x);if(ce)ce.style.display='block';}}
@@ -2545,7 +2625,7 @@ function resumeRequest(id){
     var other=document.querySelector('.fm-other-cell[data-g="facility"][data-v="'+v+'"]');
     if(other){other.classList.add('on');var ce=document.getElementById('cond-other-facility');if(ce)ce.style.display='block';}
   });
-  ['protocolStatus','siteList','firstTime','fqType','cdaType','fqApproval'].forEach(function(g){
+  ['protocolStatus','firstTime','fqExisting','fqType','cdaType','fqApproval'].forEach(function(g){
     if(fd[g]){
       var tile=document.querySelector('.tile[data-g="'+g+'"][data-v="'+fd[g]+'"]');
       if(tile){tile.classList.add('on');if(tile.dataset.show)show(tile.dataset.show);if(tile.dataset.hide)hide(tile.dataset.hide);}
