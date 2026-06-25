@@ -2138,6 +2138,7 @@ function createListItem(){
     PartB:partB?'Yes':'No',
     PartC:partC?'Yes':'No',
     Countries:crsStr,
+    CountriesDetail:JSON.stringify(getActiveCountryRows().map(function(r){return {country:r.country,classification:r.classification,outreachRequested:!!r.outreach,sitesNeeded:r.needed||'',budgetSelectionActivation:r.budgetedUnknown?'Unknown/TBC':(r.budgeted||''),budgetOutreachFeasibility:r.budgetOutreachUnknown?'Unknown/TBC':(r.budgetOutreach||''),ecSubmissionDate:r.ecDate||'',fpiDate:r.fpiDate||'',enrolmentMonths:r.enrolMonths||''};})),
     SiteListApproach:(fd.siteList||[]).join('; '),
     SiteInvolvement:(fd.siteInvolvement||[]).join('; '),
     SitePreferences:fd['f-siteprefs']||'',
