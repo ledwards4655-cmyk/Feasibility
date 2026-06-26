@@ -623,10 +623,13 @@ textarea{resize:vertical;min-height:84px;line-height:1.55}
         <div class="step-rule"></div>
         <div class="field"><label class="flabel">Protocol status <span class="req">*</span></label>
           <div class="rstack">
-            <div class="tile" data-g="protocolStatus" data-v="Initial protocol / synopsis in draft" data-t="r" data-hide="cond-amendment"><div class="tcircle"></div><div class="tile-text"><strong>Initial protocol / synopsis in draft</strong><span>No final protocol version yet — feasibility is being conducted ahead of protocol finalisation</span></div></div>
-            <div class="tile" data-g="protocolStatus" data-v="Current protocol applies" data-t="r" data-hide="cond-amendment"><div class="tcircle"></div><div class="tile-text"><strong>Current protocol applies (Study already ongoing)</strong><span>Request is in line with the current uploaded Protocol</span></div></div>
-            <div class="tile" data-g="protocolStatus" data-v="Protocol amendment pending" data-t="r" data-show="cond-amendment"><div class="tcircle"></div><div class="tile-text"><strong>Protocol amendment pending (Study already ongoing)</strong><span>Sponsor is planning an upcoming amendment impacting this request</span></div></div>
+            <div class="tile" data-g="protocolStatus" data-v="Initial protocol / synopsis in draft" data-t="c"><div class="tbox"><svg class="ck" viewBox="0 0 12 10" fill="none"><path d="M1 5l3.5 3.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="tile-text"><strong>Initial protocol / synopsis in draft</strong><span>No final protocol version yet — feasibility is being conducted ahead of protocol finalisation</span></div></div>
+            <div class="tile" data-g="protocolStatus" data-v="Current protocol applies / Study planned to commence or ongoing" data-t="c" data-x="current-protocol"><div class="tbox"><svg class="ck" viewBox="0 0 12 10" fill="none"><path d="M1 5l3.5 3.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="tile-text"><strong>Current protocol applies / Study planned to commence or ongoing</strong><span>Request is in line with the current uploaded Protocol</span></div></div>
+            <div class="tile" data-g="protocolStatus" data-v="Protocol amendment pending" data-t="c" data-x="amendment"><div class="tbox"><svg class="ck" viewBox="0 0 12 10" fill="none"><path d="M1 5l3.5 3.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="tile-text"><strong>Protocol amendment pending (Study already ongoing)</strong><span>Sponsor is planning an upcoming amendment impacting this request</span></div></div>
           </div>
+        </div>
+        <div id="cond-current-protocol" style="display:none">
+          <div class="field"><label class="flabel" for="f-current-protocol">Key protocol details for this request</label><div class="fhint">Highlight key patient population, eligibility criteria, and protocol-required assessments. For Facility type and site qualification criteria, ensure PART A / Site Identification +/- PART C / Site Outreach Request is completed for advanced site requirement description.</div><textarea id="f-current-protocol" placeholder="e.g. Adults 18–65 with moderate-to-severe atopic dermatitis; key inclusion/exclusion criteria; protocol-required assessments such as skin biopsy at screening…"></textarea></div>
         </div>
         <div id="cond-amendment" style="display:none">
           <div class="field"><label class="flabel" for="f-amendment">Describe the key changes in the upcoming amendment</label><div class="fhint">Highlight changes to patient population / eligibility criteria, Protocol-required assessments, type of sites or specialty, and study timelines.</div><textarea id="f-amendment" placeholder="e.g. Expansion of eligibility criteria to include paediatric patients, addition of Japan as a new country…"></textarea></div>
@@ -947,8 +950,8 @@ textarea{resize:vertical;min-height:84px;line-height:1.55}
 
         <div class="field-row">
           <div>
-            <label class="flabel" for="f-outreachdate">Target date for Site Outreach commencement</label>
-            <div class="fhint">This should be at least 10 business days after site list generation, as the site list is a prerequisite to outreach.</div>
+            <label class="flabel" for="f-outreachdate">Target date for Site Outreach commencement <span class="req">*</span></label>
+            <div class="fhint">Site list generation is a prerequisite to outreach.</div>
             <input type="date" id="f-outreachdate">
           </div>
           <div>
@@ -959,7 +962,7 @@ textarea{resize:vertical;min-height:84px;line-height:1.55}
         </div>
 
         <div class="field">
-          <label class="flabel">Reason for this target date <span class="req">*</span></label>
+          <label class="flabel">Reason for these target dates <span class="req">*</span></label>
           <div class="fhint">Select all that apply &mdash; these reasons may relate to either the outreach start date or the feasibility response deadline.</div>
           <div class="rstack" style="gap:6px">
             <div class="tile" data-g="dateReason" data-v="Identify initial site for IRB/IEC submission" data-t="c"><div class="tbox"><svg class="ck" viewBox="0 0 12 10" fill="none"><path d="M1 5l3.5 3.5L11 1" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="tile-text"><strong>Identify initial site for IRB / IEC submission</strong></div></div>
@@ -1374,7 +1377,7 @@ document.querySelectorAll('.nav-step[data-step]').forEach(function(el){
 var FMAP={
   prelim:['f-protocol','f-nhh','f-sponsor','f-other-region','f-fo-name','f-fo-email'],
   support:['f-comments','f-other-support','f-kom-date'],
-  protocol:['f-timelines','f-amendment'],
+  protocol:['f-timelines','f-amendment','f-current-protocol'],
   parta:['f-siteprefs','f-sitedate','f-sitereason-other','f-other-facility','f-site-involvement','f-timelines-paste'],
   partb:['f-fqchanges','f-blindedreason','f-other-siteReqs','f-fqexisting-detail'],
   partc:['f-fqdate','f-other-dateReason','f-sites-paste','f-outreachdate']
@@ -1744,13 +1747,75 @@ setupPcard('card-b','b','sub-b','pill-b');
 setupPcard('card-c','c','sub-c','pill-c');
 
 /* ── NAV ROUTING ── */
+/* ── REQUIRED-FIELD VALIDATION ──
+ * Checks the asterisked fields for a given step. Returns true if OK; otherwise
+ * shows a toast, scrolls to + focuses the first missing field, and returns false.
+ * Conditional fields are only enforced when their controlling option is active. */
+function failValidation(msg,el){
+  toast(msg,'err');
+  if(el){try{el.scrollIntoView({block:'center'});}catch(e){}
+    if(typeof el.focus==='function'){try{el.focus();}catch(e){}}}
+  return false;
+}
+function tileGroupChosen(g){return Array.isArray(fd[g])?fd[g].length>0:!!fd[g];}
+function firstTileEl(g){return document.querySelector('[data-g="'+g+'"]');}
+function validateStep(step){
+  collectFields();
+  function txt(id){var e=$(id);return e&&e.value&&e.value.trim();}
+  if(step==='prelim'){
+    if(!tileGroupChosen('region')) return failValidation('Please select at least one region.',firstTileEl('region'));
+    if(!txt('f-protocol')) return failValidation('Please enter the Protocol Number / Study Name.',$('f-protocol'));
+    if(!txt('f-nhh')) return failValidation('Please enter the NHH Project Code.',$('f-nhh'));
+    if(!txt('f-sponsor')) return failValidation('Please enter the Sponsor Name.',$('f-sponsor'));
+    var sameCheck=$('fo-same-check');
+    if(sameCheck&&!sameCheck.checked){
+      if(!txt('f-fo-name')) return failValidation('Please enter the Feasibility Owner Name.',$('f-fo-name'));
+      if(!txt('f-fo-email')) return failValidation('Please enter the Feasibility Owner Email.',$('f-fo-email'));
+    }
+    return true;
+  }
+  if(step==='support'){
+    if(!tileGroupChosen('support')) return failValidation('Please select at least one type of support required.',firstTileEl('support'));
+    return true;
+  }
+  if(step==='protocol'){
+    if(!tileGroupChosen('protocolStatus')) return failValidation('Please select the protocol status.',firstTileEl('protocolStatus'));
+    if(!(partA||partB||partC)) return failValidation('Please select at least one part that applies to this request.',$('card-a'));
+    return true;
+  }
+  if(step==='parta'){
+    var hasCountry=getActiveCountryRows().length>0;
+    var pasteEl=$('f-timelines-paste');
+    var hasPaste=pasteEl&&pasteEl.value&&pasteEl.value.trim();
+    if(!hasCountry&&!hasPaste) return failValidation('Please add at least one target country (or use the paste option).',$('country-rows')||$('btn-add-country'));
+    if(!txt('f-siteprefs')) return failValidation('Please describe the Site & PI preferences.',$('f-siteprefs'));
+    if(!tileGroupChosen('facility')) return failValidation('Please select the facility type & patient population.',firstTileEl('facility'));
+    if(!txt('f-sitedate')) return failValidation('Please enter the target date for PI / site list submission.',$('f-sitedate'));
+    return true;
+  }
+  if(step==='partb'){
+    if(!tileGroupChosen('firstTime')) return failValidation('Please confirm whether this is the first time feasibility is being conducted.',firstTileEl('firstTime'));
+    if(!tileGroupChosen('fqType')) return failValidation('Please select the FQ type.',firstTileEl('fqType'));
+    if(!tileGroupChosen('cdaType')) return failValidation('Please select the CDA type.',firstTileEl('cdaType'));
+    if(!tileGroupChosen('fqApproval')) return failValidation('Please confirm who will review and approve the FQ template.',firstTileEl('fqApproval'));
+    return true;
+  }
+  if(step==='partc'){
+    if(!tileGroupChosen('siteList')) return failValidation('Please select a site list approach.',firstTileEl('siteList'));
+    if(!txt('f-outreachdate')) return failValidation('Please enter a target date for Site Outreach commencement.',$('f-outreachdate'));
+    if(!txt('f-fqdate')) return failValidation('Please enter a target date for feasibility responses.',$('f-fqdate'));
+    if(!tileGroupChosen('dateReason')) return failValidation('Please select at least one reason for these target dates.',firstTileEl('dateReason'));
+    return true;
+  }
+  return true;
+}
 // Prelim
-if($('btn-1-next')) $('btn-1-next').addEventListener('click',function(){goTo('support');});
+if($('btn-1-next')) $('btn-1-next').addEventListener('click',function(){if(!validateStep('prelim'))return;goTo('support');});
 if($('btn-2-back')) $('btn-2-back').addEventListener('click',function(){goTo('prelim');});
-if($('btn-2-next')) $('btn-2-next').addEventListener('click',function(){collectFields();syncPartsFromSupport();goTo('protocol');});
+if($('btn-2-next')) $('btn-2-next').addEventListener('click',function(){if(!validateStep('support'))return;syncPartsFromSupport();goTo('protocol');});
 if($('btn-3-back')) $('btn-3-back').addEventListener('click',function(){goTo('support');});
 if($('btn-3-next')) $('btn-3-next').addEventListener('click',function(){
-  collectFields();
+  if(!validateStep('protocol'))return;
   nextAfterPrelim();
 });
 function nextAfterPrelim(){
@@ -1762,7 +1827,7 @@ function nextAfterPrelim(){
 // Part A
 if($('btn-a-back')) $('btn-a-back').addEventListener('click',function(){goTo('protocol');});
 if($('btn-a-next')) $('btn-a-next').addEventListener('click',function(){
-  collectFields();
+  if(!validateStep('parta'))return;
   if(partB) goTo('partb');
   else if(partC) goTo('partc');
   else doReview();
@@ -1772,14 +1837,17 @@ if($('btn-b-back')) $('btn-b-back').addEventListener('click',function(){
   if(partA) goTo('parta'); else goTo('protocol');
 });
 if($('btn-b-next')) $('btn-b-next').addEventListener('click',function(){
-  collectFields();
+  if(!validateStep('partb'))return;
   if(partC) goTo('partc'); else doReview();
 });
 // Part C
 if($('btn-c-back')) $('btn-c-back').addEventListener('click',function(){
   if(partB) goTo('partb'); else if(partA) goTo('parta'); else goTo('protocol');
 });
-if($('btn-c-next')) $('btn-c-next').addEventListener('click',function(){collectFields();doReview();});
+if($('btn-c-next')) $('btn-c-next').addEventListener('click',function(){
+  if(!validateStep('partc'))return;
+  doReview();
+});
 // Review
 if($('btn-r-back')) $('btn-r-back').addEventListener('click',function(){
   if(partC) goTo('partc'); else if(partB) goTo('partb'); else if(partA) goTo('parta'); else goTo('protocol');
@@ -1924,7 +1992,7 @@ function doReview(){
   h+='</div></div>';
 
   h+='<div class="rsurf"><div class="rsurf-head"><span>\uD83D\uDCC5</span><span>Protocol &amp; Timelines</span></div><div class="rbody">';
-  h+=row('Protocol Status',fd.protocolStatus)+(fd['f-amendment']?rowP('Amendment details',fd['f-amendment']):'');
+  h+=rowC('Protocol Status',fd.protocolStatus)+(fd['f-current-protocol']?rowP('Key protocol details',fd['f-current-protocol']):'')+(fd['f-amendment']?rowP('Amendment details',fd['f-amendment']):'');
   h+=rowP('Timelines',fd['f-timelines'])+row('Parts selected',parts);
   h+='</div></div>';
 
@@ -2018,7 +2086,7 @@ function buildHtmlEmail(){
   if(submitterEmail&&(submitterEmail!==fo.email)) b+='<p style="color:rgba(255,255,255,.55);font-size:12px;margin:4px 0 0"><span style="color:rgba(255,255,255,.35);font-weight:600;letter-spacing:.05em;text-transform:uppercase;font-size:10px">Submitted by</span>&nbsp; '+esc(submitterName||'')+(submitterEmail?' &lt;'+esc(submitterEmail)+'&gt;':'')+'</p>';
   b+='</div><div style="background:#fff;padding:0 28px 8px;border:1px solid #D6D0C8;border-top:none;border-radius:0 0 8px 8px">';
   b+=sec('\uD83D\uDCCC','Study Information',row('Protocol / Study',fd['f-protocol'])+row('NHH Code',fd['f-nhh'])+row('Sponsor',fd['f-sponsor'])+(fd['f-ta']?row('Therapeutic Area',fd['f-ta']):'')+((fd['f-indications']&&fd['f-indications'].length)?row('Indication',(fd['f-indications']||[]).join(', ')):'')+row('Feasibility Owner',foStr)+(submitterEmail&&submitterEmail!==fo.email?row('Submitted by',submitterStr):'')+rowC('Regions',fd.region)+(fd['f-other-region']?row('Other region',fd['f-other-region']):'')+rowC('Support',fd.support)+(fd['f-other-support']?row('Other support',fd['f-other-support']):'')+(fd['f-kom-date']?row('KOM / Meeting Date',fd['f-kom-date']):'')+row('Comments',fd['f-comments']||''));
-  b+=sec('\uD83D\uDCC5','Protocol &amp; Timelines',row('Protocol Status',fd.protocolStatus)+(fd['f-amendment']?rowP('Amendment details',fd['f-amendment']):'')+rowP('Timelines',fd['f-timelines'])+row('Parts',parts));
+  b+=sec('\uD83D\uDCC5','Protocol &amp; Timelines',rowC('Protocol Status',fd.protocolStatus)+(fd['f-current-protocol']?rowP('Key protocol details',fd['f-current-protocol']):'')+(fd['f-amendment']?rowP('Amendment details',fd['f-amendment']):'')+rowP('Timelines',fd['f-timelines'])+row('Parts',parts));
   if(attachments.length) b+=sec('\uD83D\uDCCE','Attached Documents',attachments.map(function(f){return'<tr><td style="'+td+';padding:5px 0">'+getFileIcon(f.name)+' '+esc(f.name)+' <span style="color:#A8A29E;font-size:12px">('+formatSize(f.size)+')</span></td></tr>';}).join(''));
   if(partA){
     var siteRowsHtml='';
@@ -2043,8 +2111,8 @@ function buildPlain(){
   var lines=['POST-AWARD FEASIBILITY REQUEST',new Date().toLocaleDateString('en-AU',{day:'numeric',month:'short',year:'numeric'}),'',
     'Protocol:  '+(fd['f-protocol']||'\u2014'),'NHH Code:  '+(fd['f-nhh']||'\u2014'),'Sponsor:   '+(fd['f-sponsor']||'\u2014'),(fd['f-ta']?'Therap. Area: '+fd['f-ta']:''),((fd['f-indications']&&fd['f-indications'].length)?'Indications: '+(fd['f-indications']||[]).join(', '):''),
     'Regions:   '+((fd.region||[]).join(', ')||'\u2014'),'Support:   '+((fd.support||[]).join(', ')||'\u2014'),
-    fd['f-comments']?'Comments:  '+fd['f-comments']:'',(fd['f-kom-date']?'KOM Date:  '+fd['f-kom-date']:''),'','PROTOCOL STATUS: '+(fd.protocolStatus||'\u2014'),
-    fd['f-amendment']?'Amendment:\n'+fd['f-amendment']:'','Timelines:\n'+(fd['f-timelines']||'\u2014')];
+    fd['f-comments']?'Comments:  '+fd['f-comments']:'',(fd['f-kom-date']?'KOM Date:  '+fd['f-kom-date']:''),'','PROTOCOL STATUS: '+((fd.protocolStatus||[]).join('; ')||'\u2014'),
+    fd['f-current-protocol']?'Protocol Detail:\n'+fd['f-current-protocol']:'',fd['f-amendment']?'Amendment:\n'+fd['f-amendment']:'','Timelines:\n'+(fd['f-timelines']||'\u2014')];
   if(attachments.length) lines.push('','ATTACHMENTS: '+attachments.map(function(f){return f.name;}).join(', '));
   if(partA){
     var crs=getActiveCountryRows().map(function(r){return r.country+' ('+r.classification+')'+(r.outreach?' [outreach requested]':'')+(r.needed?' - '+r.needed+' sites needed':'')+' / sel-act budget: '+fmtBudget(r.budgeted,r.budgetedUnknown)+' / outreach budget: '+fmtBudget(r.budgetOutreach,r.budgetOutreachUnknown);}).join('\n')||'\u2014';
@@ -2081,6 +2149,19 @@ function buildPlain(){
  */
 function handleSubmit(){
   collectFields();
+  // Final guard: re-validate every active step before submitting. If anything is
+  // missing, route the user back to that step (validateStep shows the toast + focus).
+  var stepsToCheck=['prelim','support','protocol'];
+  if(partA) stepsToCheck.push('parta');
+  if(partB) stepsToCheck.push('partb');
+  if(partC) stepsToCheck.push('partc');
+  for(var i=0;i<stepsToCheck.length;i++){
+    if(!validateStep(stepsToCheck[i])){
+      goTo(stepsToCheck[i]);
+      validateStep(stepsToCheck[i]); // re-fire toast/focus now that the step is visible
+      return;
+    }
+  }
   $('btn-submit').disabled=true;
   if(!cfg.clientId||!cfg.tenantId){
     setOverlay(true,'Demo mode \u2014 simulating\u2026');
@@ -2138,7 +2219,8 @@ function createListItem(){
     OtherSupport:fd['f-other-support']||'',
     KomMeetingDate:fd['f-kom-date']||'',
     Comments:fd['f-comments']||'',
-    ProtocolStatus:fd.protocolStatus||'',
+    ProtocolStatus:(fd.protocolStatus||[]).join('; '),
+    CurrentProtocolDetail:fd['f-current-protocol']||'',
     AmendmentDetails:fd['f-amendment']||'',
     Timelines:fd['f-timelines']||'',
     PartA:partA?'Yes':'No',
@@ -2412,7 +2494,7 @@ function resetForm(){
   ['sub-a','sub-b','sub-c'].forEach(function(id){$(id).style.display='none';});
   var sr=document.getElementById('site-rows');if(sr)sr.innerHTML='';
   var cr=document.getElementById('country-rows');if(cr)cr.innerHTML='';
-  ['cond-amendment','cond-blinded','cond-existing','cond-fqexisting-na','cond-shortlist','cond-other-region','cond-other-support','cond-kom-date','cond-fqcreation','cond-involvement-detail','cond-other-facility','cond-other-siteReqs','cond-other-dateReason','cond-sitereason-other'].forEach(function(id){var e=document.getElementById(id);if(e)e.style.display='none';});
+  ['cond-amendment','cond-current-protocol','cond-blinded','cond-existing','cond-fqexisting-na','cond-shortlist','cond-other-region','cond-other-support','cond-kom-date','cond-fqcreation','cond-involvement-detail','cond-other-facility','cond-other-siteReqs','cond-other-dateReason','cond-sitereason-other'].forEach(function(id){var e=document.getElementById(id);if(e)e.style.display='none';});
   var foCheck=$('fo-same-check');if(foCheck){foCheck.checked=true;$('fo-other-fields').style.display='none';$('fo-same-text').textContent=submitterName?'I am the Feasibility Owner ('+submitterName+')':'I am the Feasibility Owner for this study';}
   if(typeof window.clearTA==='function') window.clearTA();
   if(typeof window.clearInd==='function') window.clearInd();
@@ -2433,7 +2515,7 @@ function viewRequestSummary(req){
   Object.keys(fd).forEach(function(k){delete fd[k];});
   Object.assign(fd,req.fd||{});
   // normalise checkbox-group fields (legacy drafts may have stored strings)
-  ['region','support','siteReqs','dateReason','siteInvolvement','siteList','facility','siteListReason'].forEach(function(g){
+  ['region','support','siteReqs','dateReason','siteInvolvement','siteList','facility','siteListReason','protocolStatus'].forEach(function(g){
     if(typeof fd[g]==='string') fd[g]=fd[g]?[fd[g]]:[];
   });
   partA=req.partA||false;partB=req.partB||false;partC=req.partC||false;
@@ -2467,7 +2549,7 @@ function viewRequestSummary(req){
 
   // Protocol
   h+='<div class="rsurf"><div class="rsurf-head"><span>📅</span><span>Protocol &amp; Timelines</span></div><div class="rbody">';
-  h+=row('Protocol Status',fd.protocolStatus)+(fd['f-amendment']?rowP('Amendment details',fd['f-amendment']):'');
+  h+=rowC('Protocol Status',fd.protocolStatus)+(fd['f-current-protocol']?rowP('Key protocol details',fd['f-current-protocol']):'')+(fd['f-amendment']?rowP('Amendment details',fd['f-amendment']):'');
   h+=(fd['f-timelines']?rowP('Timelines',fd['f-timelines']):'');
   h+=row('Parts selected',parts);
   h+='</div></div>';
@@ -2636,7 +2718,7 @@ function resumeRequest(id){
   // restore fd
   Object.keys(fd).forEach(function(k){delete fd[k];});Object.assign(fd,req.fd||{});
   // normalise checkbox-group fields (legacy drafts may have stored strings)
-  ['region','support','siteReqs','dateReason','siteInvolvement','siteList','facility','siteListReason'].forEach(function(g){
+  ['region','support','siteReqs','dateReason','siteInvolvement','siteList','facility','siteListReason','protocolStatus'].forEach(function(g){
     if(typeof fd[g]==='string') fd[g]=fd[g]?[fd[g]]:[];
   });
   partA=req.partA||false;partB=req.partB||false;partC=req.partC||false;
@@ -2661,7 +2743,7 @@ function resumeRequest(id){
     var other=document.querySelector('.fm-other-cell[data-g="facility"][data-v="'+v+'"]');
     if(other){other.classList.add('on');var ce=document.getElementById('cond-other-facility');if(ce)ce.style.display='block';}
   });
-  ['protocolStatus','firstTime','fqExisting','fqType','cdaType','fqApproval'].forEach(function(g){
+  ['firstTime','fqExisting','fqType','cdaType','fqApproval'].forEach(function(g){
     if(fd[g]){
       var tile=document.querySelector('.tile[data-g="'+g+'"][data-v="'+fd[g]+'"]');
       if(tile){tile.classList.add('on');if(tile.dataset.show)show(tile.dataset.show);if(tile.dataset.hide)hide(tile.dataset.hide);}
